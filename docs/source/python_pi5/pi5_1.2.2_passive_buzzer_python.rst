@@ -36,7 +36,7 @@ In this project, we need the following components.
 Schematic Diagram
 -----------------
 
-In this experiment, a passive buzzer, a PNP transistor and a 1k resistor
+In this experiment, a passive buzzer, a NPN transistor and a 1k resistor
 are used between the base of the transistor and GPIO to protect the
 transistor.
 
@@ -56,7 +56,7 @@ Experimental Procedures
 
 **Step 1**: Build the circuit. (The Passive buzzer with green circuit board on the back.)
 
-.. image:: ../python_pi5/img/1.2.2_PassiveBuzzer_circuit.png
+.. image:: ../python_pi5/img/1.2.1_ActiveBuzzer_circuit.png
 
 **Step 2: Change directory.**
 

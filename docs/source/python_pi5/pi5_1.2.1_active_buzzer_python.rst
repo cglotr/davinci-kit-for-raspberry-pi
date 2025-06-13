@@ -21,7 +21,7 @@ Introduction
 ------------
 
 In this project, we will learn how to drive an active buzzer to beep with
-a PNP transistor.
+a NPN transistor.
 
 Required Components
 ------------------------------
@@ -37,7 +37,7 @@ In this project, we need the following components.
 Schematic Diagram
 -----------------
 
-In this experiment, an active buzzer, a PNP transistor and a 1k resistor
+In this experiment, an active buzzer, a NPN transistor and a 1k resistor
 are used between the base of the transistor and GPIO to protect the
 transistor. When the GPIO17 of Raspberry Pi output is supplied with high
 level (3.3V) by programming, the transistor will conduct because of
