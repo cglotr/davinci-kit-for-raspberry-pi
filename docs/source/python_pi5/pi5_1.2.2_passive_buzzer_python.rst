@@ -36,7 +36,7 @@ Dans ce projet, nous aurons besoin des composants suivants :
 Schéma de câblage
 --------------------
 
-Dans cette expérience, un buzzer passif, un transistor PNP et une résistance de 1kΩ sont 
+Dans cette expérience, un buzzer passif, un transistor NPN et une résistance de 1kΩ sont 
 utilisés entre la base du transistor et le GPIO pour protéger le transistor.
 
 Lorsque le GPIO17 reçoit différentes fréquences, le buzzer émet différents sons ; ainsi, 
@@ -55,7 +55,7 @@ Procédures expérimentales
 
 **Étape 1 :** Construisez le circuit (le buzzer passif possède une carte de circuit imprimé verte à l'arrière).
 
-.. image:: ../python_pi5/img/1.2.2_PassiveBuzzer_circuit.png
+.. image:: ../python_pi5/img/1.2.1_ActiveBuzzer_circuit.png
 
 **Étape 2 :** Changez de répertoire.
 .. raw:: html
