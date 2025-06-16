@@ -35,7 +35,8 @@
 --------------------------
 
 .. image:: ../python_pi5/img/4.1.13_overheat_monitor_schematic.png
-   :align: center
+    :width: 100%
+    :align: center
 
 実験手順
 -----------------------------
