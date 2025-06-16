@@ -37,7 +37,7 @@ Schema Elettrico
 -------------------
 
 In questo esperimento vengono utilizzati un buzzer passivo, un transistor 
-PNP e una resistenza da 1k tra la base del transistor e il GPIO per proteggere 
+NPN e una resistenza da 1k tra la base del transistor e il GPIO per proteggere 
 il transistor.
 
 Quando al GPIO17 vengono assegnate frequenze diverse, il buzzer passivo emetterà 
@@ -56,7 +56,7 @@ Procedure Sperimentali
 
 **Passo 1**: Costruisci il circuito. (Il buzzer passivo ha una scheda verde sul retro.)
 
-.. image:: ../python_pi5/img/1.2.2_PassiveBuzzer_circuit.png
+.. image:: ../python_pi5/img/1.2.1_ActiveBuzzer_circuit.png
 
 **Passo 2: Cambia directory.**
 

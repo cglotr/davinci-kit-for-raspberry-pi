@@ -21,7 +21,7 @@ Introduzione
 --------------
 
 In questo progetto, impareremo a far emettere un suono a un buzzer attivo 
-utilizzando un transistor PNP.
+utilizzando un transistor NPN.
 
 Componenti Necessari
 -------------------------------
@@ -37,7 +37,7 @@ In questo progetto, abbiamo bisogno dei seguenti componenti.
 Schema Elettrico
 --------------------
 
-In questo esperimento, vengono utilizzati un buzzer attivo, un transistor PNP 
+In questo esperimento, vengono utilizzati un buzzer attivo, un transistor NPN 
 e una resistenza da 1k tra la base del transistor e GPIO per proteggere il 
 transistor. Quando il GPIO17 del Raspberry Pi viene alimentato con un livello 
 alto (3.3V) tramite programmazione, il transistor si attiva per saturazione di 

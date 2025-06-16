@@ -32,7 +32,7 @@ Componenti Necessari
 In questo progetto, ci servono i seguenti componenti.
 
 .. image:: ../python_pi5/img/4.1.8_welcome_list.png
-    :width: 800
+    :width: 100%
     :align: center
 
 .. È certamente conveniente acquistare un kit completo, ecco il link: 
