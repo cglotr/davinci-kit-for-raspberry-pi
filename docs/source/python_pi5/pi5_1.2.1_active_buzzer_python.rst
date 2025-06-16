@@ -37,13 +37,7 @@ Para este proyecto, necesitamos los siguientes componentes.
 Diagrama de Conexiones
 --------------------------
 
-En este experimento, se utiliza un zumbador activo, un transistor NPN y una 
-resistencia de 1k entre la base del transistor y el GPIO para proteger el 
-transistor. Cuando el GPIO17 de la Raspberry Pi emite un nivel alto (3.3V) 
-mediante programación, el transistor conducirá debido a la saturación de 
-corriente y el zumbador emitirá sonido. Sin embargo, cuando se suministra 
-un nivel bajo al GPIO de la Raspberry Pi, el transistor se desconectará y el 
-zumbador permanecerá en silencio.
+En este experimento se utilizan un zumbador activo, un transistor NPN y una resistencia de 1 kΩ. La resistencia se coloca entre el pin GPIO y la base del transistor para protegerlo. Cuando el GPIO17 de la Raspberry Pi está configurado a nivel bajo (0 V), el transistor se satura y conduce, haciendo sonar el zumbador. Cuando el GPIO17 está en nivel alto, el transistor se apaga y el zumbador permanece en silencio.
 
 ============ ======== ======== ===
 T-Board Name physical wiringPi BCM
