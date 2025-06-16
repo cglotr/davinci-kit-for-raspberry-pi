@@ -21,7 +21,7 @@ Einführung
 ------------
 
 In diesem Projekt werden wir lernen, wie man einen aktiven Summer mit
-einem PNP-Transistor zum Piepen bringt.
+einem NPN-Transistor zum Piepen bringt.
 
 Benötigte Komponenten
 ------------------------------
@@ -34,7 +34,7 @@ Für dieses Projekt benötigen wir die folgenden Komponenten.
 Schaltplan
 -----------------
 
-In diesem Experiment wird ein aktiver Summer, ein PNP-Transistor und ein 1k-Widerstand
+In diesem Experiment wird ein aktiver Summer, ein NPN-Transistor und ein 1k-Widerstand
 zwischen der Basis des Transistors und GPIO verwendet, um den
 Transistor zu schützen. Wenn der GPIO17 des Raspberry Pi mit High-Level (3,3V) durch
 Programmierung versorgt wird, leitet der Transistor wegen

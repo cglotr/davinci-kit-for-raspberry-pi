@@ -28,7 +28,7 @@ Benötigte Komponenten
 Für dieses Projekt benötigen wir folgende Komponenten.
 
 .. image:: ../python_pi5/img/4.1.8_welcome_list.png
-    :width: 800
+    :width: 100%
     :align: center
 
 
