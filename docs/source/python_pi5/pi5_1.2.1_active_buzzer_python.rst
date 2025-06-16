@@ -21,7 +21,7 @@ Introducción
 ---------------
 
 En este proyecto, aprenderemos a activar un zumbador activo para que emita 
-sonidos usando un transistor PNP.
+sonidos usando un transistor NPN.
 
 Componentes Necesarios
 ------------------------
@@ -37,7 +37,7 @@ Para este proyecto, necesitamos los siguientes componentes.
 Diagrama de Conexiones
 --------------------------
 
-En este experimento, se utiliza un zumbador activo, un transistor PNP y una 
+En este experimento, se utiliza un zumbador activo, un transistor NPN y una 
 resistencia de 1k entre la base del transistor y el GPIO para proteger el 
 transistor. Cuando el GPIO17 de la Raspberry Pi emite un nivel alto (3.3V) 
 mediante programación, el transistor conducirá debido a la saturación de 

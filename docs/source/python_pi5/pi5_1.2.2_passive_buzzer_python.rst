@@ -36,7 +36,7 @@ Para este proyecto, necesitamos los siguientes componentes.
 Diagrama de Conexiones
 ------------------------
 
-En este experimento, se utiliza un zumbador pasivo, un transistor PNP y una 
+En este experimento, se utiliza un zumbador pasivo, un transistor NPN y una 
 resistencia de 1k entre la base del transistor y el GPIO para proteger el transistor.
 
 Al suministrar diferentes frecuencias al GPIO17, el zumbador pasivo emitirá 
@@ -55,7 +55,8 @@ Procedimientos del Experimento
 
 **Paso 1**: Construye el circuito. (El zumbador pasivo tiene una placa verde en la parte trasera).
 
-.. image:: ../python_pi5/img/1.2.2_PassiveBuzzer_circuit.png
+
+.. image:: ../python_pi5/img/1.2.1_ActiveBuzzer_circuit.png
 
 **Paso 2:** Cambia al directorio correspondiente.
 
