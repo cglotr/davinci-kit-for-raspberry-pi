@@ -34,7 +34,7 @@ Für dieses Projekt benötigen wir die folgenden Komponenten.
 Schaltplan
 -----------------
 
-In diesem Experiment werden ein aktiver Summer, ein NPN-Transistor und ein 1-kΩ-Widerstand verwendet. Der Widerstand befindet sich zwischen dem GPIO-Pin und der Basis des Transistors, um diesen zu schützen. Wenn GPIO17 des Raspberry Pi auf ein niedriges Niveau (0 V) gesetzt wird, geht der Transistor in Sättigung und leitet, wodurch der Summer ertönt. Wird GPIO17 auf ein hohes Niveau gesetzt, sperrt der Transistor und der Summer bleibt stumm.
+In diesem Experiment werden ein aktiver Summer, ein NPN-Transistor und ein 1-kΩ-Widerstand verwendet. Der Widerstand ist zwischen dem GPIO-Pin und der Basis des Transistors geschaltet, um den Basisstrom zu begrenzen und den Transistor zu schützen. Wenn GPIO17 des Raspberry Pi ein hohes Signal (3,3 V) ausgibt, geht der Transistor in die Sättigung, wodurch Strom durch den Summer fließt und dieser einen Ton erzeugt. Gibt der GPIO17 ein niedriges Signal (0 V) aus, wird der Transistor gesperrt und der Summer bleibt stumm.
 
 ============ ======== ======== ===
 T-Board Name physical wiringPi BCM
