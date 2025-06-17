@@ -37,7 +37,7 @@ Dans ce projet, nous aurons besoin des composants suivants :
 Schéma de câblage
 ----------------------
 
-Dans cette expérience, un buzzer actif, un transistor NPN et une résistance de 1 kΩ sont utilisés. La résistance est placée entre la broche GPIO et la base du transistor pour le protéger. Lorsque le GPIO17 du Raspberry Pi est réglé sur un niveau bas (0 V), le transistor entre en saturation et conduit, ce qui permet au buzzer de sonner. Lorsque GPIO17 est à un niveau haut, le transistor est coupé et le buzzer reste silencieux.
+Dans cette expérience, on utilise un buzzer actif, un transistor NPN et une résistance de 1 kΩ. La résistance est placée entre la broche GPIO et la base du transistor afin de limiter le courant de base et de protéger le transistor. Lorsque la broche GPIO17 du Raspberry Pi fournit un niveau haut (3,3 V), le transistor entre en saturation, ce qui permet au courant de traverser le buzzer, produisant ainsi un son. Lorsque le GPIO17 fournit un niveau bas (0 V), le transistor est coupé et le buzzer reste silencieux.
 
 ============ ======== ======== ===
 T-Board Name physical wiringPi BCM
