@@ -37,7 +37,7 @@ In questo progetto, abbiamo bisogno dei seguenti componenti.
 Schema Elettrico
 --------------------
 
-In questo esperimento vengono utilizzati un buzzer attivo, un transistor NPN e una resistenza da 1 kΩ. La resistenza è posizionata tra il pin GPIO e la base del transistor per proteggerlo. Quando il GPIO17 del Raspberry Pi è impostato a livello basso (0 V), il transistor va in saturazione e conduce, facendo suonare il buzzer. Quando il GPIO17 è a livello alto, il transistor si spegne e il buzzer rimane silenzioso.
+In questo esperimento vengono utilizzati un buzzer attivo, un transistor NPN e una resistenza da 1 kΩ. La resistenza è collegata tra il pin GPIO e la base del transistor per limitare la corrente di base e proteggere il transistor. Quando il GPIO17 del Raspberry Pi fornisce un livello alto (3,3 V), il transistor va in saturazione, permettendo alla corrente di fluire attraverso il buzzer, che emette un suono. Quando il GPIO17 fornisce un livello basso (0 V), il transistor è spento e il buzzer rimane silenzioso.
 
 ============ ======== ======== ===
 T-Board Name physical wiringPi BCM
