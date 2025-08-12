@@ -18,6 +18,17 @@
 3.1.8 Überhitzungsüberwachung
 ================================
 
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+
 Einleitung
 -------------------
 
@@ -98,7 +109,7 @@ Der **Joystick** dient dazu, die Hochtemperaturschwelle anzupassen. Das Drehen d
 **Code**
 
 .. note::
-    Sie können den folgenden Code **ändern/zurücksetzen/kopieren/ausführen/anhalten**. Davor müssen Sie jedoch zum Quellcodepfad wie ``raphael-kit/python`` gehen. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um die Wirkung zu sehen.
+    Sie können den folgenden Code **ändern/zurücksetzen/kopieren/ausführen/anhalten**. Davor müssen Sie jedoch zum Quellcodepfad wie ``davinci-kit-for-raspberry-pi/python`` gehen. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um die Wirkung zu sehen.
 
 .. raw:: html
 

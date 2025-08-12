@@ -96,7 +96,7 @@ An dem PIR-Modul gibt es zwei Potentiometer: eines zur Einstellung der Empfindli
 **Code**
 
 .. note::
-    Sie können den unten stehenden Code **modifizieren, zurücksetzen, kopieren, ausführen oder stoppen**. Bevor Sie das tun, gehen Sie bitte zum Quellcodepfad wie ``raphael-kit/python-pi5``. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um das Ergebnis zu sehen.
+    Sie können den unten stehenden Code **modifizieren, zurücksetzen, kopieren, ausführen oder stoppen**. Bevor Sie das tun, gehen Sie bitte zum Quellcodepfad wie ``davinci-kit-for-raspberry-pi/python-pi5``. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um das Ergebnis zu sehen.
 
 .. raw:: html
 

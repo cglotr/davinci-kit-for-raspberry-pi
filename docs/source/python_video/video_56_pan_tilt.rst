@@ -17,7 +17,7 @@ Video 56: Vorbereitung auf die nächsten Lektionen des Kurses
 
 Begleiten Sie Paul McCarter, während er das Konzept der Einrichtung eines Schwenk-Neige-Kamerasteuerungssystems auf dem Raspberry Pi vorstellt, unter Verwendung des SunFounder Schwenk-Neige-Huts und alternativer Methoden.
 
-1. Einführung in das SunFounder Raphael-Kit für Raspberry Pi.
+1. Einführung in das SunFounder Kit für Raspberry Pi.
 2. Erläuterung der Notwendigkeit eines Schwenk-Neige-Kamerasteuerungssystems zur Verfolgung von Interessenobjekten.
 3. Überblick über den SunFounder Schwenk-Neige-Hut für die Raspberry Pi-Kamera.
 4. Alternative Methoden zur Implementierung der Schwenk-Neige-Steuerung mit Servos.

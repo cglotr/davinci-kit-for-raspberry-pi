@@ -17,10 +17,26 @@
 3.1.5 Batterieanzeige
 ===================================
 
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+
 Einführung
 --------------
 
 In diesem Projekt werden wir ein Batterieanzeigegerät erstellen, das den Batteriestand auf dem LED-Bargraphen visuell anzeigen kann.
+
+.. warning::
+
+    Verwende keine Batterien mit einer Spannung von mehr als 3,3 V,  
+    um eine Überlastung und mögliche Schäden am Chip oder Raspberry Pi zu vermeiden.
 
 Erforderliche Komponenten
 ------------------------------
@@ -89,7 +105,7 @@ Nachdem das Programm ausgeführt wurde, führen Sie das dritte Pin des ADC0834 u
 **Code**
 
 .. note::
-    Sie können den folgenden Code **Ändern/Zurücksetzen/Kopieren/Ausführen/Stoppen**. Aber bevor Sie das tun, müssen Sie zum Quellcodepfad wie ``raphael-kit/python-pi5`` gehen. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um die Wirkung zu sehen.
+    Sie können den folgenden Code **Ändern/Zurücksetzen/Kopieren/Ausführen/Stoppen**. Aber bevor Sie das tun, müssen Sie zum Quellcodepfad wie ``davinci-kit-for-raspberry-pi/python-pi5`` gehen. Nachdem Sie den Code geändert haben, können Sie ihn direkt ausführen, um die Wirkung zu sehen.
 
 .. raw:: html
 
