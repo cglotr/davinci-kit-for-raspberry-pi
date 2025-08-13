@@ -157,6 +157,7 @@ y apagan de forma regular.
         }
         return 0;
     }
+    
 **Explicación del Código**
 
 .. code-block:: c

@@ -83,8 +83,9 @@ Después de conectar los pines R, G y B a una resistencia limitadora, conéctalo
 a GPIO17, GPIO18 y GPIO27, respectivamente. El pin más largo (GND) del LED va al 
 GND de la Raspberry Pi. Al asignar distintos valores PWM a los tres pines, el LED RGB mostrará colores distintos.
 
+
 ============ ======== ======== ===
-Nombre T-Placa físico wiringPi BCM
+T-Board Name physical wiringPi BCM
 GPIO17       Pin 11   0        17
 GPIO18       Pin 12   1        18
 GPIO27       Pin 13   2        27

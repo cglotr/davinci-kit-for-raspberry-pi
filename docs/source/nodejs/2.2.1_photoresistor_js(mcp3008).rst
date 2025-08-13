@@ -1,0 +1,213 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _2.2.1_js_pi5_mcp3008:
+
+2.2.1 Fotorresistor (MCP3008)
+=============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y continúa con la sección correspondiente.
+
+Introducción
+------------
+
+El fotorresistor es un componente comúnmente utilizado para medir la intensidad de la luz ambiental.  
+Ayuda al controlador a distinguir entre día y noche y a realizar funciones de control de luz, como las lámparas nocturnas.  
+Este proyecto es muy similar al del potenciómetro, y podrías pensar en él como un cambio de voltaje para detectar la luz.
+
+Componentes necesarios
+----------------------
+
+En este proyecto, necesitaremos los siguientes componentes.
+
+.. image:: ../img/list2_2.2.1_photoresistor.png
+
+
+Diagrama esquemático
+--------------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nombre T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+
+.. image:: ../img/schematic_2.2.1_photoresistor_mcp3008.png
+
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../img/2.2.1_Photoresistor_bb.png
+
+**Paso 2:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**Paso 3:** Ejecutar el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo node photoresistor-2.js
+
+**Código**
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+    const mcpadc = require('mcp-spi-adc');
+
+    // Abrir canal 0 del MCP3008 (entrada analógica CH0)
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1350000 }, (err) => {
+    if (err) {
+        console.error("No se pudo abrir el MCP3008:", err);
+        process.exit(1);
+    }
+
+    console.log("MCP3008 inicializado en SPI0/CE0.");
+
+    // Inicializar LED en GPIO22 (compatible con PWM)
+    const led = new Gpio(22, { mode: Gpio.OUTPUT });
+
+    // Configurar intervalo para leer el ADC y actualizar el brillo del LED cada 100ms
+    const interval = setInterval(() => {
+        adc.read((err, reading) => {
+        if (err) {
+            console.error("Error de lectura del ADC:", err);
+            return;
+        }
+
+        const adcValue = reading.value;              // Valor flotante entre 0.0 y 1.0
+        const pwmValue = Math.round(adcValue * 255); // Escalar a 0–255
+
+        console.log(`ADC = ${adcValue.toFixed(4)}, PWM = ${pwmValue}`);
+
+        led.pwmWrite(pwmValue); // Actualizar el brillo del LED
+        });
+    }, 100);
+
+    // Manejar Ctrl+C (SIGINT) para limpiar
+    process.on('SIGINT', () => {
+        console.log('\nCerrando de forma segura...');
+        clearInterval(interval);  // Detener el bucle de intervalo
+        led.digitalWrite(0);      // Apagar LED
+        process.exit(0);
+    });
+    });
+
+
+**Explicación del código**
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+
+Esta línea importa el módulo ``pigpio``, que se utiliza para controlar los pines GPIO en la Raspberry Pi.  
+Admite salida PWM necesaria para atenuar un LED.
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+Esta línea importa la librería ``mcp-spi-adc``, que permite la comunicación con el conversor analógico-digital MCP3008 utilizando la interfaz SPI por hardware de la Raspberry Pi.
+
+.. code-block:: js
+
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1350000 }, (err) => { ... });
+
+Abre el canal de entrada analógica 0 del chip MCP3008 utilizando SPI por hardware.  
+La velocidad del reloj SPI se establece en 1.35 MHz.  
+Si ocurre un error al abrir el canal, el programa lo registra y finaliza.
+
+.. code-block:: js
+
+    const led = new Gpio(22, { mode: Gpio.OUTPUT });
+
+Inicializa el pin GPIO 22 como salida.  
+Este pin se utiliza para controlar el brillo de un LED mediante PWM a través de la librería ``pigpio``.
+
+.. code-block:: js
+
+    setInterval(() => {
+        adc.read((err, reading) => {
+            ...
+        });
+    }, 100);
+
+Configura un bucle recurrente que se ejecuta cada 100 milisegundos.  
+En cada ciclo, lee el valor analógico del canal 0 del MCP3008.  
+El resultado es un número flotante entre 0.0 y 1.0 que representa la relación entre el voltaje de entrada y el voltaje de referencia.
+
+.. code-block:: js
+
+    const pwmValue = Math.round(adcValue * 255);
+    led.pwmWrite(pwmValue);
+
+Convierte el valor analógico a un valor PWM de 8 bits en el rango 0–255, y luego lo escribe en el GPIO22 para ajustar el brillo del LED proporcionalmente.
+
+.. code-block:: js
+
+    process.on('SIGINT', () => {
+        clearInterval(interval);
+        led.digitalWrite(0);
+        process.exit(0);
+    });
+
+Agrega un manejador de señal para cerrar el programa de forma segura cuando se presione ``Ctrl+C``.  
+Detiene el bucle de intervalo, apaga el LED y finaliza el programa correctamente.
+

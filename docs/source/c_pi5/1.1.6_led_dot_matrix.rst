@@ -34,7 +34,7 @@ Principio
 Generalmente, la matriz de puntos LED se puede clasificar en dos tipos: 
 cátodo común (CC) y ánodo común (CA). Se parecen mucho, pero internamente 
 hay diferencias. Puedes comprobarlo mediante pruebas. En este kit se utiliza
- una de tipo CA, que se puede identificar con la etiqueta 788BS en el lateral.
+una de tipo CA, que se puede identificar con la etiqueta 788BS en el lateral.
 
 Observa la figura a continuación. Los pines están dispuestos en los dos extremos 
 en la parte posterior. Tomando el lado etiquetado como referencia: los pines de 

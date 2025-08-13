@@ -17,8 +17,5 @@ Lista de Componentes
 
 Después de abrir el paquete, verifica si la cantidad de componentes cumple con la descripción del producto y si todos los componentes están en buen estado.
 
-.. image:: img/image4.jpeg
-.. image:: img/image6.png
-.. image:: img/image8.jpeg
-.. image:: img/image9.jpeg
-
+.. image:: img/K0402V25-DAVINCI-LIST.png
+    :width: 800px

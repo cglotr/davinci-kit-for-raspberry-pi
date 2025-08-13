@@ -1,0 +1,243 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _2.1.6_py_pi5_mcp3008:
+
+2.1.6 Joystick (MCP3008)
+=========================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y continúa con la sección correspondiente.
+
+Introducción
+------------
+
+En este proyecto, vamos a aprender cómo funciona un joystick. Manipularemos  
+el joystick y mostraremos los resultados en la pantalla.
+
+Componentes necesarios
+-----------------------
+
+En este proyecto, necesitaremos los siguientes componentes. 
+
+.. image:: ../python_pi5/img/image317-copy.png
+
+Diagrama esquemático
+--------------------
+
+Cuando se leen los datos del joystick, existen algunas diferencias entre los ejes:  
+los datos de los ejes X e Y son analógicos, por lo que es necesario usar el MCP3008  
+para convertir el valor analógico a valor digital. Los datos del eje Z son digitales,  
+por lo que puedes usar directamente el GPIO para leerlos, aunque también es posible  
+leerlos mediante el ADC.
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nombre T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../python_pi5/img/schematic_2.1.9_joystick_mcp3008.png
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../python_pi5/img/july24_2.1.9_joystick_mcp3008.png
+
+**Paso 2:** Configura la interfaz SPI e instala la biblioteca ``spidev`` (consulta :ref:`spi_configuration` para ver instrucciones detalladas). Si ya completaste estos pasos, puedes omitirlos.
+
+**Paso 3:** Ve a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**Paso 4:** Ejecuta.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo python3 2.1.9-2_Joystick_zero.py
+
+Después de que el código se ejecute, mueve el joystick y los valores correspondientes de x, y y Btn se mostrarán en pantalla.
+
+.. warning::
+
+    Si aparece el mensaje de error ``RuntimeError: Cannot determine SOC peripheral base address``, consulta :ref:`faq_soc` 
+
+**Código**
+
+.. note::
+
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación.  
+    Pero antes de eso, debes ir a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python-pi5``.  
+    Después de modificar el código, puedes ejecutarlo directamente para ver el efecto.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    from gpiozero import Button
+    import spidev
+    import time
+
+    # Inicializar el botón conectado al pin GPIO 22 (pin SW del joystick)
+    BtnPin = Button(22)
+
+    # Inicializar la comunicación SPI con el MCP3008
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Abrir bus SPI 0, dispositivo CE0
+    spi.max_speed_hz = 1000000  # Velocidad SPI de 1 MHz
+
+    def read_adc(channel):
+        """
+        Lee el valor analógico del canal especificado del MCP3008 (0–7)
+        :param channel: número de canal ADC (0–7)
+        :return: valor entero de 10 bits (0–1023)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        # Bucle principal para leer e imprimir los valores del joystick y el estado del botón
+        while True:
+            # Leer valores X e Y desde los canales 0 y 1 del MCP3008
+            x_val = read_adc(0)  # Joystick VRX conectado a CH0
+            y_val = read_adc(1)  # Joystick VRY conectado a CH1
+
+            # Leer el estado del botón del joystick (SW)
+            Btn_val = BtnPin.value  # 0 = presionado, 1 = liberado
+
+            # Imprimir los valores leídos
+            print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+
+            # Esperar 0.2 segundos antes de la siguiente lectura
+            time.sleep(0.2)
+
+    # Manejar de forma segura la interrupción con Ctrl+C
+    except KeyboardInterrupt:
+        spi.close()
+
+**Explicación del código**
+
+#. Esta sección importa las bibliotecas necesarias:
+
+   * ``gpiozero.Button`` se utiliza para leer el estado digital del botón del joystick (pin SW).
+   * ``spidev`` se utiliza para la comunicación SPI con el chip ADC MCP3008.
+   * ``time`` se utiliza para temporizar retardos entre lecturas.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+       from gpiozero import Button
+       import spidev
+       import time
+
+#. Inicializa el botón conectado al GPIO22 (pin SW del joystick) y configura la interfaz SPI en el bus 0, chip select 0 (CE0). La velocidad SPI se establece en 1 MHz.
+
+   .. code-block:: python
+
+       # Inicializar el botón conectado al pin GPIO 22 (pin SW del joystick)
+       BtnPin = Button(22)
+
+       # Inicializar la comunicación SPI con el MCP3008
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Abrir bus SPI 0, dispositivo CE0
+       spi.max_speed_hz = 1000000  # Velocidad SPI de 1 MHz
+
+#. Define una función ``read_adc(channel)`` para leer el valor analógico de un canal específico del MCP3008 (0–7). Envía tres bytes usando el protocolo SPI y devuelve un valor de 10 bits (0–1023).
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           """
+           Lee el valor analógico del canal especificado del MCP3008 (0–7)
+           :param channel: número de canal ADC (0–7)
+           :return: valor entero de 10 bits (0–1023)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. En el bucle principal, lee los valores analógicos de VRX (conectado a CH0) y VRY (conectado a CH1), así como el estado del botón del joystick. Los valores se imprimen en la consola cada 0.2 segundos. Cuando se presiona Ctrl+C, la interfaz SPI se cierra correctamente.
+
+   .. code-block:: python
+
+       try:
+           # Bucle principal para leer e imprimir los valores del joystick y el estado del botón
+           while True:
+               # Leer valores X e Y desde los canales 0 y 1 del MCP3008
+               x_val = read_adc(0)  # Joystick VRX conectado a CH0
+               y_val = read_adc(1)  # Joystick VRY conectado a CH1
+
+               # Leer el estado del botón del joystick (SW)
+               Btn_val = BtnPin.value  # 0 = presionado, 1 = liberado
+
+               # Imprimir los valores leídos
+               print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+
+               # Esperar 0.2 segundos antes de la siguiente lectura
+               time.sleep(0.2)
+
+       # Manejar de forma segura la interrupción con Ctrl+C
+       except KeyboardInterrupt:
+           spi.close()

@@ -15,6 +15,16 @@
 2.2.1 Fotoresistor
 =====================
 
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+
 Introducción
 ---------------
 

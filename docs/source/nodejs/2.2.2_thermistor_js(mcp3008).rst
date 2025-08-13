@@ -1,0 +1,194 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _2.2.2_js_pi5_mcp3008:
+
+2.2.2 Termistor (MCP3008)
+=========================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y continúa con la sección correspondiente.
+
+Introducción
+------------
+
+Al igual que un fotorresistor puede detectar la luz, un termistor es un dispositivo electrónico sensible a la temperatura que puede usarse para funciones de control térmico, como la creación de una alarma de calor.
+
+Componentes necesarios
+----------------------
+
+En este proyecto, necesitaremos los siguientes componentes.
+
+.. image:: ../img/list2_2.2.2_thermistor.png
+
+
+Diagrama esquemático
+--------------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nombre T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+
+.. image:: ../img/schematic_2.2.2_thermistor_mcp3008.png
+
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../img/2.2.2_Thermistor_bb.png
+
+
+**Paso 2:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**Paso 3:** Ejecutar el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo node thermistor-2.js
+
+Cuando el código se ejecute, el termistor detectará la temperatura ambiente, la cual se imprimirá en pantalla después de que el programa realice el cálculo.
+
+**Código**
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+    // Abrir el canal 0 (CH0) del MCP3008, entrada analógica desde el divisor de voltaje del termistor
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1350000 }, (err) => {
+      if (err) {
+        console.error('No se pudo abrir el canal del MCP3008:', err);
+        process.exit(1);
+      }
+
+      console.log('Canal del termistor en MCP3008 abierto.');
+
+      setInterval(() => {
+        adc.read((err, reading) => {
+          if (err) {
+            console.error('Error de lectura del ADC:', err);
+            return;
+          }
+
+          const adcValue = reading.value; // Flotante: 0.0–1.0
+          const raw = Math.round(adcValue * 1023); // Valor entero de 10 bits
+
+          const Vr = 3.3 * raw / 1023; // Convertir a voltaje (suponiendo Vref de 3.3V)
+          const R0 = 10000;            // Resistencia fija: 10kΩ
+          const B = 3950;              // Constante B
+          const Rt = R0 * Vr / (3.3 - Vr); // Resistencia del termistor
+
+          const tempK = 1 / ((Math.log(Rt / R0) / B) + (1 / (273.15 + 25))); // Kelvin
+          const tempC = tempK - 273.15; // Celsius
+          const tempF = tempC * 1.8 + 32; // Fahrenheit
+
+          console.log(`Celsius: ${tempC.toFixed(2)} °C  |  Fahrenheit: ${tempF.toFixed(2)} °F`);
+        });
+      }, 1000);
+    });
+
+
+**Explicación del código**
+
+.. code-block:: js
+
+    setInterval(() => {
+      adc.read((err, reading) => {
+        ...
+      });
+    }, 1000);
+
+Configura un bucle para leer desde el canal 0 del MCP3008 cada 1000 milisegundos (1 segundo).  
+La función `read` devuelve un valor analógico entre 0.0 y 1.0.
+
+.. code-block:: js
+
+    const raw = Math.round(reading.value * 1023);
+
+Convierte el valor ADC normalizado (flotante) en un valor entero bruto de 10 bits (rango 0–1023).
+
+.. code-block:: js
+
+    const Vr = 3.3 * raw / 1023;
+
+Calcula el voltaje en el termistor (``Vr``) usando la lectura del ADC.  
+Se asume que el voltaje de referencia del MCP3008 es 3.3V.
+
+.. code-block:: js
+
+    const Rt = R0 * Vr / (3.3 - Vr);
+
+Usa la fórmula del divisor de voltaje para calcular la resistencia del termistor ``Rt``, donde ``R0`` es una resistencia fija de 10kΩ en serie.
+
+.. code-block:: js
+
+    const tempK = 1 / ((Math.log(Rt / R0) / B) + (1 / (273.15 + 25)));
+
+Aplica la **ecuación del parámetro B** (una forma simplificada de la ecuación de Steinhart-Hart) para estimar la temperatura en Kelvin.
+
+.. code-block:: js
+
+    const tempC = tempK - 273.15;
+    const tempF = tempC * 1.8 + 32;
+
+Convierte la temperatura en Kelvin a Celsius y luego a Fahrenheit.
+
+.. code-block:: js
+
+    console.log(`Celsius: ${tempC.toFixed(2)} °C  |  Fahrenheit: ${tempF.toFixed(2)} °F`);
+
+Imprime en la consola las temperaturas en Celsius y Fahrenheit con dos decimales de precisión.

@@ -89,8 +89,8 @@ Procedimientos Experimentales
     sudo ./a.out
 
 Mientras el código se ejecuta, si el ángulo de inclinación del **mpu6050** 
-en el eje `Y <https://cn.bing.com/dict/search?q=Y&FORM=BDVSP6&mkt=zh-cn>`__-`axis <https://cn.bing.com/dict/search?q=axis&FORM=BDVSP6&mkt=zh-cn>`__
- es mayor a **45** °C, el motor paso a paso gira en sentido 
+en el eje `Y <https://cn.bing.com/dict/search?q=Y&FORM=BDVSP6&mkt=zh-cn>`__ - `axis <https://cn.bing.com/dict/search?q=axis&FORM=BDVSP6&mkt=zh-cn>`__
+es mayor a **45** °C, el motor paso a paso gira en sentido 
 antihorario; si es menor a **-45** °C, el motor gira en sentido horario.
 
 .. note::
@@ -180,8 +180,8 @@ si es menor a **-45** °C, el motor gira en sentido horario.
     sudo python3 3.1.6_MotionControl.py
 
 Mientras se ejecuta el código, si el ángulo de inclinación del **mpu6050** en el 
-`Y <https://cn.bing.com/dict/search?q=Y&FORM=BDVSP6&mkt=zh-cn>`__\ **-**\ `axis <https://cn.bing.com/dict/search?q=axis&FORM=BDVSP6&mkt=zh-cn>`__
- es mayor a **45** °C, el motor paso a paso gira en sentido antihorario; 
+`Y <https://cn.bing.com/dict/search?q=Y&FORM=BDVSP6&mkt=zh-cn>`__ **-** `axis <https://cn.bing.com/dict/search?q=axis&FORM=BDVSP6&mkt=zh-cn>`__
+es mayor a **45** °C, el motor paso a paso gira en sentido antihorario; 
 si es menor a **-45** °C, el motor gira en sentido horario.
 
 **Código**

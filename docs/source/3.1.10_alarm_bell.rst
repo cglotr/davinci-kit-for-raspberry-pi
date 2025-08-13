@@ -170,11 +170,11 @@ En la función on():
 
 **pthread_t tLed:** Declara un hilo **tLed**.
 
-**pthread_create(&tLed,NULL,ledWork,NULL):** Crea el hilo, y su prototipo es 
-el siguiente:
+**pthread_create(&tLed,NULL,ledWork,NULL):** Crea el hilo, y su prototipo es el siguiente:
 
-int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr,
-void*（*start_rtn)(void*),void *restrict arg);
+.. code-block:: c
+
+    int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr, void*(*start_rtn)(void*),void *restrict arg);
 
 **Retorno del Valor**
 
@@ -345,6 +345,7 @@ LED rojo y verde parpadearán a una cierta frecuencia.
             main()
         except KeyboardInterrupt:
             destroy()
+            
 **Explicación del Código**
 
 .. code-block:: python

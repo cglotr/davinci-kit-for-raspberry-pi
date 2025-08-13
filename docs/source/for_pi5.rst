@@ -12,8 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
-Para Pi 5
-============================
+Para todos los modelos (recomendado)
+==============================================
 
 El lanzamiento de Raspberry Pi 5 nos ha traído un modelo más potente, pero también ha introducido algunos cambios, 
 especialmente en cuanto al GPIO. Aunque conserva su interfaz estándar de 40 pines, su funcionalidad ha cambiado debido 

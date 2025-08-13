@@ -1,0 +1,258 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _3.1.8_c_pi5_mcp3008:
+
+3.1.8 Monitor de Sobrecalentamiento (MCP3008)
+=============================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+Introducción
+------------
+
+Es posible que quieras crear un dispositivo de monitoreo de sobrecalentamiento que se pueda aplicar en diversas situaciones.  
+Por ejemplo, en una fábrica, si queremos tener una alarma y la desconexión automática de la máquina a tiempo cuando hay un circuito sobrecalentado.  
+En este proyecto utilizaremos un termistor, joystick, zumbador, LED y pantalla LCD para hacer un dispositivo inteligente de monitoreo de temperatura cuyo umbral sea ajustable.
+
+Componentes necesarios
+-----------------------
+
+En este proyecto, necesitaremos los siguientes componentes.
+
+.. image:: ../img/list2_Overheat_Monitor.png
+    :align: center
+
+Diagrama esquemático
+--------------------
+
+============ ======== ======== ===
+T-Board Name physical wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO23       Pin 16   4        23
+GPIO24       Pin 18   5        24
+SDA1         Pin 3             
+SCL1         Pin 5             
+============ ======== ======== ===
+
+.. image:: ../img/Schematic_three_one8.png
+   :align: center
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../img/july24_3.1.8_overheat_monitor_mcp3008.png
+
+**Paso 2:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.7-2/
+
+**Paso 3:** Compilar el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    gcc 3.1.7_OverheatMonitor.c -lm -lwiringPi
+
+**Paso 4:** Ejecutar el archivo compilado.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo ./a.out
+
+Al ejecutar el código, la temperatura actual y el umbral de alta temperatura **40** se mostrarán en la **I2C LCD1602**.  
+Si la temperatura actual es mayor que el umbral, el zumbador y el LED se activarán para avisarte.
+
+El **joystick** se utiliza para ajustar el umbral de alta temperatura.  
+Mover el joystick en la dirección de los ejes X e Y ajusta (sube o baja) el umbral. Presionar el joystick lo restablece al valor inicial.
+
+.. note::
+
+    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`install_wiringpi`.
+    * Si aparece el error ``Unable to open I2C device: No such file or directory``, debes consultar :ref:`i2c_config` para habilitar I2C y comprobar que el cableado sea correcto.
+    * Si el código y el cableado son correctos, pero la LCD no muestra contenido, puedes girar el potenciómetro de la parte trasera para aumentar el contraste.
+
+Explicación del código
+----------------------
+
+.. code-block:: c
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+        unsigned char buffer[3];
+        buffer[0] = 1;
+        buffer[1] = (8 + channel) << 4;
+        buffer[2] = 0;
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+        return ((buffer[1] & 0x03) << 8) | buffer[2];
+    }
+
+Lee un valor analógico de 10 bits desde un canal (CH0–CH7) del MCP3008 usando SPI y devuelve un entero de 0 a 1023.
+
+.. code-block:: c
+
+    int get_joystick_value() {
+        int x = read_ADC(1);
+        int y = read_ADC(2);
+
+        if (x > 900)      return 1;   // Derecha
+        else if (x < 100) return -1;  // Izquierda
+        else if (y > 900) return -10; // Arriba
+        else if (y < 100) return 10;  // Abajo
+        else              return 0;
+    }
+
+Lee los valores analógicos del joystick en los canales CH1 y CH2. Devuelve un número que indica la dirección del movimiento según los umbrales.
+
+.. code-block:: c
+
+    void upper_tem_setting() {
+        write_lcd(0,0, "Upper Adjust:");
+
+        int change = get_joystick_value();
+
+        if (change != 0 && change != lastJoystickChange) {
+            upperTem += change;
+            lastJoystickChange = change;
+        }
+        else if (change == 0) {
+            lastJoystickChange = 0;
+        }
+
+        char str[6];
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, str);
+        write_lcd(strlen(str),1, "            ");
+
+        delay(100);
+    }
+
+Permite ajustar el umbral de temperatura con el joystick.  
+Evita cambios repetidos si se mantiene la dirección.
+
+.. code-block:: c
+
+    double temperature() {
+        int raw = read_ADC(0);
+        double Vr = 3.3 * ((double)raw / 1023.0);
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double tempK = 1.0 / ((log(Rt/10000.0)/3950.0) + 1.0/(273.15+25.0));
+        return tempK - 273.15;
+    }
+
+Lee el valor analógico desde CH0 (termistor) y usa la ecuación de Steinhart–Hart para calcular la temperatura en °C.
+
+.. code-block:: c
+
+    void monitoring_temp() {
+        char str[6];
+        double cel = temperature();
+        snprintf(str, sizeof(str), "%.2f", cel);
+        write_lcd(0,0, "Temp: ");
+        write_lcd(6,0, str);
+
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, "Upper: ");
+        write_lcd(7,1, str);
+        delay(100);
+
+        if (cel >= upperTem) {
+            digitalWrite(buzzPin, HIGH);
+            digitalWrite(LedPin,  HIGH);
+        } else {
+            digitalWrite(buzzPin, LOW);
+            digitalWrite(LedPin,  LOW);
+        }
+    }
+
+Lee continuamente la temperatura y muestra junto al umbral en la LCD.  
+Si la temperatura supera el umbral, enciende el zumbador y el LED.
+
+.. code-block:: c
+
+    void setup_all() {
+        fd = wiringPiI2CSetup(LCDAddr);
+        lcd_init();
+        if (wiringPiSetup() == -1 || wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("¡Configuración fallida!\n");
+            return;
+        }
+        pinMode(Joy_BtnPin, INPUT);
+        pullUpDnControl(Joy_BtnPin, PUD_UP);
+        pinMode(buzzPin, OUTPUT);
+        pinMode(LedPin,  OUTPUT);
+    }
+
+Inicializa la LCD, SPI y los pines GPIO para el botón del joystick, zumbador y LED.  
+Activa la resistencia pull-up para el botón del joystick.
+
+.. code-block:: c
+
+    int main(void) {
+        setup_all();
+
+        int lastBtnState = HIGH;
+        int stage = 0;
+
+        while (1) {
+            int curBtn = digitalRead(Joy_BtnPin);
+            if (curBtn == HIGH && lastBtnState == LOW) {
+                stage = (stage + 1) % 2;
+                lastJoystickChange = 0;
+                delay(100);
+                lcd_clear();
+            }
+            lastBtnState = curBtn;
+
+            if (stage == 1)
+                upper_tem_setting();
+            else
+                monitoring_temp();
+        }
+
+        return 0;
+    }
+
+Bucle principal con dos modos:
+
+1. Monitoreo de temperatura.
+2. Ajuste del umbral usando el joystick.
+
+El cambio de modo ocurre cuando se suelta el botón del joystick.

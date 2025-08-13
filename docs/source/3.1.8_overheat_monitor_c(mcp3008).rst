@@ -1,0 +1,476 @@
+.. note::
+
+    ¡Hola! Bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook. Profundiza en Raspberry Pi, Arduino y ESP32 junto con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprende y comparte**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a nuevos anuncios de productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más recientes.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _3.1.8_c_mcp3008:
+
+3.1.8 Monitor de sobrecalentamiento (MCP3008)
+=============================================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y continúa con la sección correspondiente.
+
+Introducción
+------------
+
+Puede que desees crear un dispositivo de monitoreo de sobrecalentamiento aplicable a diversas situaciones. Por ejemplo, en una fábrica, si queremos tener una alarma y apagado automático cuando un circuito se sobrecalienta.  
+En este proyecto utilizaremos un termistor, un joystick, un zumbador, un LED y una pantalla LCD para fabricar un dispositivo inteligente de monitoreo de temperatura cuyo umbral es ajustable.
+
+Componentes necesarios
+-----------------------
+
+En este proyecto, necesitamos los siguientes componentes.
+
+.. image:: img/list2_Overheat_Monitor.png
+    :align: center
+
+
+Diagrama esquemático
+--------------------
+
+============ ======== ======== ===
+T-Board Name físico   wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin15    3        22
+GPIO23       Pin16    4        23
+GPIO24       Pin18    5        24
+SDA1         Pin 3             
+SCL1         Pin 5             
+============ ======== ======== ===
+
+.. image:: img/Schematic_three_one8.png
+   :align: center
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Monta el circuito.
+
+.. image:: img/july24_3.1.8_overheat_monitor_mcp3008.png
+
+**Para usuarios de lenguaje C**
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Paso 2**: Ve a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.7-2/
+
+**Paso 3**: Compila el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 3.1.7_OverheatMonitor.c -lm -lwiringPi
+
+**Paso 4**: Ejecuta el archivo compilado.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo ./a.out
+
+Cuando se ejecute el código, la temperatura actual y el umbral de alta temperatura **40** se mostrarán en la **I2C LCD1602**.  
+Si la temperatura actual es mayor que el umbral, el zumbador y el LED se activarán para alertarte.
+
+El **joystick** sirve para ajustar el umbral de alta temperatura. Moviendo el **joystick** en el eje X o Y podrás aumentar o disminuir el umbral. Pulsando el **joystick** nuevamente lo restablecerás a su valor inicial.
+
+.. note::
+
+    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`install_wiringpi`.
+    * Si aparece el error ``Unable to open I2C device: No such file or directory``, consulta :ref:`i2c_config` para habilitar I2C y verificar el cableado.
+    * Si el código y el cableado están correctos pero la LCD no muestra nada, ajusta el potenciómetro en la parte trasera para aumentar el contraste.
+
+Explicación del código
+----------------------
+
+.. code-block:: c
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+        unsigned char buffer[3];
+        buffer[0] = 1;
+        buffer[1] = (8 + channel) << 4;
+        buffer[2] = 0;
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+        return ((buffer[1] & 0x03) << 8) | buffer[2];
+    }
+
+Lee un valor analógico de 10 bits desde el canal MCP3008 (CH0–CH7) usando SPI y devuelve un entero de 0 a 1023.
+
+.. code-block:: c
+
+    int get_joystick_value() {
+        int x = read_ADC(1);
+        int y = read_ADC(2);
+
+        if (x > 900)      return 1;   // Derecha
+        else if (x < 100) return -1;  // Izquierda
+        else if (y > 900) return -10; // Arriba
+        else if (y < 100) return 10;  // Abajo
+        else              return 0;
+    }
+
+Lee los valores analógicos X e Y del joystick desde CH1 y CH2. Devuelve un número indicando la dirección según los umbrales.
+
+.. code-block:: c
+
+    void upper_tem_setting() {
+        write_lcd(0,0, "Upper Adjust:");
+
+        int change = get_joystick_value();
+
+        if (change != 0 && change != lastJoystickChange) {
+            upperTem += change;
+            lastJoystickChange = change;
+        }
+        else if (change == 0) {
+            lastJoystickChange = 0;
+        }
+
+        char str[6];
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, str);
+        write_lcd(strlen(str),1, "            ");
+
+        delay(100);
+    }
+
+Permite ajustar el umbral de temperatura usando el joystick. Evita cambios repetidos cuando se mantiene la dirección.
+
+.. code-block:: c
+
+    double temperature() {
+        int raw = read_ADC(0);
+        double Vr = 3.3 * ((double)raw / 1023.0);
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double tempK = 1.0 / ((log(Rt/10000.0)/3950.0) + 1.0/(273.15+25.0));
+        return tempK - 273.15;
+    }
+
+Lee el valor analógico desde CH0 conectado al termistor y usa la ecuación de Steinhart–Hart para calcular la temperatura en grados Celsius.
+
+.. code-block:: c
+
+    void monitoring_temp() {
+        char str[6];
+        double cel = temperature();
+        snprintf(str, sizeof(str), "%.2f", cel);
+        write_lcd(0,0, "Temp: ");
+        write_lcd(6,0, str);
+
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, "Upper: ");
+        write_lcd(7,1, str);
+        delay(100);
+
+        if (cel >= upperTem) {
+            digitalWrite(buzzPin, HIGH);
+            digitalWrite(LedPin,  HIGH);
+        } else {
+            digitalWrite(buzzPin, LOW);
+            digitalWrite(LedPin,  LOW);
+        }
+    }
+
+Lee continuamente la temperatura y la muestra junto con el umbral. Si la temperatura supera el umbral, activa el zumbador y el LED.
+
+.. code-block:: c
+
+    void setup_all() {
+        fd = wiringPiI2CSetup(LCDAddr);
+        lcd_init();
+        if (wiringPiSetup() == -1 || wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Setup failed!\n");
+            return;
+        }
+        pinMode(Joy_BtnPin, INPUT);
+        pullUpDnControl(Joy_BtnPin, PUD_UP);
+        pinMode(buzzPin, OUTPUT);
+        pinMode(LedPin,  OUTPUT);
+    }
+
+Inicializa la LCD, SPI y los pines GPIO para el botón del joystick, el zumbador y el LED. Activa la resistencia pull-up para el botón del joystick.
+
+.. code-block:: c
+
+    int main(void) {
+        setup_all();
+
+        int lastBtnState = HIGH;
+        int stage = 0;
+
+        while (1) {
+            int curBtn = digitalRead(Joy_BtnPin);
+            if (curBtn == HIGH && lastBtnState == LOW) {
+                stage = (stage + 1) % 2;
+                lastJoystickChange = 0;
+                delay(100);
+                lcd_clear();
+            }
+            lastBtnState = curBtn;
+
+            if (stage == 1)
+                upper_tem_setting();
+            else
+                monitoring_temp();
+        }
+
+        return 0;
+    }
+
+El bucle principal alterna entre dos modos:
+
+1. Monitoreo de temperatura.
+2. Ajuste del límite máximo usando el joystick.
+
+El cambio de modo ocurre cuando se suelta el botón del joystick (detecto de flanco ascendente).
+
+
+**Para usuarios del lenguaje Python**
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Paso 2:** Configura la interfaz SPI e instala la biblioteca ``spidev`` (consulta :ref:`spi_configuration` para instrucciones detalladas). Si ya completaste estos pasos, puedes omitirlos.
+
+**Paso 3:** Ve a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+   cd ~/davinci-kit-for-raspberry-pi/python
+
+
+**Paso 4:** Ejecuta el archivo.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+
+   sudo python3 4.1.11-2_BatteryIndicator.py
+
+
+Después de que el programa se ejecute, conecta por separado un cable al 3er pin del ADC0834 y otro al GND, y luego llévalos a los dos polos de una batería, también por separado. Verás que el LED correspondiente en la barra de LED se enciende para mostrar el nivel de energía (rango de medición: 0–5 V).
+
+.. warning::
+
+
+   Si aparece el error ``RuntimeError: Cannot determine SOC peripheral base address``, consulta :ref:`faq_soc`
+
+
+**Código**
+
+.. note:: Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación. Pero antes, debes ir a la ruta del código fuente, por ejemplo ``davinci-kit-for-raspberry-pi/python``. Después de modificar el código, puedes ejecutarlo directamente para ver el efecto.
+
+.. raw:: html
+
+
+    <run></run>
+
+
+.. code-block:: python
+
+
+    #!/usr/bin/env python3
+
+    import RPi.GPIO as GPIO
+    import spidev
+    import time
+
+    # Pines GPIO conectados a 10 LEDs, ordenados de izquierda a derecha
+    led_pins = [25, 12, 16, 20, 21, 5, 6, 13, 19, 26]  # Numeración BCM
+
+    # Configuración de GPIO
+    GPIO.setmode(GPIO.BCM)
+    for pin in led_pins:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, GPIO.LOW)
+
+    # Inicializar SPI
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, CE0
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    # Leer valor del canal MCP3008
+    def read_adc(channel):
+        if channel < 0 or channel > 7:
+            return -1
+        r = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((r[1] & 0x03) << 8) | r[2]
+        return value
+
+    # Encender la barra de LEDs según el nivel
+    def led_bar_graph(level):
+        for i, pin in enumerate(led_pins):
+            if i < level:
+                GPIO.output(pin, GPIO.HIGH)
+            else:
+                GPIO.output(pin, GPIO.LOW)
+
+    # Bucle principal
+    try:
+        while True:
+            analog_val = read_adc(0)  # Leer del canal 0 del MCP3008
+            level = int(analog_val * 10 / 1023)
+            led_bar_graph(level)
+            print(f"ADC: {analog_val}, Nivel: {level}")
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        for pin in led_pins:
+            GPIO.output(pin, GPIO.LOW)
+        GPIO.cleanup()
+        spi.close()
+
+
+Explicación del código
+----------------------
+
+
+Este programa lee un voltaje analógico desde un ADC MCP3008 y muestra el resultado en una barra de 10 LEDs usando una Raspberry Pi (distribución de pines BCM).
+
+1. **Importar módulos**
+
+   * ``RPi.GPIO`` controla los pines GPIO de la Raspberry Pi.
+   * ``spidev`` se comunica con el MCP3008 vía SPI.
+   * ``time`` proporciona funciones de espera/retardo.
+
+   .. code-block:: python
+
+   
+       #!/usr/bin/env python3
+
+   import RPi.GPIO as GPIO
+   import spidev
+   import time
+   
+
+2. **Configuración de los LEDs (GPIO)**
+
+   Se define una lista de 10 pines GPIO para controlar los LEDs. Estos pines se configuran como salida y se inicializan en LOW (apagados).
+
+   .. code-block:: python
+
+   
+      # Pines GPIO conectados a 10 LEDs, ordenados de izquierda a derecha
+      led_pins = [25, 12, 16, 20, 21, 5, 6, 13, 19, 26]  # Numeración BCM
+
+      GPIO.setmode(GPIO.BCM)
+      for pin in led_pins:
+         GPIO.setup(pin, GPIO.OUT)
+         GPIO.output(pin, GPIO.LOW)
+      
+
+3. **Inicialización de SPI**
+
+   Inicializa el bus SPI 0 y el chip enable 0 (CE0) para comunicarse con el MCP3008.
+   La velocidad de comunicación se establece en 1 MHz.
+
+   .. code-block:: python
+
+   
+      spi = spidev.SpiDev()
+      spi.open(0, 0)  # Bus 0, CE0
+      spi.max_speed_hz = 1000000  # 1 MHz
+      
+
+4. **Función de lectura del ADC**
+
+   Lee un valor analógico de un canal específico del MCP3008 (0–7). La función envía un comando SPI de 3 bytes y decodifica el resultado de 10 bits.
+
+   .. code-block:: python
+
+   
+      def read_adc(channel):
+      if channel < 0 or channel > 7:
+         return -1
+      r = spi.xfer2([1, (8 + channel) << 4, 0])
+      value = ((r[1] & 0x03) << 8) | r[2]
+      return value
+   
+
+5. **Función de barra de LEDs**
+
+   Enciende LEDs en función del nivel analógico. Si el nivel es 7, los primeros 7 LEDs estarán encendidos y el resto apagados.
+
+   .. code-block:: python
+
+
+      def led_bar_graph(level):
+      for i, pin in enumerate(led_pins):
+         if i < level:
+            GPIO.output(pin, GPIO.HIGH)
+         else:
+            GPIO.output(pin, GPIO.LOW)
+   
+
+6. **Bucle principal**
+
+   Lee continuamente la entrada analógica del canal 0, escala el resultado a un valor de 0 a 10 y actualiza la visualización de la barra de LEDs. Imprime los valores de ADC y nivel para el monitoreo.
+
+   .. code-block:: python
+
+
+      try:
+      while True:
+         analog_val = read_adc(0)
+         level = int(analog_val * 10 / 1023)
+         led_bar_graph(level)
+         print(f"ADC: {analog_val}, Nivel: {level}")
+         time.sleep(0.2)
+
+
+7. **Limpieza al salir**
+
+   Cuando se presiona ``Ctrl+C``, el programa apaga todos los LEDs, limpia el estado de GPIO y cierra la interfaz SPI.
+
+   .. code-block:: python
+
+   
+      except KeyboardInterrupt:
+         pass
+
+      finally:
+         for pin in led_pins:
+            GPIO.output(pin, GPIO.LOW)
+         GPIO.cleanup()
+         spi.close()
+      

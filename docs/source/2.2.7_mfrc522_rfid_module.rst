@@ -274,7 +274,7 @@ Esto te devolverá al entorno global de Python del sistema.
 
     * Después de ejecutar ``2.2.7_read.py``, se imprimirá el ``id`` y el ``texto`` de tu tarjeta en la terminal.
     * Después de ejecutar ``2.2.7_write.py``, primero debes escribir un mensaje, presionar ``Enter`` para confirmar y, 
-    finalmente, colocar tu tarjeta en el módulo RFID MFRC522 para completar la escritura.
+    * finalmente, colocar tu tarjeta en el módulo RFID MFRC522 para completar la escritura.
 
 
 **código**

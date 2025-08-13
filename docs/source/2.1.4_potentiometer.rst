@@ -15,6 +15,16 @@
 2.1.4 Potenciómetro
 ======================
 
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+
 Introducción
 ----------------
 
@@ -34,7 +44,7 @@ Principio
 **ADC0834**
 
 El ADC0834 es un convertidor analógico-digital de 8 bits `successive
-approximation <https://cn.bing.com/dict/search?q=successive approximations&FORM=BDVSP6&mkt=zh-cn>`__con aproximación 
+approximation <https://cn.bing.com/dict/search?q=successive approximations&FORM=BDVSP6&mkt=zh-cn>`__ con aproximación 
 sucesiva, equipado con un multiplexor multicanal configurable de entrada y 
 salida en serie. La entrada y salida en serie están configuradas para interactuar 
 con registros de desplazamiento estándar o microprocesadores.
@@ -163,6 +173,7 @@ del LED cambiará en consecuencia.
 .. note::
 
     Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+
 **Código**
 
 .. code-block:: c
@@ -331,6 +342,7 @@ digital. El flujo de trabajo específico es el siguiente:
 .. code-block:: c
 
     digitalWrite(ADC_CS, 0);
+
 Establece CS en nivel bajo y comienza a habilitar la conversión AD.
 
 .. code-block:: c

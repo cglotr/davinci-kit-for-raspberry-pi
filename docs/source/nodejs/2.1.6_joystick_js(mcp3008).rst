@@ -1,0 +1,191 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _2.1.6_js_pi5_mcp3008:
+
+2.1.6 Joystick (MCP3008)
+==========================
+
+Introducción
+------------
+
+En este proyecto, vamos a aprender cómo funciona un joystick. Manipularemos el joystick y mostraremos los resultados en la pantalla.
+
+Componentes necesarios
+----------------------
+
+En este proyecto, necesitaremos los siguientes componentes.
+
+.. image:: ../img/image317-copy.png
+
+
+Diagrama esquemático
+--------------------
+
+Al leer los datos del joystick, existen algunas diferencias entre ejes:  
+los datos de los ejes X y Y son analógicos, por lo que es necesario usar el MCP3008 para convertir el valor analógico a valor digital.  
+Los datos del eje Z son digitales, por lo que puedes leerlos directamente con el GPIO, o también puedes usar el ADC para leerlos.
+
+.. .. image:: ../img/image319.png
+
+    *   - Nombre T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.1.9_joystick_mcp3008_js.png
+
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../img/2.1.9_Joystick_js.png
+
+**Paso 2:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**Paso 3:** Ejecutar el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo node joystick-2.js
+
+Después de ejecutar el código, mueve el joystick y los valores correspondientes de x, y, Btn se mostrarán en la pantalla.
+
+
+**Código**
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+    const mcpadc = require('mcp-spi-adc');
+
+    // Abrir canal 1 (eje X)
+    const xChannel = mcpadc.openMcp3008(1, { speedHz: 1350000 }, (err) => {
+    if (err) {
+        console.error('No se pudo abrir el canal X:', err);
+        process.exit(1);
+    }
+    });
+
+    // Abrir canal 2 (eje Y)
+    const yChannel = mcpadc.openMcp3008(2, { speedHz: 1350000 }, (err) => {
+    if (err) {
+        console.error('No se pudo abrir el canal Y:', err);
+        process.exit(1);
+    }
+    });
+
+    // Entrada del botón en GPIO22 con resistencia pull-up
+    const btn = new Gpio(22, {
+    mode: Gpio.INPUT,
+    pullUpDown: Gpio.PUD_UP,
+    });
+
+    // Bucle de lectura
+    setInterval(() => {
+    xChannel.read((errX, xReading) => {
+        if (errX) {
+        console.error('Error de lectura del canal X:', errX);
+        return;
+        }
+
+        yChannel.read((errY, yReading) => {
+        if (errY) {
+            console.error('Error de lectura del canal Y:', errY);
+            return;
+        }
+
+        const x_val = Math.round(xReading.value * 1023);
+        const y_val = Math.round(yReading.value * 1023);
+        const btn_val = btn.digitalRead();
+
+        console.log(`x = ${x_val}, y = ${y_val}, btn = ${btn_val}\n`);
+        });
+    });
+    }, 100);
+
+
+**Explicación del código**
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+Esta línea importa el módulo ``mcp-spi-adc``, que permite la comunicación con el ADC MCP3008 utilizando la interfaz SPI por hardware de la Raspberry Pi.
+
+.. code-block:: js
+
+    const xChannel = mcpadc.openMcp3008(1, { speedHz: 1350000 }, ...);
+    const yChannel = mcpadc.openMcp3008(2, { speedHz: 1350000 }, ...);
+
+Estas líneas abren los canales de entrada analógica 1 y 2 del MCP3008 para leer las señales de los ejes X y Y del joystick, respectivamente.  
+La velocidad de comunicación SPI se establece en 1.35 MHz.
+
+.. code-block:: js
+
+    const btn = new Gpio(22, {
+      mode: Gpio.INPUT,
+      pullUpDown: Gpio.PUD_UP,
+    });
+
+Inicializa el pin GPIO 22 como entrada digital con una resistencia interna pull-up habilitada.  
+Este pin se utiliza para leer el estado de un pulsador.
+
+.. code-block:: js
+
+    setInterval(() => {
+      xChannel.read(...);
+      yChannel.read(...);
+    }, 100);
+
+Esta función se ejecuta cada 100 milisegundos.  
+Lee los valores de los ejes X y Y del joystick a través de los canales 1 y 2 del MCP3008 usando SPI.  
+Los valores en punto flotante (rango 0.0–1.0) se convierten a enteros de 10 bits (0–1023).  
+También lee el estado del botón utilizando ``digitalRead()`` en el GPIO22, devolviendo 0 cuando está presionado y 1 cuando está liberado.  
+Todos los valores se imprimen en la consola.

@@ -157,7 +157,8 @@ La función off() apaga el zumbador y el LED.
         off();
         delay(dt);
     }
-Define una función beep() para hacer que el zumbador y el LED emitan sonidos y
+
+Define una función ``beep()`` para hacer que el zumbador y el LED emitan sonidos y
 parpadeen en un intervalo determinado de **dt**.
 
 .. code-block:: c

@@ -1,0 +1,299 @@
+.. note::
+
+    ¡Hola! Bienvenido a la Comunidad de Entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook. Profundiza en Raspberry Pi, Arduino y ESP32 junto con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a nuevos anuncios de productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _3.1.4_py_pi5_mcp3008:
+
+3.1.4 Ventilador Inteligente (MCP3008)
+=========================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+Introducción
+------------
+
+En este proyecto, usaremos motores, botones y termistores para hacer un ventilador inteligente manual + automático cuya velocidad de viento es ajustable.
+
+Componentes necesarios
+------------------------------
+
+En este proyecto, necesitamos los siguientes componentes.
+
+.. image:: ../python_pi5/img/list2_Smart_Fan.png
+    :width: 800
+    :align: center
+
+Diagrama esquemático
+------------------------
+
+============ ======== ======== ===
+T-Board Name physical wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+============ ======== ======== ===
+
+.. image:: ../python_pi5/img/schematic_3.1.4_smart_fan_mcp3008.png
+    :align: center
+    :width: 800
+
+Procedimientos experimentales
+------------------------------
+
+**Paso 1:** Construir el circuito.
+
+.. image:: ../python_pi5/img/july24_3.1.4_smart_fan_mcp3008.png
+    :width: 800
+
+.. note::
+    El módulo de alimentación puede usar una batería de 9V con el conector para batería de 9V incluido en el kit.
+
+.. image:: ../python_pi5/img/4.1.10_smart_fan_battery.jpeg
+    :align: center
+
+**Paso 2:** Configurar la interfaz SPI e instalar la librería ``spidev`` (consulta :ref:`spi_configuration` para instrucciones detalladas).  
+Si ya has completado estos pasos, puedes saltar este paso.
+
+**Paso 3:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**Paso 4:** Ejecutar.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo python3 4.1.10-2_SmartFan_zero.py
+
+Cuando se ejecute el código, inicia el ventilador presionando el botón.  
+Cada vez que lo presiones, se ajustará una velocidad más alta o más baja.  
+Hay **5** niveles de velocidad: **0~4**.  
+Cuando se establece en el 4\ :sup:`to` nivel de velocidad y presionas el botón, el ventilador se detiene con velocidad **0**.
+
+Cuando la temperatura suba o baje más de 2℃, la velocidad se ajustará automáticamente un nivel más rápido o más lento.
+
+Código
+------
+
+.. note::
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código de abajo.  
+    Antes de eso, debes ir a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python-pi5``.  
+    Después de modificarlo, puedes ejecutarlo directamente para ver el efecto.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    from gpiozero import Motor, Button
+    from time import sleep
+    import spidev
+    import math
+
+    # Inicializar SPI para MCP3008
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, CE0 (GPIO8 / pin físico 24)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    # Inicializar pines GPIO para el botón y control del motor
+    BtnPin = Button(22)  # GPIO22 (pin físico 15)
+    motor = Motor(forward=5, backward=6, enable=13)  # GPIO5, GPIO6, GPIO13
+
+    # Variables para el nivel de velocidad del motor y seguimiento de temperaturas
+    level = 0
+    currentTemp = 0
+    markTemp = 0
+
+    def read_adc(channel):
+        """
+        Lee valor analógico del canal MCP3008 (0–7).
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    def temperature():
+        """
+        Lee y calcula la temperatura actual desde el sensor.
+        Retorna:
+            float: Temperatura en Celsius.
+        """
+        analogVal = read_adc(0)  # Termistor conectado a CH0
+        Vr = 3.3 * analogVal / 1023.0  # Sistema de 3.3V
+        Rt = 10000.0 * Vr / (3.3 - Vr)
+        temp = 1 / (((math.log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)))
+        Cel = temp - 273.15
+        return Cel
+
+    def motor_run(level):
+        """
+        Ajusta la velocidad del motor según el nivel.
+        Args:
+            level (int): Nivel de velocidad deseado.
+        Retorna:
+            int: Nivel ajustado de velocidad.
+        """
+        if level == 0:
+            motor.stop()
+            return 0
+        if level >= 4:
+            level = 4
+        motor.forward(speed=float(level / 4))
+        return level
+
+    def changeLevel():
+        """
+        Cambia el nivel de velocidad del motor al presionar el botón y actualiza la temperatura de referencia.
+        """
+        global level, currentTemp, markTemp
+        print("Botón presionado")
+        level = (level + 1) % 5
+        markTemp = currentTemp
+
+    # Vincular el evento de pulsación de botón con la función changeLevel
+    BtnPin.when_pressed = changeLevel
+
+    def main():
+        """
+        Función principal para monitorear y responder a cambios de temperatura.
+        """
+        global level, currentTemp, markTemp
+        markTemp = temperature()
+        while True:
+            currentTemp = temperature()
+            if level != 0:
+                if currentTemp - markTemp <= -2:
+                    level -= 1
+                    markTemp = currentTemp
+                elif currentTemp - markTemp >= 2:
+                    if level < 4:
+                        level += 1
+                    markTemp = currentTemp
+            level = motor_run(level)
+            sleep(0.2)
+
+    # Ejecutar la función principal y manejar interrupción por teclado
+    try:
+        main()
+    except KeyboardInterrupt:
+        motor.stop()
+        spi.close()
+
+Explicación del código
+----------------------
+
+#. Importa librerías para control de motor y botón, comunicación SPI con MCP3008 y cálculos matemáticos. ``gpiozero`` se usa para controlar dispositivos GPIO, ``spidev`` para SPI, y ``math`` para calcular la temperatura a partir de la resistencia.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+
+       from gpiozero import Motor, Button
+       from time import sleep
+       import spidev
+       import math
+
+#. Inicializa comunicación SPI en bus 0, dispositivo 0 (CE0), conectado al MCP3008.
+
+   .. code-block:: python
+
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, CE0 (GPIO8 / pin físico 24)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. Configura GPIO22 como entrada para el botón y establece los pines del motor (GPIO5 hacia adelante, GPIO6 hacia atrás, GPIO13 enable). También define variables globales para el seguimiento de velocidad y temperatura.
+
+   .. code-block:: python
+
+       BtnPin = Button(22)
+       motor = Motor(forward=5, backward=6, enable=13)
+
+       level = 0
+       currentTemp = 0
+       markTemp = 0
+
+#. Define función para leer valores analógicos de un canal MCP3008 mediante SPI. Devuelve un entero de 10 bits (0–1023).
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           ...
+           return value
+
+#. Función para leer la temperatura desde el termistor, convirtiendo el valor ADC a voltaje, luego a resistencia y finalmente a Celsius usando la aproximación de Steinhart-Hart.
+
+   .. code-block:: python
+
+       def temperature():
+           ...
+           return Cel
+
+#. Función para controlar la velocidad del motor según el nivel (0–4). Nivel 0 detiene el motor, y niveles 1–4 ajustan la velocidad PWM proporcionalmente.
+
+   .. code-block:: python
+
+       def motor_run(level):
+           ...
+           return level
+
+#. Manejador de evento para el botón que incrementa el nivel de velocidad y actualiza la temperatura de referencia.
+
+   .. code-block:: python
+
+       def changeLevel():
+           ...
+       BtnPin.when_pressed = changeLevel
+
+#. Bucle principal que compara la temperatura actual con la referencia y ajusta el nivel del motor si la diferencia es de ±2°C. Actualiza el motor en cada ciclo y agrega un retardo.
+
+   .. code-block:: python
+
+       def main():
+           ...
+           sleep(0.2)
+
+#. Ejecuta la función principal en un bloque try-except para manejar interrupción por teclado, deteniendo el motor y cerrando SPI de forma segura.
+
+   .. code-block:: python
+
+       try:
+           main()
+       except KeyboardInterrupt:
+           motor.stop()
+           spi.close()

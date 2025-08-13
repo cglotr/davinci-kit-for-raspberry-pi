@@ -518,6 +518,7 @@ detect_point() compara el número ingresado (**count**) con el \"**punto**\"
 generado. Si el resultado de la comparación es que no coinciden, **count** 
 asignará valores a **upper** y **lower** y devolverá \'**0**\'; 
 de lo contrario, si el resultado indica coincidencia, devuelve \'**1**\'.
+
 .. code-block:: python
 
     def lcd_show_input(result):

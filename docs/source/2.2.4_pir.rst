@@ -71,13 +71,9 @@ segundos.
 
 Dos modos de disparo: (para seleccionar el modo se usa el jumper).
 
-- **H:** **Modo de disparo repetible**. Después de detectar el cuerpo humano, 
-el módulo emite una señal de alto nivel. Si alguien permanece en el rango de 
-detección, la salida se mantendrá en alto.
+- **H:** **Modo de disparo repetible**. Después de detectar el cuerpo humano, el módulo emite una señal de alto nivel. Si alguien permanece en el rango de detección, la salida se mantendrá en alto.
   
-- **L:** **Modo de disparo no repetible**. Emitirá una señal de alto nivel al 
-detectar el cuerpo humano. Después del retardo, la salida cambiará automáticamente 
-de alto a bajo.
+- **L:** **Modo de disparo no repetible**. Emitirá una señal de alto nivel al detectar el cuerpo humano. Después del retardo, la salida cambiará automáticamente de alto a bajo.
 
 
 
@@ -139,6 +135,7 @@ ambos completamente en sentido antihorario.
 .. note::
 
     Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta la referencia :ref:`C code is not working?`.
+    
 **Código**
 
 .. code-block:: c

@@ -160,6 +160,7 @@ Cuando el código se ejecuta, el zumbador reproduce una melodía.
 
         return 0;
     }
+    
 **Explicación del Código**
 
 .. code-block:: c

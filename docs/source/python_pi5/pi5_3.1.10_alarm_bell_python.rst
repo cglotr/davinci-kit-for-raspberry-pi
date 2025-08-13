@@ -127,7 +127,7 @@ Al mismo tiempo, los LEDs rojo y verde parpadearán a una frecuencia determinada
 **Código**
 
 .. note::
-    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación. Pero antes de eso, necesitas ir a la ruta del código fuente como ``raphael-kit/python-pi5``.
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación. Pero antes de eso, necesitas ir a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python-pi5``.
 
 .. raw:: html
 
