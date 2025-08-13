@@ -43,7 +43,7 @@ Klonen Sie das Repository von GitHub.
    
 .. code-block::
 
-   git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
+   git clone --branch master --depth 1 https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git
 
 **Methode 2: Laden Sie den Kode herunter.**
 
