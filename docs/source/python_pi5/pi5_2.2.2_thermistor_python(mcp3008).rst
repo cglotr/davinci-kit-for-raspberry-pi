@@ -1,0 +1,254 @@
+.. note::
+
+    Bonjour et bienvenue dans la communauté SunFounder Raspberry Pi & Arduino & ESP32 sur Facebook ! Plongez plus profondément dans l’univers du Raspberry Pi, Arduino et ESP32 avec d’autres passionnés.
+
+    **Pourquoi nous rejoindre ?**
+
+    - **Assistance d’experts** : Résolvez les problèmes après-vente et relevez les défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre & Partager** : Échangez des astuces et des tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Obtenez un accès anticipé aux annonces de nouveaux produits et à des avant-premières.
+    - **Réductions spéciales** : Profitez de remises exclusives sur nos derniers produits.
+    - **Promotions festives et concours** : Participez à des concours et à des promotions spéciales.
+
+    👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.2.2_py_pi5_mcp3008:
+
+2.2.2 Thermistance (MCP3008)
+============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous avez un **ADC0834** ou un **MCP3008** et suivez la section correspondante.
+
+Introduction
+------------
+
+Tout comme une photoresistance peut détecter la lumière,  
+une thermistance est un composant électronique sensible à la température  
+qui peut être utilisée pour réaliser des fonctions de contrôle thermique,  
+par exemple pour fabriquer une alarme de surchauffe.
+
+Composants requis
+-----------------
+
+Dans ce projet, nous avons besoin des composants suivants :  
+
+.. image:: ../python_pi5/img/list2_2.2.2_thermistor.png
+
+Schéma de câblage
+-----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nom sur la T-Board
+        - physique
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: ../python_pi5/img/schematic_2.2.2_thermistor_mcp3008.png
+
+Procédures expérimentales
+-------------------------
+
+**Étape 1 :** Construire le circuit.
+
+.. image:: ../python_pi5/img/july24_2.2.2_thermistor_mcp3008.png
+
+**Étape 2 :** Configurer l’interface SPI et installer la bibliothèque ``spidev``  
+(voir :ref:`spi_configuration` pour des instructions détaillées).  
+Si vous avez déjà effectué ces étapes, vous pouvez les ignorer.
+
+**Étape 3 :** Accéder au dossier du code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**Étape 4 :** Exécuter le fichier.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo python3 2.2.2-2_Thermistor_zero.py
+
+Une fois le code lancé, la thermistance détecte la température ambiante,  
+qui sera affichée à l’écran une fois le calcul terminé.
+
+.. warning::
+
+    Si un message d’erreur apparaît : ``RuntimeError: Cannot determine SOC peripheral base address``,  
+    veuillez consulter :ref:`faq_soc`
+
+**Code**
+
+.. note::
+
+    Vous pouvez **Modifier/Réinitialiser/Copier/Exécuter/Arrêter** le code ci-dessous.  
+    Mais avant cela, vous devez vous rendre dans le chemin du code source, comme  
+    ``davinci-kit-for-raspberry-pi/python-pi5``. Après modification, vous pouvez exécuter le code directement pour voir le résultat.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+    import spidev
+    import time
+    import math
+
+    # Initialiser SPI pour MCP3008 (Bus 0, CE0)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, Device 0 (CE0)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    def read_adc(channel):
+        """
+        Lire une valeur analogique depuis un canal MCP3008 (0–7)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        # Format de communication MCP3008
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        while True:
+            # Lire la valeur analogique depuis CH0 du MCP3008
+            analogVal = read_adc(0)
+
+            # Convertir en tension (référence 3,3V)
+            Vr = 3.3 * analogVal / 1023.0
+
+            # Calculer la résistance de la thermistance
+            Rt = 10000.0 * Vr / (3.3 - Vr)
+
+            # Calculer la température en Kelvin (approximation de Steinhart–Hart)
+            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+            # Convertir en Celsius et Fahrenheit
+            Cel = tempK - 273.15
+            Fah = Cel * 1.8 + 32
+
+            # Afficher la température
+            print('Celsius : %.2f °C  Fahrenheit : %.2f °F' % (Cel, Fah))
+
+            # Pause avant la prochaine lecture
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        spi.close()
+
+**Explication du code**
+
+#. Cette partie importe le module ``spidev`` pour communiquer avec le MCP3008 via SPI,  
+   le module ``time`` pour les délais, et le module ``math`` pour les calculs logarithmiques nécessaires à la conversion de température.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+       # -*- coding: utf-8 -*-
+
+       import spidev
+       import time
+       import math
+
+#. Initialise l’interface SPI pour MCP3008 sur le bus 0 et le périphérique 0 (CE0),  
+   avec une vitesse d’horloge maximale de 1 MHz.
+
+   .. code-block:: python
+
+       # Initialiser SPI pour MCP3008 (Bus 0, CE0)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, Device 0 (CE0)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. Définit une fonction pour lire des valeurs analogiques depuis un canal MCP3008 (0–7).  
+   La communication se fait selon le protocole SPI et renvoie un entier sur 10 bits (0–1023).
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           """
+           Lire une valeur analogique depuis un canal MCP3008 (0–7)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           # Format de communication MCP3008
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. Met en place une boucle pour lire en continu la valeur analogique provenant de la thermistance sur CH0 du MCP3008.  
+   Elle convertit la lecture brute en tension, puis en résistance, et enfin en température à l’aide de l’approximation de Steinhart–Hart.  
+   Les valeurs sont affichées en Celsius et en Fahrenheit, avec une courte pause entre chaque mesure.
+
+   .. code-block:: python
+
+       try:
+           while True:
+               # Lire la valeur analogique depuis CH0 du MCP3008
+               analogVal = read_adc(0)
+
+               # Convertir en tension (référence 3,3V)
+               Vr = 3.3 * analogVal / 1023.0
+
+               # Calculer la résistance de la thermistance
+               Rt = 10000.0 * Vr / (3.3 - Vr)
+
+               # Calculer la température en Kelvin (approximation de Steinhart–Hart)
+               tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+               # Convertir en Celsius et Fahrenheit
+               Cel = tempK - 273.15
+               Fah = Cel * 1.8 + 32
+
+               # Afficher la température
+               print('Celsius : %.2f °C  Fahrenheit : %.2f °F' % (Cel, Fah))
+
+               # Pause avant la prochaine lecture
+               time.sleep(0.2)
+
+#. Intercepte un ``KeyboardInterrupt`` (Ctrl+C) pour arrêter proprement le programme.  
+   L’interface SPI est fermée afin de libérer la ressource.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           spi.close()

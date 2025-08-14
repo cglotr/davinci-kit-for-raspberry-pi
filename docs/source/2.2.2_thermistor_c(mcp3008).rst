@@ -1,0 +1,494 @@
+.. note::
+
+    Bonjour, bienvenue dans la communauté SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts sur Facebook ! Plongez plus profondément dans Raspberry Pi, Arduino et ESP32 avec d'autres passionnés.
+
+    **Pourquoi nous rejoindre ?**
+
+    - **Support d’experts** : Résolvez les problèmes après-vente et les défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre & Partager** : Échangez des conseils et tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Obtenez un accès anticipé aux nouvelles annonces de produits et aux avant-premières.
+    - **Réductions spéciales** : Profitez de réductions exclusives sur nos derniers produits.
+    - **Promotions festives et concours** : Participez à des concours et promotions lors des fêtes.
+
+    👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.2.2_c_mcp3008:
+
+2.2.2 Thermistance (MCP3008)
+============================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+   
+
+   Selon la version de votre kit, identifiez si vous disposez de **ADC0834** ou **MCP3008** et passez à la section correspondante.
+
+Introduction
+------------
+
+Tout comme une photorésistance peut détecter la lumière, une thermistance est un composant électronique sensible à la température qui peut être utilisée pour réaliser des fonctions de contrôle thermique, comme un avertisseur de chaleur.
+
+Composants requis
+-----------------
+
+Dans ce projet, nous avons besoin des composants suivants.
+
+.. image:: img/list2_2.2.2_thermistor.png
+
+Principe
+--------
+
+Une thermistance est une résistance sensible à la température qui présente une variation précise et prévisible de sa résistance en fonction de petites variations de température. L’ampleur de cette variation dépend de sa composition spécifique. Les thermistances font partie d’un groupe plus large de composants passifs. Contrairement aux composants actifs, les dispositifs passifs ne peuvent pas fournir de gain de puissance ni d’amplification à un circuit.
+
+La thermistance est un élément sensible, et elle existe en deux types : à coefficient de température négatif (CTN ou NTC en anglais) et à coefficient de température positif (CTP ou PTC en anglais). Sa résistance varie considérablement avec la température. La résistance d’une CTP augmente avec la température, tandis que pour une CTN, c’est l’inverse. Dans cette expérience, nous utilisons une CTN.
+
+.. image:: img/image325.png
+
+Le principe est que la résistance d’une thermistance CTN change avec la température de l’environnement. Elle détecte la température en temps réel. Quand la température augmente, la résistance diminue. La tension est alors convertie en données numériques par l’adaptateur A/N (analogique/numérique). La température en degrés Celsius ou Fahrenheit est affichée via un programme.
+
+Dans cette expérience, une thermistance et une résistance de tirage (pull-up) de 10 kΩ sont utilisées. Chaque thermistance possède une résistance nominale mesurée à 25 °C, ici de 10 kΩ.
+
+Voici la relation entre la résistance et la température :
+
+R\ :sub:`T` = R\ :sub:`N` exp\ :sup:`B(1/TK – 1/TN)`
+
+**R\ T** est la résistance de la thermistance CTN à la température **T\ K**.
+
+**R\ N** est la résistance de la thermistance CTN à la température nominale **T\ N**. Ici, **R\ N** vaut 10 kΩ.
+
+**T\ K** est la température en Kelvin, en K. **T\ K** = 273,15 + température en °C.
+
+**T\ N** est la température nominale en Kelvin, ici 273,15 + 25.
+
+**B** (beta) est la constante de matériau de la thermistance CTN, aussi appelée indice de sensibilité thermique, ici de valeur 3950.
+
+**exp** est l’abréviation d’exponentielle, et la base e est un nombre naturel valant environ 2,7.
+
+En transformant cette formule, on obtient :
+T\ :sub:`K` = 1 / (ln(R\ :sub:`T` / R\ :sub:`N`) / B + 1 / T\ :sub:`N`)
+Ce qui permet de calculer la température en Kelvin, et donc en Celsius en soustrayant 273,15.
+
+Cette relation est empirique et précise uniquement lorsque la température et la résistance se trouvent dans la plage de mesure efficace.
+
+Schéma de câblage
+-----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nom sur la carte T
+        - Physique
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: img/schematic_2.2.2_thermistor_mcp3008.png
+
+Procédures expérimentales
+-------------------------
+
+**Étape 1 :** Construire le circuit.
+
+.. image:: img/july24_2.2.2_thermistor_mcp3008.png
+
+Pour les utilisateurs du langage C
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Étape 2 :** Accédez au répertoire contenant le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.2-2/
+
+**Étape 3 :** Compilez le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.2.2_Thermistor.c -o Thermistor -lwiringPi -lm
+
+.. note::
+    -lm sert à charger la bibliothèque mathématique. Ne l’omettez pas, sinon vous obtiendrez une erreur.
+
+**Étape 4 :** Exécutez le fichier compilé.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./Thermistor
+
+Une fois le code lancé, la thermistance détectera la température ambiante qui sera affichée à l’écran après calcul du programme.
+
+.. note::
+
+    Si cela ne fonctionne pas après exécution, ou si un message d’erreur apparaît : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Bit de démarrage
+        buffer[1] = (8 + channel) << 4;  // Mode à entrée unique + canal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    int main(void) {
+        int analogVal;
+        double Vr, Rt, temp, cel, Fah;
+
+        if (wiringPiSetup() == -1) {
+            printf("Échec de l’initialisation de wiringPi !\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Échec de l’initialisation SPI !\n");
+            return 1;
+        }
+
+        while (1) {
+            analogVal = read_ADC(0);  // Lecture sur CH0
+
+            // MCP3008 est un CAN 10 bits (0–1023)
+            Vr = 3.3 * analogVal / 1023.0;  // Vref supposé = 3,3V
+            Rt = 10000.0 * Vr / (3.3 - Vr); // Diviseur de tension, résistance 10 kΩ
+            temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+            cel = temp - 273.15;
+            Fah = cel * 1.8 + 32;
+
+            printf("Celsius : %.2f C  Fahrenheit : %.2f F\n", cel, Fah);
+            delay(1000);
+        }
+
+        return 0;
+    }
+
+**Explication du code**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+Ces en-têtes incluent les bibliothèques pour le contrôle GPIO (``wiringPi.h``), la communication SPI (``wiringPiSPI.h``), les opérations d’E/S standards (``stdio.h``) et les fonctions mathématiques (``math.h``) en C.
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+
+Définit les constantes pour le canal SPI et la vitesse de communication SPI. Ici, le canal SPI 0 (CE0) et une fréquence d’horloge de 1 MHz sont utilisés.
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+
+Cette fonction lit les données analogiques d’un canal spécifique du MCP3008.
+
+.. code-block:: c
+
+    buffer[0] = 1;
+    buffer[1] = (8 + channel) << 4;
+    buffer[2] = 0;
+
+Ces lignes préparent la commande SPI selon le protocole MCP3008 : un bit de démarrage, la configuration pour le mode à entrée unique, et le numéro du canal.
+
+.. code-block:: c
+
+    wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+Envoie la commande SPI et reçoit les données 10 bits du MCP3008.
+
+.. code-block:: c
+
+    int value = ((buffer[1] & 3) << 8) | buffer[2];
+
+Extrait et combine la valeur sur 10 bits renvoyée par le MCP3008.
+
+.. code-block:: c
+
+    if (wiringPiSetup() == -1) { ... }
+    if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) { ... }
+
+Ces lignes initialisent WiringPi et configurent le SPI. Si l’initialisation échoue, le programme s’arrête.
+
+.. code-block:: c
+
+    analogVal = read_ADC(0);
+
+Lit le signal analogique sur le canal 0 du MCP3008, où est connectée la thermistance.
+
+.. code-block:: c
+
+    Vr = 3.3 * analogVal / 1023.0;
+
+Convertit la valeur numérique du CAN en tension analogique. La plage du CAN est de 0–1023 avec une référence de 3,3V.
+
+.. code-block:: c
+
+    Rt = 10000.0 * Vr / (3.3 - Vr);
+
+Calcule la résistance de la thermistance en utilisant la formule du diviseur de tension (avec une résistance série de 10 kΩ).
+
+.. code-block:: c
+
+    temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+
+Utilise l’équation B pour convertir la résistance en température Kelvin.  
+Formule : **T(K) = 1 / [ln(Rt/R₀)/B + 1/T₀]**  
+- R₀ = 10 kΩ  
+- B = 3950  
+- T₀ = 25°C = 298,15K
+
+.. code-block:: c
+
+    cel = temp - 273.15;
+
+Convertit la température de Kelvin en degrés Celsius.
+
+.. code-block:: c
+
+    Fah = cel * 1.8 + 32;
+
+Convertit la température Celsius en Fahrenheit.
+
+.. code-block:: c
+
+    printf("Celsius : %.2f C  Fahrenheit : %.2f F\n", cel, Fah);
+
+Affiche la température en Celsius et en Fahrenheit avec deux décimales de précision.
+
+Pour les utilisateurs du langage Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Étape 2 :** Configurez l’interface SPI et installez la bibliothèque ``spidev`` (voir :ref:`spi_configuration` pour des instructions détaillées). Si vous avez déjà effectué ces étapes, passez à la suivante.
+
+**Étape 3 :** Accédez au répertoire contenant le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python
+
+**Étape 4 :** Exécutez le fichier Python.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo python3 2.2.2-2_thermistor.py
+
+Une fois le code lancé, la thermistance détecte la température ambiante qui sera affichée à l’écran après calcul du programme.
+
+.. warning::
+
+    Si un message d’erreur apparaît : ``RuntimeError: Cannot determine SOC peripheral base address``, veuillez vous référer à :ref:`faq_soc`.
+
+**Code**
+
+.. note::
+
+    Vous pouvez **Modifier/Réinitialiser/Copier/Exécuter/Arrêter** le code ci-dessous. Mais avant cela, vous devez vous placer dans le répertoire source comme ``davinci-kit-for-raspberry-pi/python``. Après modification, vous pouvez exécuter le code directement pour voir le résultat.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+    
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+    import spidev
+    import time
+    import math
+    import RPi.GPIO as GPIO
+
+    # Définir le mode GPIO
+    GPIO.setmode(GPIO.BCM)
+
+    # Initialiser SPI pour MCP3008 (Bus 0, CE0)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, Périphérique 0 (CE0)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    def read_adc(channel):
+        """
+        Lire la valeur analogique d’un canal du MCP3008 (0–7)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        while True:
+            # Lire la valeur analogique sur CH0 du MCP3008
+            analogVal = read_adc(0)
+
+            # Convertir en tension (Vref supposée = 3,3V)
+            Vr = 3.3 * analogVal / 1023.0
+
+            # Calculer la résistance de la thermistance (R2 = 10 kΩ dans le diviseur)
+            Rt = 10000.0 * Vr / (3.3 - Vr)
+
+            # Calcul de Steinhart–Hart
+            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+            # Conversion en Celsius et Fahrenheit
+            Cel = tempK - 273.15
+            Fah = Cel * 1.8 + 32
+
+            # Afficher le résultat
+            print('Celsius : %.2f °C  Fahrenheit : %.2f °F' % (Cel, Fah))
+
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        spi.close()
+        GPIO.cleanup()
+
+**Explication du code**
+
+#. Cette section importe les bibliothèques nécessaires :
+
+   - ``spidev`` pour la communication SPI avec le MCP3008
+   - ``time`` pour gérer les délais
+   - ``math`` pour les calculs logarithmiques dans la formule de Steinhart–Hart
+   - ``RPi.GPIO`` pour initialiser et nettoyer les GPIO (ajouté pour une complétude structurelle)
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+       # -*- coding: utf-8 -*-
+
+       import spidev
+       import time
+       import math
+       import RPi.GPIO as GPIO
+
+#. Initialise le mode GPIO en BCM et configure l’interface SPI sur le bus 0 et le périphérique 0 (CE0), avec une vitesse de 1 MHz.
+
+   .. code-block:: python
+
+       # Définir le mode GPIO
+       GPIO.setmode(GPIO.BCM)
+
+       # Initialiser SPI pour MCP3008 (Bus 0, CE0)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, Périphérique 0 (CE0)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. Définit une fonction ``read_adc(channel)`` pour lire la valeur analogique d’un canal donné (0–7) du MCP3008.  
+   Envoie une commande SPI de 3 octets et reçoit un résultat analogique 10 bits (0–1023).
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           """
+           Lire la valeur analogique d’un canal du MCP3008 (0–7)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. Boucle principale : lit la tension depuis une thermistance connectée au canal 0,  
+   calcule sa résistance, puis applique l’équation de Steinhart–Hart pour obtenir la température en °C et °F.  
+   Les valeurs sont affichées toutes les 0,2 secondes.
+
+   .. code-block:: python
+
+       try:
+           while True:
+               # Lire la valeur analogique sur CH0 du MCP3008
+               analogVal = read_adc(0)
+
+               # Convertir en tension (Vref supposée = 3,3V)
+               Vr = 3.3 * analogVal / 1023.0
+
+               # Calculer la résistance de la thermistance (R2 = 10 kΩ dans le diviseur)
+               Rt = 10000.0 * Vr / (3.3 - Vr)
+
+               # Calcul de Steinhart–Hart
+               tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+               # Conversion en Celsius et Fahrenheit
+               Cel = tempK - 273.15
+               Fah = Cel * 1.8 + 32
+
+               # Afficher le résultat
+               print('Celsius : %.2f °C  Fahrenheit : %.2f °F' % (Cel, Fah))
+
+               time.sleep(0.2)
+
+#. Le bloc ``finally`` garantit un arrêt propre : fermeture de l’interface SPI et  
+   nettoyage des GPIO pour libérer toutes les ressources matérielles.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           pass
+
+       finally:
+           spi.close()
+           GPIO.cleanup()

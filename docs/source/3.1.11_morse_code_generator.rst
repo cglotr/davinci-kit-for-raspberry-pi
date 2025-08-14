@@ -159,6 +159,7 @@ La fonction off() désactive le buzzer et la LED.
 
 Définissez une fonction beep() pour faire émettre des sons au buzzer et faire 
 clignoter la LED à un intervalle de **dt**.
+
 .. code-block:: c
 
     void morsecode(char *code){
@@ -331,6 +332,7 @@ ainsi que la LED enverront les signaux correspondants en code Morse.
             main()
         except KeyboardInterrupt:
             destroy()
+            
 **Explication du Code**
 
 .. code-block:: python

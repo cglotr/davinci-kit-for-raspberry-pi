@@ -15,8 +15,7 @@
 Output
 =============
 
-1.1 Affichages
-------------------
+**1.1 Affichages**
 
 .. toctree::
     :maxdepth: 1
@@ -29,8 +28,7 @@ Output
     pi5_1.1.6_led_dot_matrix_python
     pi5_1.1.7_i2c_lcd1602_python
 
-1.2 Son
--------------
+**1.2 Son**
 
 .. toctree::
     :maxdepth: 1
@@ -39,8 +37,7 @@ Output
     pi5_1.2.2_passive_buzzer_python
 
 
-1.3 Contrôleurs
----------------------
+**1.3 Contrôleurs**
 
 .. toctree::
     :maxdepth: 1

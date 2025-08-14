@@ -161,6 +161,7 @@ Une fois le code exécuté, le buzzer joue un morceau de musique.
 
         return 0;
     }
+    
 **Explication du code**
 
 .. code-block:: c

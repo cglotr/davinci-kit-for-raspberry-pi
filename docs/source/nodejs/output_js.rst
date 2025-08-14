@@ -15,8 +15,7 @@
 Output
 ======
 
-1.1 Affichages
------------------
+**1.1 Affichages**
 
 .. toctree::
     :maxdepth: 1
@@ -28,16 +27,15 @@ Output
     1.1.5_4_digit_7_segment_display_js
     1.1.6_i2c_lcd1602_js
 
-1.2 Son
-----------
+**1.2 Son**
 
 .. toctree::
     :maxdepth: 1
 
     1.2.1_active_buzzer_js
 
-1.3 Commandes de moteurs
----------------------------
+**1.3 Commandes de moteurs**
+
 
 .. toctree::
     :maxdepth: 1

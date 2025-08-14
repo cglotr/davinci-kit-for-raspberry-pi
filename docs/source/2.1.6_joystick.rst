@@ -15,6 +15,17 @@
 2.1.6 Joystick
 =================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+
 Introduction
 ---------------
 
@@ -111,6 +122,7 @@ de x, y et Btn seront affichées à l'écran.
 .. note::
 
     Si cela ne fonctionne pas après exécution ou si une erreur « wiringPi.h: Aucun fichier ou répertoire de ce type » apparaît, veuillez vous référer à :ref:`C code is not working?`.
+
 **Code**
 
 .. code-block:: c
@@ -202,6 +214,7 @@ de x, y et Btn seront affichées à l'écran.
         }
         return 0;
     }
+    
 **Explication du Code**
 
 .. code-block:: c

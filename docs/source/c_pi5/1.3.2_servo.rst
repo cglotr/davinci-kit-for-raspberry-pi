@@ -56,7 +56,7 @@ L'angle est déterminé par la durée d'une impulsion appliquée au fil de comma
 C'est ce qu'on appelle la modulation de largeur d'impulsion (PWM). Le servomoteur 
 s'attend à recevoir une impulsion toutes les 20 ms. La durée de l'impulsion déterminera 
 jusqu'où le moteur tourne. Par exemple, une impulsion de 1,5 ms fera tourner le moteur
- à la position de 90 degrés (position neutre).
+à la position de 90 degrés (position neutre).
 
 Lorsque l'impulsion envoyée est inférieure à 1,5 ms, le servomoteur tourne vers une 
 position et maintient son arbre de sortie à un certain nombre de degrés dans le sens 

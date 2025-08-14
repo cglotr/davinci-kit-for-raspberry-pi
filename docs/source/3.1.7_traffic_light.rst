@@ -159,7 +159,7 @@ Ces codes servent à allumer et éteindre les LEDs.
 
 Ces codes permettent de contrôler le minuteur. Référez-vous à :ref:`1.1.5 4-Digit 7-Segment Display` 
 pour plus de détails. Ici, lorsque le minuteur atteint zéro, `colorState` change pour alterner les LEDs,
- et le minuteur est réinitialisé à une nouvelle valeur.
+et le minuteur est réinitialisé à une nouvelle valeur.
 
 .. code-block:: c
 

@@ -122,6 +122,7 @@ Après l'exécution du code, le buzzer émettra un bip.
 .. note::
 
     Si cela ne fonctionne pas après l'exécution ou si une erreur apparaît, comme : "wiringPi.h : Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+
 **Code**
 
 .. code-block:: c

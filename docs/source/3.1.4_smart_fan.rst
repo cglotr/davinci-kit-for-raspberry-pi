@@ -15,6 +15,18 @@
 3.1.4 Ventilateur intelligent
 =============================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+
+
 Introduction
 ----------------
 
@@ -148,7 +160,7 @@ en valeurs de température. Pour plus de détails, reportez-vous à :ref:`2.2.2 
 
 Cette fonction contrôle la vitesse de rotation du moteur. La plage du **niveau** : **0-4** 
 (le niveau **0** arrête le moteur). Chaque ajustement de niveau représente un changement de
- **25%** de la vitesse du ventilateur.
+**25%** de la vitesse du ventilateur.
 
 .. code-block:: c
 

@@ -106,6 +106,7 @@ Après l'exécution du code, les valeurs des boutons pressés sur le clavier
     Si le programme ne fonctionne pas après exécution, ou si un message d'erreur 
     s'affiche : \"wiringPi.h: No such file or directory\", veuillez vous référer à 
     :ref:`C code is not working?`.
+    
 **Code**
 
 .. code-block:: c

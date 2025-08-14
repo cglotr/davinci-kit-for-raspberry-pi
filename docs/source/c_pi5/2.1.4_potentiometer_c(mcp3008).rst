@@ -1,0 +1,312 @@
+.. note::
+
+    Bonjour, bienvenue dans la communauté SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts sur Facebook ! Plongez plus profondément dans Raspberry Pi, Arduino et ESP32 avec d’autres passionnés.
+
+    **Pourquoi rejoindre ?**
+
+    - **Support d’experts** : Résolvez les problèmes après-vente et les défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre & partager** : Échangez des astuces et tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Accédez en avant-première aux annonces et aperçus de nouveaux produits.
+    - **Réductions spéciales** : Profitez de réductions exclusives sur nos nouveaux produits.
+    - **Promotions et cadeaux festifs** : Participez à des tirages au sort et à des promotions de fêtes.
+
+    👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.1.4_c_pi5_mcp3008:
+
+2.1.4 Potentiomètre (MCP3008)
+=============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+Introduction
+------------
+
+La fonction ADC est utilisée pour convertir des signaux analogiques en valeurs numériques.  
+Dans cette expérience, nous utilisons la puce ADC MCP3008 pour effectuer cette conversion.  
+Un potentiomètre est utilisé pour générer une tension variable, ce qui modifie la grandeur physique.  
+Le MCP3008 convertit ensuite cette tension analogique en une valeur numérique pouvant être lue et traitée par le Raspberry Pi.
+
+Composants nécessaires
+-----------------------
+
+Dans ce projet, nous avons besoin des composants suivants.
+
+.. image:: ../img/list2_2.1.4_potentiometer.png
+
+
+Principe
+--------
+
+**MCP3008**
+
+Le MCP3008 est un convertisseur analogique-numérique (ADC) à approximation successive de 10 bits, avec 8 entrées et utilisant le protocole SPI (*Serial Peripheral Interface*).  
+Il peut s’interfacer avec un microcontrôleur pour convertir des signaux analogiques en données numériques à des fins de traitement.
+
+.. image:: ../img/MCP3008.jpg
+      :width: 40%
+
+**Séquence de fonctionnement**
+
+Une conversion sur le MCP3008 commence par la mise à l’état bas de la broche CS (*chip select*), ce qui active la communication avec le composant.  
+Le microcontrôleur envoie alors un flux de contrôle de 3 octets via l’interface SPI pour configurer et sélectionner le canal d’entrée.
+
+- Le premier octet contient le bit de démarrage et le bit de sélection simple/différentiel.  
+- Les bits suivants indiquent lequel des 8 canaux (CH0–CH7) lire.  
+- Les données sont décalées dans le composant à chaque front montant de l’horloge SPI (SCLK), et le résultat de la conversion est renvoyé simultanément.
+
+Un court délai interne permet à l’entrée sélectionnée de se stabiliser avant le début de la conversion.  
+Le MCP3008 effectue ensuite une conversion analogique-numérique sur 10 bits à l’aide d’un circuit d’échantillonnage-maintien (*sample-and-hold*) et d’un comparateur SAR.
+
+Le résultat est transmis au microcontrôleur via la ligne MISO (*Master In Slave Out*), en commençant par le bit le plus significatif (MSB), suivi des bits restants.  
+Le microcontrôleur lit le résultat sur le bus SPI pendant ce temps.
+
+Après l’envoi complet des 10 bits, le MCP3008 termine le cycle et attend la prochaine commande.
+
+* `Fiche technique de la série MCP3008 <https://www.alldatasheet.com/datasheet-pdf/view/304558/MICROCHIP/MCP3008-ISLASHP.html>`_
+
+.. image:: ../img/MCP3008detail.png
+
+
+**Potentiomètre**
+
+Le potentiomètre est également un composant résistif à 3 bornes dont la valeur de résistance peut être ajustée selon une variation régulière.  
+Il est généralement constitué d’un élément résistif et d’un curseur mobile.  
+Lorsque le curseur se déplace le long de la résistance, une certaine résistance ou tension de sortie est obtenue en fonction du déplacement.
+
+.. image:: ../img/image310.png
+    :width: 300
+    :align: center
+
+Les fonctions du potentiomètre dans un circuit sont :
+
+1. Servir de diviseur de tension
+
+Le potentiomètre est une résistance réglable en continu.  
+Lorsque vous tournez l’axe ou la glissière du potentiomètre, le contact mobile se déplace sur la résistance.  
+À ce moment, une tension peut être délivrée en fonction de la tension appliquée au potentiomètre et de l’angle de rotation ou de la distance parcourue par le bras mobile.
+
+
+Schéma de câblage
+-----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nom T-Board
+        - Physique
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+
+.. image:: ../img/schematic_2.1.7_potentiometer_mcp3008.png
+
+
+Procédure expérimentale
+-----------------------
+
+**Étape 1 :** Monter le circuit.
+
+.. image:: ../img/july24_2.1.7_potentiometer_mcp3008.png
+
+.. note::
+    Placez la puce en suivant la position indiquée sur l’image.  
+    Notez que l’encoche de la puce doit être orientée vers la gauche.
+
+**Étape 2 :** Ouvrir le fichier de code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+
+**Étape 3 :** Compiler le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.1.7_Potentiometer.c -lwiringPi
+
+**Étape 4 :** Exécuter.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo ./a.out
+
+Après l’exécution du code, tournez le bouton du potentiomètre : l’intensité de la LED changera en conséquence.
+
+.. note::
+
+    Si cela ne fonctionne pas après l’exécution, ou si un message d’erreur apparaît : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+        #include <wiringPi.h>
+        #include <wiringPiSPI.h>
+        #include <stdio.h>
+        #include <softPwm.h>
+
+        #define SPI_CHANNEL 0  // CE0
+        #define SPI_SPEED   1000000  // 1MHz
+        #define LedPin      3
+
+        int readADC(int channel) {
+            if (channel < 0 || channel > 7) return -1;
+
+            unsigned char buffer[3];
+            buffer[0] = 1;                             // Bit de démarrage
+            buffer[1] = (8 + channel) << 4;            // Mode simple, canal
+            buffer[2] = 0;
+
+            wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+            int value = ((buffer[1] & 3) << 8) | buffer[2];
+            return value;
+        }
+
+        int main(void) {
+            if (wiringPiSetup() == -1) {
+                printf("Initialisation WiringPi échouée !\n");
+                return 1;
+            }
+
+            if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+                printf("Initialisation SPI échouée !\n");
+                return 1;
+            }
+
+            softPwmCreate(LedPin, 0, 100);
+
+            while (1) {
+                int analogVal = readADC(0);  // CH0
+                printf("Valeur ADC : %d\n", analogVal);
+
+                int pwmVal = analogVal * 100 / 1023;  // Normaliser de 0 à 100
+                softPwmWrite(LedPin, pwmVal);
+
+                delay(100);
+            }
+
+            return 0;
+        }
+
+
+**Explication du code**
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define LedPin      3
+
+On définit le canal SPI comme CE0 (*chip enable 0*), on fixe la vitesse SPI à 1 MHz, et on assigne la broche GPIO3 à la LED.
+
+.. code-block:: c
+
+    int readADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                             // Bit de démarrage
+        buffer[1] = (8 + channel) << 4;            // Mode simple, canal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+Cette fonction lit les données analogiques depuis le MCP3008.
+
+* Vérifie d’abord si le numéro de canal est valide (0 à 7).
+* Initialise un tableau de 3 octets :
+  * ``buffer[0] = 1`` : bit de démarrage pour la communication avec le MCP3008.
+  * ``buffer[1] = (8 + channel) << 4`` : construit l’octet de configuration pour le mode simple et sélectionne le canal.
+  * ``buffer[2] = 0`` : octet vide pour recevoir le résultat.
+* ``wiringPiSPIDataRW`` envoie et reçoit les données via le canal SPI.
+* La valeur retournée est extraite des deux derniers octets via des opérations binaires pour obtenir le résultat ADC sur 10 bits.
+
+.. code-block:: c
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("Initialisation WiringPi échouée !\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Initialisation SPI échouée !\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100);
+
+        while (1) {
+            int analogVal = readADC(0);  // CH0
+            printf("Valeur ADC : %d\n", analogVal);
+
+            int pwmVal = analogVal * 100 / 1023;  // Normaliser de 0 à 100
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+Dans la fonction *main* :
+
+* ``wiringPiSetup()`` initialise la bibliothèque WiringPi.  
+* ``wiringPiSPISetup()`` initialise la communication SPI sur le canal 0 à 1 MHz.  
+* ``softPwmCreate()`` configure le PWM logiciel sur GPIO3 avec un cycle initial de 0 et une plage de 0–100.
+
+La boucle infinie :
+
+* Lit la valeur ADC du canal 0 (potentiomètre).  
+* Affiche la valeur ADC dans le terminal.  
+* Convertit la valeur 10 bits en un cycle PWM de 0 à 100.  
+* Écrit la valeur PWM sur la LED pour que sa luminosité reflète la position du potentiomètre.
+
+``delay(100)`` met en pause pendant 100 ms avant la prochaine lecture/écriture.

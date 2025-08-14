@@ -97,6 +97,7 @@ du module PIR, vous devez les tourner complètement dans le sens antihoraire.
 .. note::
 
     Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur : \"wiringPi.h: No such file or directory\", veuillez consulter :ref:`C code is not working?`.
+
 **Explication du code**
 
 .. code-block:: c

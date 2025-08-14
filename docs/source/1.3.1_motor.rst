@@ -145,6 +145,7 @@ Cette série d'actions sera exécutée en boucle.
 .. note::
 
     Si cela ne fonctionne pas après exécution ou si un message d'erreur s'affiche : \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`C code is not working?`.
+
 **Code**
 
 .. code-block:: c

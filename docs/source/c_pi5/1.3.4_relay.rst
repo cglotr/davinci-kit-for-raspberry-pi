@@ -67,20 +67,15 @@ Un relais se compose de 5 éléments principaux :
 par un courant, il devient magnétique.
 
 
-- **Armature** : bande magnétique mobile qui réagit au champ magnétique créé par 
-l’électroaimant pour activer ou désactiver les points normalement ouverts (N/O) ou 
-normalement fermés (N/C).
+- **Armature** : bande magnétique mobile qui réagit au champ magnétique créé par l’électroaimant pour activer ou désactiver les points normalement ouverts (N/O) ou normalement fermés (N/C).
 
-- **Ressort** : lorsqu'aucun courant ne circule dans la bobine, le ressort éloigne 
-l'armature, ouvrant ainsi le circuit.
+- **Ressort** : lorsqu'aucun courant ne circule dans la bobine, le ressort éloigne l'armature, ouvrant ainsi le circuit.
 
 - Ensemble de **contacts électriques** : il existe deux types de points de contact :
 
-  - **Normalement ouvert (N/O)** : connecté lorsque le relais est activé, et déconnecté 
-  lorsqu'il est inactif.
+  - **Normalement ouvert (N/O)** : connecté lorsque le relais est activé, et déconnecté lorsqu'il est inactif.
 
-  - **Normalement fermé (N/C)** : déconnecté lorsque le relais est activé, et connecté 
-  lorsqu'il est inactif.
+  - **Normalement fermé (N/C)** : déconnecté lorsque le relais est activé, et connecté lorsqu'il est inactif.
 
 - **Boîtier moulé** : protection en plastique couvrant le relais.
 

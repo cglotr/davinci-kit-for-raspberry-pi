@@ -237,6 +237,7 @@ Après l'exécution du code, la matrice de LED s'allume et s'éteint ligne par l
 
       return 0;
    }
+   
 **Explication du Code**
 
 .. code-block:: c

@@ -363,8 +363,8 @@ apparaîtra.
 
 Pour arrêter l'exécution, cliquez simplement sur le bouton X en haut à droite pour fermer 
 la fenêtre, puis vous reviendrez au code. Si vous modifiez le code, avant de cliquer sur
- **Exécuter le module (F5)**, vous devez l'enregistrer d'abord. Ensuite, vous pourrez voir 
- les résultats.
+**Exécuter le module (F5)**, vous devez l'enregistrer d'abord. Ensuite, vous pourrez voir 
+les résultats.
 
 2. Si vous vous connectez à distance au Raspberry Pi, tapez la commande suivante :
 

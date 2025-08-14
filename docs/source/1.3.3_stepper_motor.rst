@@ -238,6 +238,7 @@ ou antihoraire selon votre entrée 'a' ou 'c'.
         stepSpeed = (60000000 / rolePerMinute) / stepsPerRevolution;
         loop();
     }
+    
 **Explication du Code**
 
 .. code-block:: c

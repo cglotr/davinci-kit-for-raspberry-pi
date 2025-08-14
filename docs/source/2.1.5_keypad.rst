@@ -109,6 +109,7 @@ Après l'exécution du code, les valeurs des boutons pressés sur le clavier
 .. note::
 
     Si cela ne fonctionne pas après l'exécution ou si un message d'erreur s'affiche : \"wiringPi.h : Aucun fichier ou répertoire de ce type\", veuillez consulter :ref:`C code is not working?`.
+
 **Code**
 
 .. code-block:: c
@@ -223,6 +224,7 @@ Après l'exécution du code, les valeurs des boutons pressés sur le clavier
         }
         return -1;
     }
+
 **Explication du Code**
 
 .. code-block:: c
@@ -446,6 +448,7 @@ Après l'exécution du code, les valeurs des touches pressées sur le clavier
                 loop()
         except KeyboardInterrupt:   # Lorsque 'Ctrl+C' est pressé, la fonction destroy() sera exécutée.
             destroy()
+            
 **Explication du Code**
 
 .. code-block:: python

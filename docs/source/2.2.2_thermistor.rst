@@ -15,6 +15,17 @@
 2.2.2 Thermistor
 ====================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+
 Introduction
 ----------------
 
@@ -235,6 +246,7 @@ qui sera affichée à l'écran une fois le calcul terminé.
         }
         return 0;
     }
+    
 **Explication du code**
 
 .. code-block:: c

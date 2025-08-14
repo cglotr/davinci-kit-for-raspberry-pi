@@ -1,0 +1,258 @@
+.. note::
+
+    Bonjour et bienvenue dans la communauté SunFounder Raspberry Pi & Arduino & ESP32 sur Facebook ! Plongez plus profondément dans l’univers du Raspberry Pi, Arduino et ESP32 avec d’autres passionnés.
+
+    **Pourquoi nous rejoindre ?**
+
+    - **Assistance d’experts** : Résolvez les problèmes après-vente et relevez les défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre & Partager** : Échangez des astuces et des tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Obtenez un accès anticipé aux annonces de nouveaux produits et à des avant-premières.
+    - **Réductions spéciales** : Profitez de remises exclusives sur nos derniers produits.
+    - **Promotions festives et concours** : Participez à des concours et à des promotions spéciales.
+
+    👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.2.1_py_pi5_mcp3008:
+
+2.2.1 Photoresistance (MCP3008)
+===============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous avez un **ADC0834** ou un **MCP3008** et suivez la section correspondante.
+
+Introduction
+------------
+
+La photoresistance est un composant couramment utilisé pour mesurer l’intensité lumineuse ambiante.  
+Elle aide le contrôleur à distinguer le jour de la nuit et à réaliser des fonctions de contrôle de lumière, comme une lampe de nuit.  
+Ce projet est très similaire à celui du potentiomètre : au lieu de mesurer une variation de tension causée par un réglage manuel,  
+il mesure la variation de tension causée par la lumière.
+
+Composants requis
+-----------------
+
+Dans ce projet, nous avons besoin des composants suivants :
+
+.. image:: ../python_pi5/img/list2_2.2.1_photoresistor.png
+
+Schéma de câblage
+-----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nom sur la T-Board
+        - physique
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../python_pi5/img/schematic_2.2.1_photoresistor_mcp3008.png
+
+Procédures expérimentales
+-------------------------
+
+**Étape 1 :** Construire le circuit.
+
+.. image:: ../python_pi5/img/july24_2.2.1_photoresistor_mcp3008.png
+
+**Étape 2 :** Configurer l’interface SPI et installer la bibliothèque ``spidev`` (voir :ref:`spi_configuration` pour des instructions détaillées).  
+Si vous avez déjà effectué ces étapes, vous pouvez les ignorer.
+
+**Étape 3 :** Accéder au dossier du code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**Étape 4 :** Exécuter le fichier.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo python3 2.2.1-2_Photoresistor_zero.py
+
+Lorsque le code est en cours d’exécution, la luminosité de la LED changera en fonction de l’intensité lumineuse détectée par la photoresistance.
+
+.. warning::
+
+    Si un message d’erreur apparaît : ``RuntimeError: Cannot determine SOC peripheral base address``,  
+    veuillez consulter :ref:`faq_soc`
+
+**Code**
+
+.. note::
+
+    Vous pouvez **Modifier/Réinitialiser/Copier/Exécuter/Arrêter** le code ci-dessous.  
+    Mais avant cela, vous devez vous rendre dans le chemin du code source, par exemple  
+    ``davinci-kit-for-raspberry-pi/python-pi5``. Après modification, vous pouvez exécuter le code directement pour voir le résultat.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    import spidev
+    import time
+    from gpiozero import PWMLED
+
+    # Initialiser une LED PWM sur la broche GPIO 22
+    led = PWMLED(22)
+
+    # Initialiser la communication SPI (Bus 0, CE0 -> GPIO8)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, CS0
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    # Fonction pour lire depuis un canal MCP3008 (0–7)
+    def read_adc(channel):
+        """
+        Lire une valeur analogique depuis MCP3008 (0–1023)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        # Protocole MCP3008 : bit de démarrage, mode single-ended, canal (3 bits), remplissage
+        r = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((r[1] & 3) << 8) | r[2]
+        return value
+
+    # Fonction pour mapper une valeur d’un intervalle à un autre
+    def MAP(x, in_min, in_max, out_min, out_max):
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+    # Boucle principale : lire la valeur ADC et contrôler la luminosité de la LED
+    def loop():
+        while True:
+            # Lire la valeur analogique depuis le canal 0 du MCP3008
+            analogVal = read_adc(0)
+            print('value = %d' % analogVal)
+
+            # Mapper 0–1023 vers la plage PWM 0.0–1.0
+            led.value = analogVal / 1023.0
+
+            # Attendre 0,2 seconde
+            time.sleep(0.2)
+
+    # Lancer la boucle principale et gérer KeyboardInterrupt pour un arrêt propre
+    try:
+        loop()
+    except KeyboardInterrupt:
+        led.value = 0  # Éteindre la LED avant de quitter
+
+**Explication du code**
+
+#. Cette partie importe la classe ``PWMLED`` de la bibliothèque ``gpiozero`` pour contrôler une LED en PWM,  
+   ``spidev`` pour la communication SPI avec le MCP3008, et ``time`` pour introduire des pauses.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+       import spidev
+       import time
+       from gpiozero import PWMLED
+
+#. Initialise une LED PWM connectée à la broche GPIO 22 et configure l’interface SPI pour le MCP3008 (Bus 0, CE0).  
+   La vitesse d’horloge SPI est réglée à 1 MHz.
+
+   .. code-block:: python
+
+       # Initialiser une LED PWM sur la broche GPIO 22
+       led = PWMLED(22)
+
+       # Initialiser la communication SPI (Bus 0, CE0 -> GPIO8)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, CS0
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. Définit une fonction pour lire depuis un canal spécifique du MCP3008.  
+   Elle envoie une commande sur 3 octets via SPI et récupère une valeur sur 10 bits (0–1023).
+
+   .. code-block:: python
+
+       # Fonction pour lire depuis un canal MCP3008 (0–7)
+       def read_adc(channel):
+           """
+           Lire une valeur analogique depuis MCP3008 (0–1023)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           # Protocole MCP3008 : bit de démarrage, mode single-ended, canal (3 bits), remplissage
+           r = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((r[1] & 3) << 8) | r[2]
+           return value
+
+#. Définit une fonction utilitaire ``MAP()`` qui convertit une valeur d’un intervalle à un autre,  
+   utile pour transformer une valeur ADC brute en valeur PWM.
+
+   .. code-block:: python
+
+       # Fonction pour mapper une valeur d’un intervalle à un autre
+       def MAP(x, in_min, in_max, out_min, out_max):
+           return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+#. Met en place une boucle qui lit continuellement la valeur analogique depuis le canal 0 du MCP3008,  
+   la convertit en luminosité PWM (0.0–1.0) et l’applique à la LED.  
+   La boucle attend 0,2 seconde entre chaque lecture.
+
+   .. code-block:: python
+
+       # Boucle principale : lire la valeur ADC et contrôler la luminosité de la LED
+       def loop():
+           while True:
+               # Lire la valeur analogique depuis le canal 0 du MCP3008
+               analogVal = read_adc(0)
+               print('value = %d' % analogVal)
+
+               # Mapper 0–1023 vers la plage PWM 0.0–1.0
+               led.value = analogVal / 1023.0
+
+               # Attendre 0,2 seconde
+               time.sleep(0.2)
+
+#. Exécute la boucle et gère l’interruption ``KeyboardInterrupt``.  
+   Lorsque l’utilisateur interrompt le programme (Ctrl+C), la LED est éteinte avant la sortie.
+
+   .. code-block:: python
+
+       # Lancer la boucle principale et gérer KeyboardInterrupt pour un arrêt propre
+       try:
+           loop()
+       except KeyboardInterrupt:
+           # Éteindre la LED avant de quitter
+           led.value = 0

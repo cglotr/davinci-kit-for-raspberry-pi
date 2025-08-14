@@ -37,11 +37,11 @@ Le Pulse Width Modulation (PWM) est une technique permettant d'obtenir des
 résultats analogiques à partir de moyens numériques. Le contrôle numérique crée 
 une onde carrée, un signal alternant entre allumé et éteint. Ce motif allumé-éteint 
 peut simuler des tensions intermédiaires entre complètement allumé (5 Volts) et éteint
- (0 Volts) en changeant la durée pendant laquelle le signal reste allumé par rapport à 
- la durée pendant laquelle il est éteint. La durée pendant laquelle le signal est actif 
- est appelée largeur d'impulsion. Pour obtenir des valeurs analogiques variables, vous 
- modifiez cette largeur. Si vous répétez ce motif assez rapidement, par exemple avec une 
- LED, le résultat sera une tension stable entre 0 et 5V contrôlant la luminosité de la LED.
+(0 Volts) en changeant la durée pendant laquelle le signal reste allumé par rapport à 
+la durée pendant laquelle il est éteint. La durée pendant laquelle le signal est actif 
+est appelée largeur d'impulsion. Pour obtenir des valeurs analogiques variables, vous 
+modifiez cette largeur. Si vous répétez ce motif assez rapidement, par exemple avec une 
+LED, le résultat sera une tension stable entre 0 et 5V contrôlant la luminosité de la LED.
 
 **Cycle de service**
 

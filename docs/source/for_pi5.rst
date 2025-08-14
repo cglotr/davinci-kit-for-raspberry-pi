@@ -12,8 +12,8 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
-Pour le Pi 5
-============================
+Pour tous les modèles (recommandé)
+==========================================
 
 La sortie du Raspberry Pi 5 nous a apporté un modèle plus puissant, mais elle 
 a également introduit quelques changements, notamment au niveau du GPIO. Bien 

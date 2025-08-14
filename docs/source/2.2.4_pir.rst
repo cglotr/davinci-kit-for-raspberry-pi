@@ -78,13 +78,9 @@ délai avec un minimum de 5 secondes.
 
 Deux modes de déclenchement : (choix du mode via un cavalier).
 
--  **H : Mode de déclenchement répétitif**, après détection d'une présence humaine, le 
-module émet un signal de niveau haut. Pendant la période de délai suivante, si quelqu'un 
-entre dans la zone de détection, la sortie restera à un niveau haut.
+-  **H : Mode de déclenchement répétitif**, après détection d'une présence humaine, le module émet un signal de niveau haut. Pendant la période de délai suivante, si quelqu'un entre dans la zone de détection, la sortie restera à un niveau haut.
 
--  **L : Mode de déclenchement non répétitif**, émet un signal de niveau haut lorsque la 
-présence d'une personne est détectée. Après le délai, la sortie revient automatiquement à 
-un niveau bas.
+-  **L : Mode de déclenchement non répétitif**, émet un signal de niveau haut lorsque la présence d'une personne est détectée. Après le délai, la sortie revient automatiquement à un niveau bas.
 
 
 
@@ -147,8 +143,8 @@ des aiguilles d'une montre jusqu'à la butée.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si une erreur apparaît: \"wiringPi.h: 
-     Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si une erreur apparaît: \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+
 **Code**
 
 .. code-block:: c

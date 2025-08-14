@@ -41,11 +41,8 @@ Le module comprend des émetteurs ultrasoniques, un récepteur et un circuit de 
 Les principes de base sont les suivants :
 
 1. Utilisez un basculement d'IO pour traiter un signal de niveau haut d'au moins 10 µs.
-2. Le module envoie automatiquement huit cycles de 40 kHz et détecte si un signal de 
-retour est reçu sous forme d'impulsion.
-3. Si un signal est renvoyé, le temps de niveau haut de la sortie IO correspond à la 
-durée entre l'émission de l'onde ultrasonique et sa réception. Ici, la distance de test = 
-(temps haut x vitesse du son (340 m/s)) / 2.
+2. Le module envoie automatiquement huit cycles de 40 kHz et détecte si un signal de retour est reçu sous forme d'impulsion.
+3. Si un signal est renvoyé, le temps de niveau haut de la sortie IO correspond à la durée entre l'émission de l'onde ultrasonique et sa réception. Ici, la distance de test = (temps haut x vitesse du son (340 m/s)) / 2.
 
 .. image:: img/image217.png
     :width: 200

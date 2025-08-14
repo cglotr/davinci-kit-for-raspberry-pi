@@ -15,6 +15,18 @@
 3.1.5 Indicateur de batterie
 ===============================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+
+
 Introduction
 ----------------
 
@@ -141,13 +153,13 @@ nous décidons combien de LED seront allumées en fonction de la valeur analogiq
         return 0;
     }
 
-`analogVal` produit des valeurs (**0-255**) selon la variation de la tension (**0-5V**), 
+``analogVal`` produit des valeurs (**0-255**) selon la variation de la tension (**0-5V**), 
 par exemple, si une tension de 3V est détectée sur une batterie, la valeur correspondante
- **152** s'affiche sur le voltmètre.
+**152** s'affiche sur le voltmètre.
 
-Les **10** LED du bargraphe sont utilisées pour afficher les valeurs de `analogVal`. 
+Les **10** LED du bargraphe sont utilisées pour afficher les valeurs de ``analogVal``. 
 255/10=25, donc chaque augmentation de **25** de la valeur analogique allume une LED 
-supplémentaire, par exemple, si `analogVal=150` (environ 3V), 6 LED s'allument.
+supplémentaire, par exemple, si ``analogVal=150`` (environ 3V), 6 LED s'allument.
 
 **Pour les utilisateurs du langage Python**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

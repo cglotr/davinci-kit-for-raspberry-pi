@@ -1,0 +1,369 @@
+.. note::
+
+    Bonjour et bienvenue dans la communauté SunFounder Raspberry Pi & Arduino & ESP32 sur Facebook ! Plongez plus profondément dans l’univers de Raspberry Pi, Arduino et ESP32 avec d’autres passionnés.
+
+    **Pourquoi rejoindre ?**
+
+    - **Support d’experts** : Résolvez vos problèmes après-vente et vos défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre et partager** : Échangez des astuces et des tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Accédez en avant-première aux annonces de nouveaux produits et aux aperçus.
+    - **Réductions spéciales** : Profitez de réductions exclusives sur nos derniers produits.
+    - **Promotions et concours festifs** : Participez à des concours et des promotions spéciales pour les fêtes.
+
+    👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.1.6_c_mcp3008:
+
+2.1.6 Joystick (MCP3008)
+==========================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+   
+
+   Selon la version de votre kit, identifiez si vous avez **ADC0834** ou **MCP3008** et suivez la section correspondante.
+
+Introduction
+--------------
+
+Dans ce projet, nous allons apprendre comment fonctionne un joystick.  
+Nous allons manipuler le joystick et afficher les résultats à l’écran.
+
+Composants requis
+-------------------------------
+
+Pour ce projet, nous avons besoin des composants suivants :
+
+.. image:: img/image317-copy.png
+
+Principe
+---------
+
+**Joystick**
+
+Le principe de base d’un joystick est de traduire le mouvement d’un levier en information électronique que l’ordinateur peut traiter.
+
+Pour transmettre toute la gamme de mouvements à l’ordinateur, un joystick doit mesurer la position du levier sur deux axes — l’axe X (gauche à droite) et l’axe Y (haut en bas). Comme en géométrie de base, les coordonnées X-Y indiquent précisément la position du levier.
+
+Pour déterminer l’emplacement du levier, le système de contrôle du joystick surveille simplement la position de chaque axe. Le design analogique traditionnel d’un joystick fait cela à l’aide de deux potentiomètres, ou résistances variables.
+
+Le joystick possède également une entrée numérique qui est activée lorsque l’on appuie sur le levier.
+
+.. image:: img/image318.png
+
+Schéma de câblage
+-----------------
+
+Lorsque les données du joystick sont lues, il existe des différences entre les axes :  
+les données des axes X et Y sont analogiques et nécessitent l’utilisation du MCP3008 pour convertir la valeur analogique en valeur numérique. Les données de l’axe Z sont numériques, vous pouvez donc les lire directement via un GPIO, ou aussi via l’ADC.
+
+.. image:: img/schematic_2.1.9_joystick_mcp3008.png
+
+Procédure expérimentale
+-----------------------
+
+**Étape 1 :** Montez le circuit.
+
+.. image:: img/july24_2.1.9_joystick_mcp3008.png
+
+Pour les utilisateurs du langage C
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Étape 2 :** Ouvrez le dossier du code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.9-2/
+
+**Étape 3 :** Compilez le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.1.9_Joystick.c -o joystick -lwiringPi
+
+**Étape 4 :** Exécutez le fichier compilé.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./joystick
+
+Après exécution, déplacez le joystick : les valeurs correspondantes de X, Y et Btn s’affichent à l’écran.
+
+.. note::
+
+    Si cela ne fonctionne pas après exécution, ou qu’un message d’erreur apparaît : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000  // 1 MHz
+    #define BtnPin      3        // WiringPi 3 = BCM GPIO22
+
+    // Lecture depuis le canal MCP3008 (0–7)
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                            // Bit de démarrage
+        buffer[1] = (8 + channel) << 4;           // Configuration canal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 0x03) << 8) | buffer[2];
+        return result;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("Échec de l’initialisation de WiringPi !\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Échec de l’initialisation SPI !\n");
+            return 1;
+        }
+
+        pinMode(BtnPin, INPUT);
+        pullUpDnControl(BtnPin, PUD_UP);
+
+        while (1) {
+            int x_val = read_ADC(0);     // VRX sur CH0
+            int y_val = read_ADC(1);     // VRY sur CH1
+            int btn_val = digitalRead(BtnPin);  // Bouton SW
+
+            printf("x = %d, y = %d, btn = %d\n", x_val, y_val, btn_val);
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**Explication du code**
+
+1. Cette section initialise les bibliothèques nécessaires pour le GPIO et la communication SPI.
+
+   .. code-block:: c
+
+       #include <wiringPi.h>
+       #include <wiringPiSPI.h>
+       #include <stdio.h>
+
+       #define SPI_CHANNEL 0
+       #define SPI_SPEED   1000000  // 1 MHz
+       #define BtnPin      3        // WiringPi 3 = BCM GPIO22
+
+2. La fonction `read_ADC()` lit les données analogiques depuis le MCP3008 via SPI sur un canal donné (0–7), puis renvoie un résultat ADC sur 10 bits.
+
+   .. code-block:: c
+
+       int read_ADC(int channel) {
+           if (channel < 0 || channel > 7) return -1;
+
+           unsigned char buffer[3];
+           buffer[0] = 1;
+           buffer[1] = (8 + channel) << 4;
+           buffer[2] = 0;
+
+           wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+           int result = ((buffer[1] & 0x03) << 8) | buffer[2];
+           return result;
+       }
+
+3. La fonction principale initialise WiringPi et l’interface SPI, configure le bouton du joystick, puis lit et affiche en continu les valeurs X, Y et bouton.
+
+   .. code-block:: c
+
+       int main(void) {
+           if (wiringPiSetup() == -1) {
+               printf("Échec de l’initialisation de WiringPi !\n");
+               return 1;
+           }
+
+           if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+               printf("Échec de l’initialisation SPI !\n");
+               return 1;
+           }
+
+           pinMode(BtnPin, INPUT);
+           pullUpDnControl(BtnPin, PUD_UP);
+
+           while (1) {
+               int x_val = read_ADC(0);
+               int y_val = read_ADC(1);
+               int btn_val = digitalRead(BtnPin);
+
+               printf("x = %d, y = %d, btn = %d\n", x_val, y_val, btn_val);
+               delay(100);
+           }
+
+           return 0;
+       }
+
+Pour les utilisateurs Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Étape 2 :** Configurez l’interface SPI et installez la bibliothèque ``spidev`` (voir :ref:`spi_configuration` pour les instructions détaillées). Si vous avez déjà effectué ces étapes, vous pouvez les ignorer.
+
+**Étape 3 :** Ouvrez le dossier du code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python
+
+**Étape 4 :** Exécutez.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo python3 2.1.9-2_Joystick.py
+
+Après exécution, déplacez le joystick : les valeurs correspondantes de X, Y et Btn s’affichent à l’écran.
+
+.. warning::
+
+    Si un message d’erreur « RuntimeError: Cannot determine SOC peripheral base address » apparaît, veuillez vous référer à :ref:`faq_soc`
+
+**Code**
+
+.. note::
+
+    Vous pouvez **Modifier/Réinitialiser/Copier/Exécuter/Arrêter** le code ci-dessous. Avant cela, assurez-vous d’être dans le répertoire source comme ``davinci-kit-for-raspberry-pi/python``. Après modification, vous pouvez l’exécuter directement pour voir le résultat.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    import RPi.GPIO as GPIO
+    import spidev
+    import time
+
+    # Définir le GPIO pour le bouton du joystick (SW)
+    BTN_PIN = 22
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BTN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus SPI 0, CE0
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    def read_adc(channel):
+        """
+        Lit la valeur analogique depuis le MCP3008 (canal 0–7)
+        :param channel: numéro de canal ADC (0–7)
+        :return: valeur entière sur 10 bits (0–1023)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        while True:
+            x_val = read_adc(1)  # VRX sur CH1
+            y_val = read_adc(2)  # VRY sur CH2
+            Btn_val = GPIO.input(BTN_PIN)  # 0 = appuyé, 1 = relâché
+
+            print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        spi.close()
+        GPIO.cleanup()
+
+**Explication du code**
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    import RPi.GPIO as GPIO
+    import spidev
+    import time
+
+- ``RPi.GPIO`` gère les entrées/sorties GPIO (ici, le bouton du joystick).  
+- ``spidev`` communique avec le MCP3008 via SPI.  
+- ``time`` permet d’ajouter des délais.
+
+.. code-block:: python
+
+    BTN_PIN = 22
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BTN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    spi = spidev.SpiDev()
+    spi.open(0, 0)
+    spi.max_speed_hz = 1000000
+
+Cette partie configure le bouton du joystick sur GPIO22 avec résistance pull-up, et initialise SPI sur le bus 0, CE0 à 1 MHz.
+
+.. code-block:: python
+
+    def read_adc(channel):
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+La fonction ``read_adc()`` lit les données analogiques sur le canal donné et renvoie une valeur de 0 à 1023.
+
+.. code-block:: python
+
+    try:
+        while True:
+            x_val = read_adc(0)  # VRX sur CH0
+            y_val = read_adc(1)  # VRY sur CH1
+            Btn_val = GPIO.input(BTN_PIN)
+
+            print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        spi.close()
+        GPIO.cleanup()
+
+La boucle principale lit X/Y toutes les 200 ms et affiche aussi l’état du bouton (0 = appuyé, 1 = relâché).  
+En cas d’interruption clavier, les ressources SPI et GPIO sont correctement libérées.

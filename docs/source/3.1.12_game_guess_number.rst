@@ -278,9 +278,7 @@ La fonction Main() contient l'ensemble du processus du programme, tel que décri
 4) Si le bouton \'**A**\' est pressé, un nombre aléatoire entre **0 et 99** est 
    généré et le jeu commence.
 
-5) Si le bouton \'**D**\' est détecté comme pressé, le programme passe à l'étape de 
-    comparaison et affiche le résultat sur l'écran LCD. Cette étape permet également 
-   de juger le résultat en appuyant seulement sur un chiffre et ensuite sur le bouton \'**D**\'.
+5) Si le bouton \'**D**\' est détecté comme pressé, le programme passe à l'étape de comparaison et affiche le résultat sur l'écran LCD. Cette étape permet également de juger le résultat en appuyant seulement sur un chiffre et ensuite sur le bouton \'**D**\'.
 
 6) Si un des boutons **0-9** est pressé, la valeur de **count** sera modifiée ; si 
    **count** est supérieur à **10**, la comparaison démarre.

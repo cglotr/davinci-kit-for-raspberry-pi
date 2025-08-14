@@ -1,0 +1,320 @@
+.. note::
+
+    Bonjour, bienvenue dans la communauté Facebook des passionnés SunFounder Raspberry Pi, Arduino et ESP32 ! Plongez plus profondément dans l’univers du Raspberry Pi, de l’Arduino et de l’ESP32 avec d’autres passionnés.
+
+    **Pourquoi nous rejoindre ?**
+
+    - **Support d’experts** : Résolvez vos problèmes après-vente et vos défis techniques avec l’aide de notre communauté et de notre équipe.
+    - **Apprendre & partager** : Échangez des astuces et tutoriels pour améliorer vos compétences.
+    - **Aperçus exclusifs** : Accédez en avant-première aux annonces de nouveaux produits et aux aperçus.
+    - **Réductions spéciales** : Profitez de réductions exclusives sur nos derniers produits.
+    - **Promotions festives et concours** : Participez à des tirages au sort et à des promotions spéciales.
+
+    👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd’hui !
+
+.. _2.2.2_c_pi5_mcp3008:
+
+2.2.2 Thermistance (MCP3008)
+============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Selon la version de votre kit, identifiez si vous disposez du **ADC0834** ou du **MCP3008** et suivez la section correspondante.
+
+Introduction
+------------
+
+Tout comme une photo-résistance peut détecter la lumière, une thermistance est un composant électronique sensible à la température qui peut être utilisée pour réaliser des fonctions de contrôle thermique, comme un système d’alarme de surchauffe.
+
+Composants nécessaires
+-----------------------
+
+Dans ce projet, nous avons besoin des composants suivants. 
+
+.. image:: ../img/list2_2.2.2_thermistor.png
+
+Principe
+--------
+
+Une thermistance est une résistance sensible à la chaleur qui présente une variation précise et prévisible de sa résistance proportionnelle à de faibles variations de température.  
+L’ampleur de cette variation dépend de sa composition spécifique. Les thermistances font partie de la famille des composants passifs.  
+Contrairement aux composants actifs, les dispositifs passifs ne peuvent pas fournir de gain de puissance ou d’amplification à un circuit.
+
+Il existe deux types de thermistances : à coefficient de température négatif (NTC) et à coefficient de température positif (PTC).  
+- Pour une **PTC**, la résistance augmente avec la température.  
+- Pour une **NTC**, c’est l’inverse : la résistance diminue lorsque la température augmente.  
+
+Dans cette expérience, nous utilisons une **NTC**.
+
+.. image:: ../img/image325.png
+
+Le principe est que la résistance de la thermistance NTC varie avec la température ambiante.  
+Elle mesure la température en temps réel :  
+- lorsque la température augmente, la résistance diminue.  
+La tension mesurée est ensuite convertie en valeurs numériques par l’ADC.  
+Le programme calcule et affiche la température en degrés Celsius et Fahrenheit.
+
+Dans cette expérience, une thermistance et une résistance de rappel (*pull-up*) de 10 kΩ sont utilisées.  
+Chaque thermistance a une résistance nominale mesurée à 25°C. Ici, cette valeur est de **10 kΩ**.
+
+Relation entre résistance et température :  
+
+R\ :sub:`T` = R\ :sub:`N` × exp\ :sup:`B(1/TK – 1/TN)`
+
+- **R\ T** : résistance de la thermistance NTC à la température **T\ K**.  
+- **R\ N** : résistance nominale à la température **T\ N** (ici, R\ N = 10 kΩ).  
+- **T\ K** : température en Kelvin = 273,15 + °C mesurés.  
+- **T\ N** : température nominale en Kelvin = 273,15 + 25.  
+- **B** (bêta) : constante du matériau (indice de sensibilité thermique), ici 3950.  
+- **exp** : fonction exponentielle, base e ≈ 2,7.
+
+En réarrangeant la formule, on obtient :  
+
+T\ :sub:`K` = 1 / (ln(R\ :sub:`T` / R\ :sub:`N`) / B + 1 / T\ :sub:`N`)  
+
+La température en °C = T\ :sub:`K` – 273,15.
+
+Cette relation est empirique et n’est précise que dans la plage de mesure valide.
+
+Schéma de câblage
+-----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nom T-Board
+        - Physique
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: ../img/schematic_2.2.2_thermistor_mcp3008.png
+
+Procédure expérimentale
+-----------------------
+
+**Étape 1 :** Monter le circuit.
+
+.. image:: ../img/july24_2.2.2_thermistor_mcp3008.png
+
+**Étape 2 :** Aller dans le dossier du code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.2-2/
+
+**Étape 3 :** Compiler le code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.2.2_Thermistor.c -o Thermistor -lwiringPi -lm
+
+.. note::
+    L’option ``-lm`` permet de lier la bibliothèque mathématique. Ne l’omettez pas, sinon vous obtiendrez une erreur.
+
+**Étape 4 :** Exécuter le fichier compilé.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./Thermistor
+
+Lorsque le code s’exécute, la thermistance mesure la température ambiante, qui sera affichée à l’écran après calcul.
+
+.. note::
+
+    Si le programme ne fonctionne pas après l’exécution, ou s’il affiche le message d’erreur : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Bit de démarrage
+        buffer[1] = (8 + channel) << 4;  // Mode simple + canal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    int main(void) {
+        int analogVal;
+        double Vr, Rt, temp, cel, Fah;
+
+        if (wiringPiSetup() == -1) {
+            printf("Initialisation de wiringPi échouée !\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Initialisation SPI échouée !\n");
+            return 1;
+        }
+
+        while (1) {
+            analogVal = read_ADC(0);  // Lecture depuis CH0
+
+            // MCP3008 : ADC 10 bits (0–1023)
+            Vr = 3.3 * analogVal / 1023.0;  // Vref supposée = 3,3V
+            Rt = 10000.0 * Vr / (3.3 - Vr); // Diviseur de tension, résistance 10kΩ
+            temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+            cel = temp - 273.15;
+            Fah = cel * 1.8 + 32;
+
+            printf("Celsius : %.2f C  Fahrenheit : %.2f F\n", cel, Fah);
+            delay(1000);
+        }
+
+        return 0;
+    }
+
+Explication du code
+-------------------
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+Ces fichiers d’en-tête incluent les bibliothèques pour :  
+- le contrôle GPIO (``wiringPi.h``),  
+- la communication SPI (``wiringPiSPI.h``),  
+- les entrées/sorties standard (``stdio.h``),  
+- et les fonctions mathématiques (``math.h``).
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+
+Définition des constantes pour le canal SPI et la vitesse de communication SPI (ici canal 0 et 1 MHz).
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+
+Fonction pour lire les données analogiques depuis un canal du MCP3008.
+
+.. code-block:: c
+
+    buffer[0] = 1;
+    buffer[1] = (8 + channel) << 4;
+    buffer[2] = 0;
+
+Configuration de la commande SPI selon le protocole MCP3008 : bit de démarrage, mode simple, et numéro de canal.
+
+.. code-block:: c
+
+    wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+Envoi de la commande SPI et réception de la valeur ADC 10 bits.
+
+.. code-block:: c
+
+    int value = ((buffer[1] & 3) << 8) | buffer[2];
+
+Extraction et combinaison des 10 bits de données reçus.
+
+.. code-block:: c
+
+    if (wiringPiSetup() == -1) { ... }
+    if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) { ... }
+
+Initialisation de WiringPi et configuration de l’interface SPI. Arrêt du programme en cas d’échec.
+
+.. code-block:: c
+
+    analogVal = read_ADC(0);
+
+Lecture du signal analogique sur le canal 0 du MCP3008 (thermistance connectée via un diviseur de tension).
+
+.. code-block:: c
+
+    Vr = 3.3 * analogVal / 1023.0;
+
+Conversion de la valeur numérique ADC en tension analogique (0–1023 → 0–3,3 V).
+
+.. code-block:: c
+
+    Rt = 10000.0 * Vr / (3.3 - Vr);
+
+Calcul de la résistance de la thermistance avec la formule du diviseur de tension (résistance de 10 kΩ en série).
+
+.. code-block:: c
+
+    temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+
+Application de l’équation du coefficient B pour obtenir la température en Kelvin.  
+Formule : **T(K) = 1 / [ln(Rt/R₀)/B + 1/T₀]**  
+avec :  
+
+- R₀ = 10 kΩ  
+- B = 3950  
+- T₀ = 25°C (298,15 K)
+
+.. code-block:: c
+
+    cel = temp - 273.15;
+
+Conversion de Kelvin en degrés Celsius.
+
+.. code-block:: c
+
+    Fah = cel * 1.8 + 32;
+
+Conversion des degrés Celsius en Fahrenheit.
+
+.. code-block:: c
+
+    printf("Celsius : %.2f C  Fahrenheit : %.2f F\n", cel, Fah);
+
+Affichage de la température en Celsius et en Fahrenheit avec deux décimales.
