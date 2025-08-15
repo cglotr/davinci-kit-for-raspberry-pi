@@ -301,7 +301,7 @@ Esto actúa como un indicador visual de nivel de batería o voltímetro analógi
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
+    sudo python3 3.1.5-2_BatteryIndicator.py
 
 Después de ejecutar el programa, conecta por separado el pin 3 del ADC0834 y el GND a dos cables, y luego conéctalos a los polos de una batería. Podrás ver el LED correspondiente encendido en la barra de LED indicando el nivel de carga (rango de medición: 0-5V).
 

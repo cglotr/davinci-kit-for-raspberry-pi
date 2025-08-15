@@ -378,7 +378,7 @@ La función ``main()`` contiene el bucle del programa:
 
 .. code-block::
 
-    sudo python3 4.1.10-2_SmartFan.py
+    sudo python3 3.1.4-2_SmartFan.py
 
 Al ejecutar el código, enciende el ventilador presionando el botón. Cada vez que lo presiones, la velocidad aumentará o disminuirá un nivel. Hay **5** niveles de velocidad: **0~4**. Cuando está en el nivel 4\ :sup:`to` y presionas el botón, el ventilador se detiene con velocidad **0**.
 

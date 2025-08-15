@@ -96,7 +96,7 @@ Procedimientos experimentales
 
 .. code-block::
 
-    sudo python3 4.1.11-2_Battery_indicator_zero.py
+    sudo python3 3.1.5-2_Battery_indicator_zero.py
 
 Después de que el programa se ejecute, conecta un cable desde el pin 3 del MCP3008 y otro desde GND, y luego conéctalos a los dos polos de una batería. Podrás ver que el LED correspondiente en la barra de LED se ilumina para mostrar el nivel de energía (rango de medición: 0-5V).
 

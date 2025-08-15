@@ -94,7 +94,7 @@ Si ya has completado estos pasos, puedes saltar este paso.
 
 .. code-block:: 
 
-    sudo python3 4.1.10-2_SmartFan_zero.py
+    sudo python3 3.1.4-2_SmartFan_zero.py
 
 Cuando se ejecute el código, inicia el ventilador presionando el botón.  
 Cada vez que lo presiones, se ajustará una velocidad más alta o más baja.  
