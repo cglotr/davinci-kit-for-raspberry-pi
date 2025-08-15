@@ -99,7 +99,7 @@ Experimental Procedures
 
 .. code-block::
 
-    sudo python3 4.1.11-2_Battery_indicator_zero.py
+    sudo python3 3.1.5-2_Battery_indicator_zero.py
 
 After the program runs, give the 3rd pin of MCP3008 and the GND a
 lead-out wire separately and then lead them to the two poles of a

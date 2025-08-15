@@ -474,7 +474,7 @@ The mode switches when the joystick button is released (rising edge trigger).
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
+    sudo python3 3.1.8-2_BatteryIndicator.py
 
 After the program runs, give the 3rd pin of ADC0834 and the GND a
 lead-out wire separately and then lead them to the two poles of a

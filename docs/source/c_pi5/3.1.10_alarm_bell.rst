@@ -171,8 +171,9 @@ In the function on():
 **pthread_create(&tLed,NULL,ledWork,NULL)：** Create the thread and its
 prototype is as follows:
 
-int pthread_create(pthread_t \*restrict tidp,const pthread_attr_t
-\*restrict_attr,void*（*start_rtn)(void*),void \*restrict arg);
+.. code-block:: c
+
+    int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr, void*(*start_rtn)(void*),void *restrict arg);
 
 **Return the Value**
 

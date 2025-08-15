@@ -215,7 +215,7 @@ Code Explanation
     }
 
 This function reads analog values from the MCP3008 ADC chip using SPI.
-The `channel` parameter selects one of the 8 analog inputs (CH0–CH7).
+The ``channel`` parameter selects one of the 8 analog inputs (CH0–CH7).
 The MCP3008 returns a 10-bit digital value between 0 and 1023 representing the analog voltage.
 
 .. code-block:: c
@@ -277,7 +277,7 @@ Main program logic:
 - Initializes wiringPi and SPI communication.
 - Sets GPIO pins as outputs for controlling the 10-LED bar.
 - Continuously reads analog voltage via MCP3008 (CH0).
-- Converts the reading to a voltage using `VREF = 3.3V`.
+- Converts the reading to a voltage using ``VREF = 3.3V``.
 - Scales voltage to a 0–10 level bar graph and lights up LEDs.
 - Displays the raw ADC value, voltage (in volts), and LED level via serial console.
 
@@ -309,7 +309,7 @@ This acts as a visual battery level indicator or analog voltmeter.
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
+    sudo python3 3.1.5-2_BatteryIndicator.py
 
 After the program runs, give the 3rd pin of ADC0834 and the GND a
 lead-out wire separately and then lead them to the two poles of a
