@@ -95,7 +95,7 @@ Procédure expérimentale
 
 .. code-block:: 
 
-    sudo python3 4.1.10-2_SmartFan_zero.py
+    sudo python3 3.1.4-2_SmartFan_zero.py
 
 Lorsque le code s’exécute, démarrez le ventilateur en appuyant sur le bouton. À chaque pression, la vitesse est ajustée d’un niveau vers le haut ou vers le bas. Il y a **5** niveaux de vitesse : **0~4**. Lorsque la vitesse est au 4\ :sup:`ème` niveau et que vous appuyez à nouveau, le ventilateur s’arrête avec une vitesse de **0**.
 

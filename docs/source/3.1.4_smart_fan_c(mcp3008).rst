@@ -385,7 +385,7 @@ Si vous avez déjà effectué ces étapes, vous pouvez les ignorer.
 
 .. code-block::
 
-    sudo python3 4.1.10-2_SmartFan.py
+    sudo python3 3.1.4-2_SmartFan.py
 
 Lorsque le code s’exécute, démarrez le ventilateur en appuyant sur le bouton.  
 Chaque pression change la vitesse d’un niveau. Il y a **5** niveaux possibles : **0 à 4**.  

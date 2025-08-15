@@ -304,7 +304,7 @@ Si vous avez déjà effectué ces étapes, vous pouvez les ignorer.
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
+    sudo python3 3.1.5-2_BatteryIndicator.py
 
 Après l’exécution du programme, connectez séparément la 3ᵉ broche de l’ADC0834 et le GND à deux fils, puis reliez-les aux deux pôles d’une batterie. Vous verrez la LED correspondante sur la barre de LED s’allumer pour indiquer le niveau de charge (plage de mesure : 0–5 V).
 

@@ -87,7 +87,7 @@ Procédure expérimentale
 
 .. code-block::
 
-    sudo python3 4.1.13-2_OverheatMonitor_zero.py
+    sudo python3 3.1.8-2_OverheatMonitor_zero.py
 
 Lorsque le code s’exécute, la température actuelle et le seuil de température élevée **40** s’affichent sur l’écran **I2C LCD1602**.  
 Si la température actuelle est supérieure au seuil, le buzzer et la LED se déclenchent pour vous alerter.

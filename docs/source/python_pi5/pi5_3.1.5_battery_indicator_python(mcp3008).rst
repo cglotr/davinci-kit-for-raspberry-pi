@@ -98,7 +98,7 @@ Procédures expérimentales
 
 .. code-block::
 
-    sudo python3 4.1.11-2_Battery_indicator_zero.py
+    sudo python3 3.1.5-2_Battery_indicator_zero.py
 
 Après le lancement du programme, connectez séparément le 3ᵉ pin du MCP3008 et la masse (GND) aux deux pôles d’une batterie. Vous verrez alors la LED correspondante sur le bargraph LED s’allumer pour afficher le niveau de charge (plage de mesure : 0–5V).
 
