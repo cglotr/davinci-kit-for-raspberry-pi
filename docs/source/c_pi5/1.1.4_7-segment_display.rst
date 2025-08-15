@@ -81,6 +81,7 @@ i dati nel registro di memoria vengono inviati al bus.
 .. image:: img/74hc595_sche.png
     :width: 400
     :align: center
+    
 **Piedini del 74HC595 e loro funzioni**:
 
 * **Q0-Q7**: Uscite di dati paralleli a 8 bit, in grado di controllare direttamente 8 LED o 8 pin di un display a 7 segmenti.

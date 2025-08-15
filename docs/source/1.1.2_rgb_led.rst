@@ -142,6 +142,7 @@ rosso, verde, blu, giallo, rosa e ciano.
     Se il programma non funziona o compare l’errore "wiringPi.h: No such file or directory", consulta la sezione :ref:`Il codice C non funziona?`.
 
 **Codice**
+
 .. code-block:: c
 
     #include <wiringPi.h>
@@ -194,6 +195,7 @@ rosso, verde, blu, giallo, rosa e ciano.
         }
         return 0;
     }
+    
 **Spiegazione del Codice**
 
 .. code-block:: c

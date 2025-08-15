@@ -99,6 +99,7 @@ accenderà. Rimettilo in posizione orizzontale e il LED verde si riaccenderà.
 .. note::
 
     Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta :ref:`Il codice C non funziona?`.
+
 **Codice** 
 
 .. code-block:: c
@@ -371,6 +372,7 @@ ED will lights on.
             main()
         except KeyboardInterrupt:
             destroy() 
+            
 **Spiegazione del Codice**
 
 .. code-block:: python

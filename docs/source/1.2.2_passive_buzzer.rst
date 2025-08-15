@@ -162,6 +162,7 @@ Eseguito il codice, il buzzer riproduce un pezzo musicale.
 
         return 0;
     }
+    
 **Spiegazione del Codice** 
 
 .. code-block:: c

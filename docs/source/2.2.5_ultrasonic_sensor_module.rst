@@ -198,6 +198,7 @@ verrà poi stampato sullo schermo.
 
         return 0;
     }
+    
 **Spiegazione del Codice**
 
 .. code-block:: c

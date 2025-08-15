@@ -104,6 +104,7 @@ Dopo l'esecuzione del codice, i valori dei pulsanti premuti sul tastierino
 .. note::
 
     Se non funziona dopo l'esecuzione o viene visualizzato un messaggio di errore: \"wiringPi.h: No such file or directory\", fai riferimento a :ref:`Il codice C non funziona?`.
+
 **Codice** 
 
 .. code-block:: c
@@ -443,6 +444,7 @@ verranno visualizzati sullo schermo.
                 loop()
         except KeyboardInterrupt:   # Quando viene premuto 'Ctrl+C', la funzione destroy() viene eseguita.
             destroy()
+
 **Spiegazione del Codice**
 
 .. code-block:: python

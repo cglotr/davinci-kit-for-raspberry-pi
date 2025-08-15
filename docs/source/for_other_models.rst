@@ -12,8 +12,8 @@
 
     👉 Sei pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti oggi!
 
-Per Pi 4, 3 e tutti gli altri modelli Pi
-==========================================
+Per Pi 4, 3 e modelli precedenti (non Pi 5)
+==============================================
 
 .. toctree::
     :maxdepth: 2

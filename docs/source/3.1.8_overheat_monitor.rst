@@ -15,6 +15,17 @@
 3.1.8 Monitor di Surriscaldamento
 ====================================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   A seconda della versione del kit, identifica se hai **ADC0834** o **MCP3008** e procedi con la sezione corrispondente.
+
+
 Introduzione
 --------------
 
@@ -377,6 +388,7 @@ valore iniziale.
                 loop()
         except KeyboardInterrupt:   # Quando si preme 'Ctrl+C', viene eseguita la funzione destroy().
             destroy()
+            
 **Spiegazione del Codice**
 
 .. code-block:: python

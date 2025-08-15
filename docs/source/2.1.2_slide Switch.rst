@@ -142,6 +142,7 @@ LED giallo si accenderà; spostalo a destra e si accenderà la luce rossa.
 .. note::
 
     Se non funziona dopo l'esecuzione, o compare un messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

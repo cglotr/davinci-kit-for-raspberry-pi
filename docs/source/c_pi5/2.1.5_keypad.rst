@@ -101,6 +101,7 @@ tastiera (Valore pulsante) verranno stampati sullo schermo.
 .. note::
 
     Se non funziona dopo l’esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c
@@ -215,6 +216,7 @@ tastiera (Valore pulsante) verranno stampati sullo schermo.
         }
         return -1;
     }
+    
 **Spiegazione del Codice**
 
 .. code-block:: c

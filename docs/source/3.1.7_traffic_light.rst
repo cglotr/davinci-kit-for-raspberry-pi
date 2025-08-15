@@ -358,6 +358,7 @@ il display a 7 segmenti e 4 cifre visualizza continuamente il conto alla rovesci
             loop()
         except KeyboardInterrupt:
             destroy()
+            
 **Spiegazione del Codice** 
 
 .. code-block:: python

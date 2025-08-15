@@ -463,6 +463,7 @@ MPU6050 verranno calcolati e visualizzati sullo schermo.
         print ("y rotation: " , get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled))
 
         time.sleep(0.5)
+        
 **Spiegazione del Codice**
 
 .. code-block:: python

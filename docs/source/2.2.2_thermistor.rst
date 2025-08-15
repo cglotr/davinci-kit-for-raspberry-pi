@@ -15,6 +15,17 @@
 2.2.2 Termistore
 ==================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   A seconda della versione del kit, identifica se hai **ADC0834** o **MCP3008** e procedi con la sezione corrispondente.
+
+
 Introduzione
 ---------------
 
@@ -141,6 +152,7 @@ che verrà visualizzata sullo schermo una volta completato il calcolo.
 .. note::
 
     Se il programma non funziona dopo l’esecuzione, o compare un errore del tipo: \"wiringPi.h: Nessun file o directory\", consulta :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

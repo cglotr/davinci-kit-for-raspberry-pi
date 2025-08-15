@@ -238,6 +238,7 @@ Dopo l'esecuzione del codice, la matrice di LED si accenderà e spegnerà riga p
 
       return 0;
    }
+   
 **Spiegazione del Codice**
 
 .. code-block:: c

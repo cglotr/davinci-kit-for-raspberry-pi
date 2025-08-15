@@ -116,7 +116,7 @@ il funzionamento indipendente del LED e del cicalino.
         }
     }
 
-La funzione `ledWork()` serve a definire lo stato di funzionamento dei due 
+La funzione ``ledWork()`` serve a definire lo stato di funzionamento dei due 
 LED: accende il LED verde per 0,5s e poi lo spegne; analogamente, accende il 
 LED rosso per 0,5s e poi lo spegne.
 
@@ -137,7 +137,7 @@ LED rosso per 0,5s e poi lo spegne.
         }
     }
 
-La funzione `buzzWork()` serve a impostare lo stato di funzionamento del 
+La funzione ``buzzWork()`` serve a impostare lo stato di funzionamento del 
 cicalino. Impostiamo la frequenza tra 130 e 800, con un incremento o una 
 riduzione a intervalli di 20.
 
@@ -155,7 +155,7 @@ riduzione a intervalli di 20.
         pthread_create(&tBuzz,NULL,buzzWork,NULL);       
     }
 
-Nella funzione `on()`:
+Nella funzione ``on()``:
 
 1) Imposta il valore del segnale di controllo a \"flag=1\".
 
@@ -167,8 +167,10 @@ Nella funzione `on()`:
 
 **pthread_create(&tLed,NULL,ledWork,NULL):** Crea il thread, con prototipo:
 
-int pthread_create(pthread_t *restrict tidp, const pthread_attr_t *restrict_attr, 
-void* (*start_rtn)(void*), void *restrict arg);
+.. code-block:: c
+
+    int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr, void*(*start_rtn)(void*),void *restrict arg);
+
 
 **Valore di Ritorno**
 
@@ -190,7 +192,7 @@ Se ha successo, restituisce \"**0**\"; altrimenti, restituisce \"**-1**\".
         digitalWrite(BLedPin,LOW);
     }
 
-La funzione `off()` imposta \"flag=0\" per terminare i thread **ledWork** e 
+La funzione ``off()`` imposta \"flag=0\" per terminare i thread **ledWork** e 
 **BuzzWork** e quindi spegnere il cicalino e i LED.
 
 .. code-block:: c
@@ -211,9 +213,9 @@ La funzione `off()` imposta \"flag=0\" per terminare i thread **ledWork** e
         return 0;
     }
 
-`main()` contiene l'intero processo del programma: inizialmente legge il 
+``main()`` contiene l'intero processo del programma: inizialmente legge il 
 valore dell'interruttore a levetta; se l'interruttore viene spostato a 
-destra (lettura 1), viene chiamata la funzione `on()`, il cicalino emette 
+destra (lettura 1), viene chiamata la funzione ``on()``, il cicalino emette 
 un suono e i LED rosso e verde lampeggiano. Altrimenti, il cicalino e i LED 
 rimangono spenti.
 

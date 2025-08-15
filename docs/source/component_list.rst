@@ -17,8 +17,5 @@ Elenco dei Componenti
 
 Dopo aver aperto la confezione, verifica che la quantità dei componenti corrisponda alla descrizione del prodotto e che tutti i componenti siano in buone condizioni.
 
-.. image:: img/image4.jpeg
-.. image:: img/image6.png
-.. image:: img/image8.jpeg
-.. image:: img/image9.jpeg
-
+.. image:: img/K0402V25-DAVINCI-LIST.png
+    :width: 800px

@@ -15,8 +15,7 @@
 Input
 =============
 
-2.1 Controller
---------------------
+**2.1 Controller**
 
 .. toctree::
     :maxdepth: 1
@@ -25,18 +24,22 @@ Input
     pi5_2.1.2_slide_switch_python
     pi5_2.1.3_tilt_switch_python
     pi5_2.1.4_potentiometer_python
+    pi5_2.1.4_potentiometer_python(mcp3008)
     pi5_2.1.5_keypad_python
     pi5_2.1.6_joystick_python
+    pi5_2.1.6_joystick_python(mcp3008)
 
 
-2.2 Sensori
-----------------
+
+**2.2 Sensori**
 
 .. toctree::
     :maxdepth: 1
 
     pi5_2.2.1_photoresistor_python
+    pi5_2.2.1_photoresistor_python(mcp3008)
     pi5_2.2.2_thermistor_python
+    pi5_2.2.2_thermistor_python(mcp3008)
     pi5_2.2.3_dht_python
     pi5_2.2.4_pir_python
     pi5_2.2.5_ultrasonic_sensor_module_python

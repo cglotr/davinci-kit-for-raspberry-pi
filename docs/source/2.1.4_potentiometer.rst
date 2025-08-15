@@ -15,6 +15,17 @@
 2.1.4 Potenziometro
 ======================
 
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   A seconda della versione del kit, identifica se hai **ADC0834** o **MCP3008** e procedi con la sezione corrispondente.
+
+
 Introduzione
 ----------------
 
@@ -164,6 +175,7 @@ l'intensità del LED cambierà di conseguenza.
 .. note::
 
     Se non funziona dopo l'esecuzione o appare il messaggio di errore: \"wiringPi.h: No such file or directory", fare riferimento a :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

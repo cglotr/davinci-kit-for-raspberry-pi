@@ -126,6 +126,7 @@ GPIO17       Pin 11   0        17
 .. image:: img/image48.png
     :width: 800
     :align: center
+    
 Procedure Sperimentali
 -----------------------------
 

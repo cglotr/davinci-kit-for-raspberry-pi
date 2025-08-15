@@ -184,6 +184,7 @@ dalla chiusura del contatto normalmente aperto.
 
         return 0;
     }
+    
 **Spiegazione del Codice**
 
 .. code-block:: c

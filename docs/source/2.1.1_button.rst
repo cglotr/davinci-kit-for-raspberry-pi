@@ -125,6 +125,7 @@ altrimenti, resterà spento.
 .. note::
 
     Se il programma non funziona o compare il messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

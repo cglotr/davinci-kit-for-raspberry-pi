@@ -18,7 +18,7 @@ Divertiti con Python
 Se sei un utente Python su Raspberry Pi 5, puoi programmare i GPIO utilizzando le API fornite da ``GPIO Zero``.
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     
     check_the_gpiozero_python
     pi5_output_python

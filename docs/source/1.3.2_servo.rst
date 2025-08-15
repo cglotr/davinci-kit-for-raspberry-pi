@@ -122,6 +122,7 @@ Dopo l'esecuzione del programma, il servomotore ruoterà da
 .. note::
 
     Se non funziona dopo l'esecuzione o appare un errore del tipo: \"wiringPi.h: No such file or directory\", fare riferimento a :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

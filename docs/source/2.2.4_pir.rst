@@ -245,6 +245,7 @@ l'altro per la distanza di rilevamento. Per ottenere prestazioni ottimali dal
 modulo PIR, si consiglia di ruotarli entrambi completamente in senso antiorario.
 
 .. image:: img/PIR_TTE.png
+    
 **Codice**
 
 .. note::

@@ -153,6 +153,7 @@ ripetutamente.
 .. note::
 
     Se il programma non funziona, o se appare l’errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+
 **Codice**
 
 .. code-block:: c

@@ -1,0 +1,309 @@
+.. note::
+
+    Ciao, benvenuto nella Community SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasts su Facebook! Approfondisci Raspberry Pi, Arduino ed ESP32 con altri appassionati.
+
+    **Perché unirsi?**
+
+    - **Supporto esperto**: Risolvi problemi post-vendita e sfide tecniche con l’aiuto della community e del nostro team.
+    - **Impara e condividi**: Scambia consigli e tutorial per migliorare le tue competenze.
+    - **Anteprime esclusive**: Accedi in anteprima ai nuovi annunci di prodotti e alle anteprime speciali.
+    - **Sconti speciali**: Godi di sconti esclusivi sui nostri prodotti più recenti.
+    - **Promozioni e giveaway festivi**: Partecipa a concorsi e promozioni durante le festività.
+
+    👉 Pronto a esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti oggi stesso!
+
+.. _2.2.2_c_pi5_mcp3008:
+
+2.2.2 Termistore (MCP3008)
+==========================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   A seconda della versione del kit, identifica se possiedi **ADC0834** o **MCP3008** e procedi con la sezione corrispondente.
+
+Introduzione
+------------
+
+Così come la fotoresistenza può rilevare la luce, il termistore è un dispositivo elettronico sensibile alla temperatura che può essere utilizzato per realizzare funzioni di controllo termico, come ad esempio un allarme di surriscaldamento.
+
+Componenti richiesti
+--------------------
+
+In questo progetto sono necessari i seguenti componenti.
+
+.. image:: ../img/list2_2.2.2_thermistor.png
+
+
+Principio
+---------
+
+Un termistore è una resistenza sensibile alla temperatura che mostra una variazione precisa e prevedibile della resistenza proporzionale a piccoli cambiamenti di temperatura. L’entità di questa variazione dipende dalla sua composizione specifica.  
+I termistori appartengono al gruppo più ampio dei componenti passivi, i quali, a differenza dei componenti attivi, non possono fornire guadagno di potenza o amplificazione a un circuito.
+
+Il termistore è un elemento sensibile e ne esistono due tipi: a coefficiente di temperatura negativo (NTC) e a coefficiente di temperatura positivo (PTC). La resistenza di un termistore PTC aumenta con l’aumentare della temperatura, mentre per un NTC è l’opposto. In questo esperimento utilizziamo un NTC.
+
+.. image:: ../img/image325.png
+
+Il principio è che la resistenza del termistore NTC varia con la temperatura dell’ambiente esterno, rilevando così la temperatura in tempo reale.  
+Quando la temperatura aumenta, la resistenza del termistore diminuisce. Il dato di tensione viene poi convertito in valore digitale tramite l’adattatore A/D, e il programma calcola e visualizza la temperatura in gradi Celsius o Fahrenheit.
+
+In questo esperimento si utilizza un termistore e una resistenza di pull-up da 10kΩ. Ogni termistore ha una resistenza nominale; in questo caso è 10kΩ a 25 °C.
+
+Relazione tra resistenza e temperatura:
+
+R\ :sub:`T` = R\ :sub:`N` exp\ :sup:`B(1/TK – 1/TN)`
+
+- **R\ T** è la resistenza del termistore NTC alla temperatura **T\ K**.  
+- **R\ N** è la resistenza nominale del termistore alla temperatura nominale **T\ N** (qui 10kΩ).  
+- **T\ K** è la temperatura in Kelvin (K = °C + 273,15).  
+- **T\ N** è la temperatura nominale in Kelvin (273,15 + 25 °C).  
+- **B** (beta) è la costante del materiale del termistore NTC, chiamata indice di sensibilità termica (qui 3950).  
+- **exp** indica la funzione esponenziale, con base **e ≈ 2,7**.
+
+Formula inversa per ottenere la temperatura in Kelvin:  
+
+T\ :sub:`K`\ = 1 / (ln(R\ :sub:`T`/R\ :sub:`N`)/B + 1/T\ :sub:`N`)  
+
+Per ottenere la temperatura in °C basta sottrarre 273,15.
+
+Questa relazione è empirica e valida solo all’interno dell’intervallo di temperatura e resistenza previsto.
+
+
+Schema elettrico
+----------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nome T-Board
+        - physical
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: ../img/schematic_2.2.2_thermistor_mcp3008.png
+
+
+Procedura sperimentale
+----------------------
+
+**Passo 1:** Montare il circuito.
+
+.. image:: ../img/july24_2.2.2_thermistor_mcp3008.png
+
+**Passo 2:** Accedere alla cartella del codice.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.2-2/
+
+**Passo 3:** Compilare il codice.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.2.2_Thermistor.c -o Thermistor -lwiringPi -lm
+
+.. note::
+    L’opzione **-lm** serve per caricare la libreria matematica. Non ometterla, altrimenti si verificherà un errore.
+
+**Passo 4:** Eseguire il file compilato.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./Thermistor
+
+Quando il codice è in esecuzione, il termistore rileva la temperatura ambiente e la stampa sullo schermo una volta terminato il calcolo.
+
+.. note::
+
+    Se il programma non funziona o appare l’errore «wiringPi.h: No such file or directory», fare riferimento a :ref:`install_wiringpi`.
+
+**Codice**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Bit di start
+        buffer[1] = (8 + channel) << 4;  // Modalità single-ended + canale
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    int main(void) {
+        int analogVal;
+        double Vr, Rt, temp, cel, Fah;
+
+        if (wiringPiSetup() == -1) {
+            printf("Inizializzazione wiringPi fallita!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Inizializzazione SPI fallita!\n");
+            return 1;
+        }
+
+        while (1) {
+            analogVal = read_ADC(0);  // Lettura dal CH0
+
+            // MCP3008 è un ADC a 10 bit (0–1023)
+            Vr = 3.3 * analogVal / 1023.0;  // Vref = 3,3V
+            Rt = 10000.0 * Vr / (3.3 - Vr); // Partitore di tensione con resistenza da 10kΩ
+            temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+            cel = temp - 273.15;
+            Fah = cel * 1.8 + 32;
+
+            printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+            delay(1000);
+        }
+
+        return 0;
+    }
+
+
+Spiegazione del codice
+----------------------
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+Librerie incluse per il controllo GPIO (``wiringPi.h``), comunicazione SPI (``wiringPiSPI.h``), operazioni di input/output standard (``stdio.h``) e funzioni matematiche (``math.h``).
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+
+Definiscono il canale SPI e la velocità di comunicazione SPI. Qui si usa il canale 0 (CE0) e una velocità di clock di 1 MHz.
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+
+Funzione per leggere i dati analogici da un canale specifico dell’MCP3008.
+
+.. code-block:: c
+
+    buffer[0] = 1;
+    buffer[1] = (8 + channel) << 4;
+    buffer[2] = 0;
+
+Configura il comando SPI secondo il protocollo MCP3008: bit di avvio, modalità single-ended e numero di canale.
+
+.. code-block:: c
+
+    wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+Invia il comando SPI e riceve i dati a 10 bit dall’MCP3008.
+
+.. code-block:: c
+
+    int value = ((buffer[1] & 3) << 8) | buffer[2];
+
+Estrae e combina il risultato ADC a 10 bit dal buffer SPI restituito.
+
+.. code-block:: c
+
+    if (wiringPiSetup() == -1) { ... }
+    if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) { ... }
+
+Inizializza WiringPi e configura lo SPI. Se fallisce, il programma termina.
+
+.. code-block:: c
+
+    analogVal = read_ADC(0);
+
+Legge il segnale analogico dal canale 0 dell’MCP3008, dove è collegato il partitore di tensione con termistore.
+
+.. code-block:: c
+
+    Vr = 3.3 * analogVal / 1023.0;
+
+Converte il valore ADC digitale in tensione analogica (0–1023 con Vref di 3,3V).
+
+.. code-block:: c
+
+    Rt = 10000.0 * Vr / (3.3 - Vr);
+
+Calcola la resistenza del termistore usando la formula del partitore di tensione, assumendo una resistenza fissa di 10kΩ.
+
+.. code-block:: c
+
+    temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+
+Applica l’equazione del parametro B per ottenere la temperatura in Kelvin.  
+**T(K) = 1 / [ln(Rt/R₀)/B + 1/T₀]**, dove  
+- R₀ = 10kΩ  
+- B = 3950  
+- T₀ = 298,15K (25°C)
+
+.. code-block:: c
+
+    cel = temp - 273.15;
+
+Converte la temperatura da Kelvin a gradi Celsius.
+
+.. code-block:: c
+
+    Fah = cel * 1.8 + 32;
+
+Converte la temperatura in gradi Fahrenheit.
+
+.. code-block:: c
+
+    printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+
+Visualizza la temperatura in °C e °F nel terminale con due cifre decimali.

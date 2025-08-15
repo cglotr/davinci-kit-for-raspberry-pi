@@ -231,6 +231,7 @@ Dopo l'esecuzione del codice, il programma avvia un conteggio, aumentando di 1 o
         alarm(1);               
         loop(); 
     }
+    
 **Spiegazione del Codice** 
 
 .. code-block:: c

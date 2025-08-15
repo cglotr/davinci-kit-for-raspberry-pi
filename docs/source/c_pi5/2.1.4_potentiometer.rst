@@ -15,6 +15,15 @@
 2.1.4 Potenziometro
 =====================
 
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   A seconda della versione del kit, identifica se hai **ADC0834** o **MCP3008** e procedi con la sezione corrispondente.
+
 Introduzione
 ---------------
 
@@ -34,10 +43,8 @@ Principio
 
 **ADC0834**
 
-L'ADC0834 è un convertitore analogico-digitale a 8 bit `successive
-approximation <https://cn.bing.com/dict/search?q=successive approximations&FORM=BDVSP6&mkt=zh-cn>`__
- dotato di un multiplexer multicanale configurabile in ingresso e con input/output seriale. L'input/output 
- seriale è configurato per interfacciarsi con registri a scorrimento standard o microprocessori.
+L'ADC0834 è un convertitore analogico-digitale a 8 bit `successive approximation <https://cn.bing.com/dict/search?q=successive approximations&FORM=BDVSP6&mkt=zh-cn>`__ dotato di un multiplexer multicanale configurabile in ingresso e con input/output seriale. L'input/output 
+seriale è configurato per interfacciarsi con registri a scorrimento standard o microprocessori.
 
 .. image:: img/image309.png
 
