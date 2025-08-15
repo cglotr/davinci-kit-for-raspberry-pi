@@ -88,7 +88,7 @@ Experimentelle Schritte
 
 .. code-block::
 
-    sudo python3 4.1.13-2_OverheatMonitor_zero.py
+    sudo python3 3.1.8-2_OverheatMonitor_zero.py
 
 Während der Code läuft, werden die aktuelle Temperatur und der hohe Temperaturgrenzwert **40** auf dem **I2C LCD1602** angezeigt.  
 Wenn die aktuelle Temperatur höher als der Grenzwert ist, werden der Summer und die LED eingeschaltet, um dich zu warnen.

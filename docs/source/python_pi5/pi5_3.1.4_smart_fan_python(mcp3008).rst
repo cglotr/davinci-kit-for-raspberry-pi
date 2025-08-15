@@ -95,7 +95,7 @@ Experimentelle Schritte
 
 .. code-block:: 
 
-    sudo python3 4.1.10-2_SmartFan_zero.py
+    sudo python3 3.1.4-2_SmartFan_zero.py
 
 Wenn der Code läuft, starte den Ventilator durch Drücken der Taste.  
 Jedes Mal, wenn du drückst, wird die Geschwindigkeit um eine Stufe erhöht oder verringert.  

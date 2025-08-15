@@ -74,7 +74,7 @@ Experimentelle Schritte
 
 .. code-block:: 
 
-    cd ~/davinci-kit-for-raspberry-pi/c/3.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.8-2/
 
 **Schritt 3:** Kompiliere den Code.
 
@@ -84,7 +84,7 @@ Experimentelle Schritte
 
 .. code-block:: 
 
-    gcc 3.1.7_OverheatMonitor.c -lm -lwiringPi
+    gcc 3.1.8_OverheatMonitor.c -lm -lwiringPi
 
 **Schritt 4:** Führe die erstellte Datei aus.
 

@@ -303,7 +303,7 @@ Falls du diese Schritte bereits ausgeführt hast, kannst du diesen Punkt übersp
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
+    sudo python3 3.1.5-2_BatteryIndicator.py
 
 Nach dem Start des Programms verbinde den 3. Pin des ADC0834 und GND jeweils mit einem Kabel und schließe sie dann an die beiden Pole einer Batterie an.  
 Du wirst sehen, dass die entsprechende LED auf der LED-Balkenanzeige leuchtet und den Ladezustand anzeigt (Messbereich: 0–5V).

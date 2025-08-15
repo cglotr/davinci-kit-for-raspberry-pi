@@ -367,7 +367,7 @@ Die Funktion ``main()`` enthält die Programmschleife:
 
 .. code-block::
 
-    sudo python3 4.1.10-2_SmartFan.py
+    sudo python3 3.1.4-2_SmartFan.py
 
 Funktionsweise:  
 Wie bei der C-Version wird der Lüfter über den Taster gesteuert, Temperaturänderungen um ±2 ℃ passen die Stufe automatisch an.

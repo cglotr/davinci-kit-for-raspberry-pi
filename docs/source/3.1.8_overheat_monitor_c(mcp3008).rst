@@ -82,7 +82,7 @@ Versuchsschritte
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/3.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.8-2/
 
 **Schritt 3:** Kompiliere den Code.
 
@@ -92,7 +92,7 @@ Versuchsschritte
 
 .. code-block::
 
-    gcc 3.1.7_OverheatMonitor.c -lm -lwiringPi
+    gcc 3.1.8_OverheatMonitor.c -lm -lwiringPi
 
 **Schritt 4:** Führe die ausführbare Datei aus.
 
@@ -270,17 +270,13 @@ Die Hauptschleife wechselt zwischen zwei Modi:
 1. Temperaturüberwachung.
 2. Einstellung des oberen Grenzwerts mit dem Joystick.
 
-Der Modus wird gewechselt, wenn die Joystick-Taste losgelassen wird (Flankenerkennung bei steigender Flanke).
 
-
-**Für Python-Sprach-Nutzer**
+**Für Python-Sprachbenutzer**
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Schritt 2:** Richte die SPI-Schnittstelle ein und installiere die ``spidev``-Bibliothek  
-(siehe :ref:`spi_configuration` für detaillierte Anweisungen).  
-Falls du diese Schritte bereits abgeschlossen hast, kannst du sie überspringen.
+**Schritt 2:** Richten Sie die SPI-Schnittstelle ein und installieren Sie die ``spidev``-Bibliothek (siehe :ref:`spi_configuration` für detaillierte Anweisungen). Wenn Sie diese Schritte bereits abgeschlossen haben, können Sie diesen Schritt überspringen.
 
-**Schritt 3:** Gehe in den Code-Ordner.
+**Schritt 3**: Gehen Sie in den Ordner mit dem Code.
 
 .. raw:: html
 
@@ -288,9 +284,11 @@ Falls du diese Schritte bereits abgeschlossen hast, kannst du sie überspringen.
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/python
 
-**Schritt 4:** Führe die Python-Datei aus.
+   cd ~/davinci-kit-for-raspberry-pi/python
+
+
+**Schritt 4**: Führen Sie die ausführbare Datei aus.
 
 .. raw:: html
 
@@ -298,188 +296,356 @@ Falls du diese Schritte bereits abgeschlossen hast, kannst du sie überspringen.
 
 .. code-block::
 
-    sudo python3 4.1.11-2_BatteryIndicator.py
 
-Nachdem das Programm gestartet wurde,  
-verbinde den 3. Pin des ADC0834 und GND jeweils über separate Kabel mit den beiden Polen einer Batterie.  
-Du kannst sehen, wie die entsprechenden LEDs auf der LED-Bargraph-Anzeige leuchten,  
-um den Ladezustand darzustellen (Messbereich: 0–5V).
+   sudo python3 3.1.8-2_OverheatMonitor.py
+
+
+Während der Code ausgeführt wird, werden die aktuelle Temperatur und die Hochtemperaturschwelle **40** auf dem **I2C LCD1602** angezeigt.
+Wenn die aktuelle Temperatur größer als die Schwelle ist, werden Summer und LED aktiviert, um Sie zu warnen.
+
+Der **Joystick** dient hier dazu, die Hochtemperaturschwelle durch Drücken anzupassen.
+Das Bewegen des **Joysticks** entlang der X- und Y-Achse kann die aktuelle Hochtemperaturschwelle erhöhen oder verringern.
+Drücken Sie den **Joystick** erneut, um die Schwelle auf den Anfangswert zurückzusetzen.
+
+.. note::
+
+
+    * Wenn der Fehler ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'`` auftritt, müssen Sie gemäß :ref:`i2c_config` den I2C aktivieren.
+    * Wenn der Fehler ``ModuleNotFoundError: No module named 'smbus2'`` auftritt, führen Sie bitte ``sudo pip3 install smbus2`` aus.
+    * Wenn der Fehler ``OSError: [Errno 121] Remote I/O error`` erscheint, ist das Modul entweder falsch verdrahtet oder defekt.
+    * Wenn Code und Verdrahtung korrekt sind, das LCD jedoch weiterhin nichts anzeigt, drehen Sie das Potentiometer auf der Rückseite, um den Kontrast zu erhöhen.
+
 
 .. warning::
 
-    Falls der Fehler ``RuntimeError: Cannot determine SOC peripheral base address`` erscheint,  
-    siehe :ref:`faq_soc`. 
+
+    Wenn die Fehlermeldung ``RuntimeError: Cannot determine SOC peripheral base address`` erscheint, lesen Sie bitte :ref:`faq_soc`
+
 
 **Code**
 
 .. note::
-    Du kannst den Code unten **ändern/zurücksetzen/kopieren/ausführen/stoppen**.  
-    Bevor du ihn ausführst, musst du in das Quellcodeverzeichnis wechseln,  
-    z. B. ``davinci-kit-for-raspberry-pi/python``.  
-    Nach dem Ändern kannst du ihn direkt starten, um das Ergebnis zu sehen.
+    Sie können den folgenden Code **ändern/zurücksetzen/kopieren/ausführen/stoppen**.
+    Bevor Sie dies tun, müssen Sie jedoch in das Quellcode-Verzeichnis wie ``davinci-kit-for-raspberry-pi/python`` wechseln.
+    Nach einer Änderung können Sie den Code direkt ausführen, um die Auswirkung zu sehen.
 
 .. raw:: html
 
+
     <run></run>
 
+
 .. code-block:: python
+
 
     #!/usr/bin/env python3
 
     import RPi.GPIO as GPIO
     import spidev
     import time
+    import math
+    import LCD1602
 
-    # GPIO-Pins, die mit 10 LEDs verbunden sind, von links nach rechts
-    led_pins = [25, 12, 16, 20, 21, 5, 6, 13, 19, 26]  # BCM-Nummerierung
+    # GPIO pin definitions
+    JOY_BTN_PIN = 22  # Button pin
+    BUZZER_PIN = 23   # Buzzer pin
+    LED_PIN = 24      # LED pin
 
-    # GPIO-Setup
+    # Initialize GPIO
     GPIO.setmode(GPIO.BCM)
-    for pin in led_pins:
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, GPIO.LOW)
+    GPIO.setup(JOY_BTN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(BUZZER_PIN, GPIO.OUT)
+    GPIO.setup(LED_PIN, GPIO.OUT)
 
-    # SPI initialisieren
+    # Set initial upper temperature threshold
+    upperTem = 40
+
+    # Initialize SPI for MCP3008
     spi = spidev.SpiDev()
-    spi.open(0, 0)  # Bus 0, CE0
+    spi.open(0, 0)
     spi.max_speed_hz = 1000000  # 1 MHz
 
-    # Wert vom MCP3008-Kanal lesen
+    # Initialize LCD1602
+    LCD1602.init(0x27, 1)
+
     def read_adc(channel):
+        """
+        Read analog value from MCP3008 (0–7)
+        """
         if channel < 0 or channel > 7:
             return -1
-        r = spi.xfer2([1, (8 + channel) << 4, 0])
-        value = ((r[1] & 0x03) << 8) | r[2]
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
         return value
 
-    # LED-Bargraph entsprechend dem Wert ansteuern
-    def led_bar_graph(level):
-        for i, pin in enumerate(led_pins):
-            if i < level:
-                GPIO.output(pin, GPIO.HIGH)
-            else:
-                GPIO.output(pin, GPIO.LOW)
+    def get_joystick_value():
+        """
+        Reads the joystick values and returns a change value based on the joystick's position.
+        """
+        x_val = read_adc(1)
+        y_val = read_adc(2)
+        if x_val > 800:
+            return 1
+        elif x_val < 200:
+            return -1
+        elif y_val > 800:
+            return -10
+        elif y_val < 200:
+            return 10
+        else:
+            return 0
 
-    # Hauptschleife
+    def upper_tem_setting():
+        """
+        Adjusts and displays the upper temperature threshold on the LCD.
+        """
+        global upperTem
+        LCD1602.write(0, 0, 'Upper Adjust: ')
+        change = int(get_joystick_value())
+        upperTem += change
+        strUpperTem = str(upperTem)
+        LCD1602.write(0, 1, strUpperTem)
+        LCD1602.write(len(strUpperTem), 1, '              ')
+        time.sleep(0.1)
+
+    def temperature():
+        """
+        Reads the current temperature from the sensor and returns it in Celsius.
+        """
+        analogVal = read_adc(0)
+        Vr = 3.3 * analogVal / 1023.0
+        if Vr == 0:
+            return 0
+        Rt = 10000.0 * (3.3 - Vr) / Vr
+        tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+        Cel = tempK - 273.15
+        return round(Cel, 2)
+
+    def monitoring_temp():
+        """
+        Monitors and displays the current temperature and upper temperature threshold. 
+        Activates buzzer and LED if the temperature exceeds the upper limit.
+        """
+        global upperTem
+        Cel = temperature()
+        LCD1602.write(0, 0, 'Temp: ')
+        LCD1602.write(0, 1, 'Upper: ')
+        LCD1602.write(6, 0, str(Cel))
+        LCD1602.write(7, 1, str(upperTem))
+        time.sleep(0.1)
+        if Cel >= upperTem:
+            GPIO.output(BUZZER_PIN, GPIO.HIGH)
+            GPIO.output(LED_PIN, GPIO.HIGH)
+        else:
+            GPIO.output(BUZZER_PIN, GPIO.LOW)
+            GPIO.output(LED_PIN, GPIO.LOW)
+
+    # Main loop
     try:
+        lastState = GPIO.input(JOY_BTN_PIN)
+        stage = 0
         while True:
-            analog_val = read_adc(0)  # Von MCP3008-Kanal 0 lesen
-            level = int(analog_val * 10 / 1023)  
-            led_bar_graph(level)
-            print(f"ADC: {analog_val}, Level: {level}")
-            time.sleep(0.2)
+            currentState = GPIO.input(JOY_BTN_PIN)
+            if currentState == GPIO.HIGH and lastState == GPIO.LOW:
+                stage = (stage + 1) % 2
+                time.sleep(0.1)
+                LCD1602.clear()
+            lastState = currentState
+
+            if stage == 1:
+                upper_tem_setting()
+            else:
+                monitoring_temp()
 
     except KeyboardInterrupt:
         pass
 
     finally:
-        for pin in led_pins:
-            GPIO.output(pin, GPIO.LOW)
+        LCD1602.clear()
         GPIO.cleanup()
         spi.close()
 
 Code-Erklärung
---------------------
-Dieses Programm liest die analoge Spannung von einem MCP3008-ADC  
-und zeigt das Ergebnis auf einer 10-LED-Bargraph-Anzeige mit einem Raspberry Pi (BCM-Pin-Layout) an.
+----------------------------
 
-1. **Module importieren**
+1. **Bibliotheken importieren**
 
-   - ``RPi.GPIO`` steuert die GPIO-Pins des Raspberry Pi.
-   - ``spidev`` kommuniziert mit dem MCP3008 über SPI.
-   - ``time`` bietet Verzögerungs-/Sleep-Funktionalität.
+   Dieser Abschnitt lädt die erforderlichen Bibliotheken für GPIO, SPI, LCD-Anzeige, Zeitverzögerungen und mathematische Operationen.
 
    .. code-block:: python
 
-       #!/usr/bin/env python3
+      
+      #!/usr/bin/env python3
+      import RPi.GPIO as GPIO
+      import spidev
+      import time
+      import math
+      import LCD1602
+      
 
-       import RPi.GPIO as GPIO
-       import spidev
-       import time
+2. **GPIO- und Geräteeinrichtung**
 
-2. **GPIO-LED-Setup**
-
-   Eine Liste mit 10 GPIO-Pins wird zur LED-Steuerung definiert.  
-   Diese Pins werden als Ausgang konfiguriert und zunächst auf LOW (aus) gesetzt.
-
-   .. code-block:: python
-
-       # GPIO-Pins, die mit 10 LEDs verbunden sind, von links nach rechts
-       led_pins = [25, 12, 16, 20, 21, 5, 6, 13, 19, 26]  # BCM-Nummerierung
-
-       GPIO.setmode(GPIO.BCM)
-       for pin in led_pins:
-           GPIO.setup(pin, GPIO.OUT)
-           GPIO.output(pin, GPIO.LOW)
-
-3. **SPI-Initialisierung**
-
-   Initialisiert SPI-Bus 0 und Chip-Enable 0 (CE0), um mit dem MCP3008 zu kommunizieren.  
-   Die Kommunikationsgeschwindigkeit wird auf 1 MHz gesetzt.
+   Definiert die GPIO-Pinnummern für den Joystick-Knopf, den Summer und die LED, und konfiguriert die GPIO-Modi.
 
    .. code-block:: python
 
-       spi = spidev.SpiDev()
-       spi.open(0, 0)  # Bus 0, CE0
-       spi.max_speed_hz = 1000000  # 1 MHz
+      
+      JOY_BTN_PIN = 22  # Taster-Pin
+      BUZZER_PIN = 23   # Summer-Pin
+      LED_PIN = 24      # LED-Pin
 
-4. **ADC-Lesefunktion**
+      GPIO.setmode(GPIO.BCM)
+      GPIO.setup(JOY_BTN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+      GPIO.setup(BUZZER_PIN, GPIO.OUT)
+      GPIO.setup(LED_PIN, GPIO.OUT)
+      
 
-   Liest einen analogen Wert von einem angegebenen MCP3008-Kanal (0–7).  
-   Die Funktion sendet einen 3-Byte-SPI-Befehl und dekodiert das 10-Bit-Ergebnis.
+3. **SPI- und LCD-Initialisierung**
 
-   .. code-block:: python
-
-       def read_adc(channel):
-           if channel < 0 or channel > 7:
-               return -1
-           r = spi.xfer2([1, (8 + channel) << 4, 0])
-           value = ((r[1] & 0x03) << 8) | r[2]
-           return value
-
-5. **LED-Bargraph-Funktion**
-
-   Schaltet LEDs basierend auf dem analogen Level ein.  
-   Wenn der Level z. B. 7 beträgt, leuchten die ersten 7 LEDs und der Rest bleibt aus.
+   Startet die SPI-Schnittstelle für MCP3008 und initialisiert den LCD1602-Bildschirm mit der I2C-Adresse 0x27.
 
    .. code-block:: python
 
-       def led_bar_graph(level):
-           for i, pin in enumerate(led_pins):
-               if i < level:
-                   GPIO.output(pin, GPIO.HIGH)
-               else:
-                   GPIO.output(pin, GPIO.LOW)
+      
+      upperTem = 40
+      spi = spidev.SpiDev()
+      spi.open(0, 0)
+      spi.max_speed_hz = 1000000
 
-6. **Hauptschleife**
+      LCD1602.init(0x27, 1)
+      
 
-   Liest kontinuierlich den analogen Eingang von Kanal 0,  
-   skaliert das Ergebnis auf einen Wert von 0 bis 10  
-   und aktualisiert entsprechend die LED-Anzeige.  
-   Gibt ADC- und Level-Werte zur Überwachung aus.
+4. **ADC-Wert lesen**
 
-   .. code-block:: python
-
-       try:
-           while True:
-               analog_val = read_adc(0)
-               level = int(analog_val * 10 / 1023)
-               led_bar_graph(level)
-               print(f"ADC: {analog_val}, Level: {level}")
-               time.sleep(0.2)
-
-7. **Aufräumen beim Beenden**
-
-   Wenn ``Ctrl+C`` gedrückt wird, schaltet das Programm alle LEDs aus,  
-   bereinigt den GPIO-Zustand und schließt die SPI-Schnittstelle.
+   Liest analoge Daten vom MCP3008-ADC über SPI. Der Kanal sollte im Bereich 0–7 liegen.
 
    .. code-block:: python
 
-       except KeyboardInterrupt:
-           pass
+   
+      def read_adc(channel):
+         if channel < 0 or channel > 7:
+            return -1
+         adc = spi.xfer2([1, (8 + channel) << 4, 0])
+         value = ((adc[1] & 0x03) << 8) | adc[2]
+         return value
+      
 
-       finally:
-           for pin in led_pins:
-               GPIO.output(pin, GPIO.LOW)
-           GPIO.cleanup()
-           spi.close()
+5. **Joystick-Bewegungserkennung**
+
+   Überprüft die X/Y-Achsenwerte des Joysticks und gibt zurück, um wie viel der Schwellenwert geändert werden soll.
+
+   .. code-block:: python
+
+   
+      def get_joystick_value():
+         x_val = read_adc(1)
+         y_val = read_adc(2)
+         if x_val > 800:
+            return 1
+         elif x_val < 200:
+            return -1
+         elif y_val > 800:
+            return -10
+         elif y_val < 200:
+            return 10
+         else:
+            return 0
+      
+
+6. **Obere Temperaturschwelle einstellen**
+
+   Zeigt „Upper Adjust“ auf dem LCD an und passt die Schwelle anhand der Joystick-Eingaben an.
+
+   .. code-block:: python
+
+      
+      def upper_tem_setting():
+         global upperTem
+         LCD1602.write(0, 0, 'Upper Adjust: ')
+         change = int(get_joystick_value())
+         upperTem += change
+         strUpperTem = str(upperTem)
+         LCD1602.write(0, 1, strUpperTem)
+         LCD1602.write(len(strUpperTem), 1, '              ')
+         time.sleep(0.1)
+      
+
+7. **Temperaturberechnung**
+
+   Wandelt den analogen Sensorwert in Spannung, Widerstand und schließlich Temperatur (Celsius) unter Verwendung der Steinhart–Hart-Annäherung um.
+
+   .. code-block:: python
+
+      
+      def temperature():
+         analogVal = read_adc(0)
+         Vr = 3.3 * analogVal / 1023.0
+         if Vr == 0:
+            return 0
+         Rt = 10000.0 * (3.3 - Vr) / Vr
+         tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+         Cel = tempK - 273.15
+         return round(Cel, 2)
+      
+
+8. **Temperaturüberwachung**
+
+   Überprüft und zeigt kontinuierlich Temperatur und obere Grenze an. Aktiviert Summer und LED, wenn die Temperatur die Schwelle überschreitet.
+
+   .. code-block:: python
+
+      
+      def monitoring_temp():
+         global upperTem
+         Cel = temperature()
+         LCD1602.write(0, 0, 'Temp: ')
+         LCD1602.write(0, 1, 'Upper: ')
+         LCD1602.write(6, 0, str(Cel))
+         LCD1602.write(7, 1, str(upperTem))
+         time.sleep(0.1)
+         if Cel >= upperTem:
+            GPIO.output(BUZZER_PIN, GPIO.HIGH)
+            GPIO.output(LED_PIN, GPIO.HIGH)
+         else:
+            GPIO.output(BUZZER_PIN, GPIO.LOW)
+            GPIO.output(LED_PIN, GPIO.LOW)
+      
+
+9. **Hauptprogrammlogik**
+
+   Wechselt zwischen Temperaturüberwachungs- und Schwellenwerteinstellungsmodus, wenn der Joystick-Knopf gedrückt wird.
+
+   .. code-block:: python
+
+      
+      try:
+         lastState = GPIO.input(JOY_BTN_PIN)
+         stage = 0
+         while True:
+            currentState = GPIO.input(JOY_BTN_PIN)
+            if currentState == GPIO.HIGH and lastState == GPIO.LOW:
+                  stage = (stage + 1) % 2
+                  time.sleep(0.1)
+                  LCD1602.clear()
+            lastState = currentState
+
+            if stage == 1:
+                  upper_tem_setting()
+            else:
+                  monitoring_temp()
+      
+
+10. **Aufräumen beim Beenden**
+
+    Sorgt für die ordnungsgemäße Freigabe von GPIO- und SPI-Ressourcen, wenn Strg+C gedrückt wird.
+
+    .. code-block:: python
+      
+      except KeyboardInterrupt:
+         pass
+      finally:
+         LCD1602.clear()
+         GPIO.cleanup()
+         spi.close()
+      
+

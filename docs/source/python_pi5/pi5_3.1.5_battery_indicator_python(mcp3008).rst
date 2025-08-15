@@ -99,7 +99,7 @@ Experimentelle Schritte
 
 .. code-block::
 
-    sudo python3 4.1.11-2_Battery_indicator_zero.py
+    sudo python3 3.1.5-2_Battery_indicator_zero.py
 
 Nachdem das Programm gestartet ist, verbinde den dritten Pin des MCP3008 und GND  
 jeweils mit den beiden Polen einer Batterie.  
