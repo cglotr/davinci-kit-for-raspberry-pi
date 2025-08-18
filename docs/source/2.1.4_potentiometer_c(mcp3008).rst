@@ -146,13 +146,13 @@ Für C-Sprach-Nutzer
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
 
 **Schritt 3:** Kompiliere den Code.
 
 .. code-block::
 
-    gcc 2.1.7_Potentiometer.c -lwiringPi
+    gcc 2.1.4_Potentiometer.c -lwiringPi
 
 **Schritt 4:** Ausführen.
 
@@ -240,7 +240,7 @@ Für Python-Nutzer
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer.py
+    sudo python3 2.1.4-2_Potentiometer.py
 
 .. warning::
 

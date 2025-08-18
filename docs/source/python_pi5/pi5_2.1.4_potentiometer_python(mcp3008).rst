@@ -106,7 +106,7 @@ Experimentelle Schritte
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer_zero.py
+    sudo python3 2.1.4-2_Potentiometer_zero.py
 
 Nach dem Start des Codes kannst du den Knopf am Potentiometer drehen,  
 wodurch sich die Helligkeit der LED entsprechend verändert.
