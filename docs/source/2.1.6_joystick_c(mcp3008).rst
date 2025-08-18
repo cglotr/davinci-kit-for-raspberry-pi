@@ -69,13 +69,13 @@ C言語の場合
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.9-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.6-2/
 
 **手順3:** コンパイルします。
 
 .. code-block::
 
-    gcc 2.1.9_Joystick.c -o joystick -lwiringPi
+    gcc 2.1.6_Joystick.c -o joystick -lwiringPi
 
 **手順4:** 実行します。
 
@@ -219,7 +219,7 @@ Pythonの場合
 
 .. code-block::
 
-    sudo python3 2.1.9-2_Joystick.py
+    sudo python3 2.1.6-2_Joystick.py
 
 実行すると、ジョイスティックを動かすことで X, Y, ボタン の値が画面に表示されます。
 

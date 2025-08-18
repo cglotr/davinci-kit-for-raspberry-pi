@@ -101,7 +101,7 @@ MCP3008 はこのアナログ電圧をデジタル値に変換し、ラズベリ
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer_zero.py
+    sudo python3 2.1.4-2_Potentiometer_zero.py
 
 コードを実行すると、可変抵抗器のつまみを回すことで LED の明るさが変化します。
 

@@ -128,13 +128,13 @@ C言語の場合
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
 
 **手順3:** コンパイル。
 
 .. code-block::
 
-    gcc 2.1.7_Potentiometer.c -lwiringPi
+    gcc 2.1.4_Potentiometer.c -lwiringPi
 
 **手順4:** 実行。
 
@@ -298,7 +298,7 @@ Python の場合
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer.py
+    sudo python3 2.1.4-2_Potentiometer.py
 
 実行すると、可変抵抗器を回すと LED の明るさが変化します。
 
