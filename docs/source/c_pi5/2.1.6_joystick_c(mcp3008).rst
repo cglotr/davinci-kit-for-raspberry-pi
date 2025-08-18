@@ -106,7 +106,7 @@ Procedura sperimentale
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.9-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.6-2/
 
 **Passo 3:** Compilare il codice.
 
@@ -116,7 +116,7 @@ Procedura sperimentale
 
 .. code-block::
 
-    gcc 2.1.9_Joystick.c -o joystick -lwiringPi
+    gcc 2.1.6_Joystick.c -o joystick -lwiringPi
 
 **Passo 4:** Eseguire il file compilato.
 

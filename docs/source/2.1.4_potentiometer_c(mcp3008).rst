@@ -151,7 +151,7 @@ Per utenti del linguaggio C
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
 
 **Passo 3:** Compila il codice.
 
@@ -161,7 +161,7 @@ Per utenti del linguaggio C
 
 .. code-block::
 
-    gcc 2.1.7_Potentiometer.c -lwiringPi
+    gcc 2.1.4_Potentiometer.c -lwiringPi
 
 **Passo 4:** Esegui.
 
@@ -339,7 +339,7 @@ Per utenti Python
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer.py
+    sudo python3 2.1.4-2_Potentiometer.py
 
 Dopo aver eseguito il codice, ruota la manopola del potenziometro:  
 l’intensità del LED cambierà di conseguenza.

@@ -109,7 +109,7 @@ Procedura sperimentale
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer_zero.py
+    sudo python3 2.1.4-2_Potentiometer_zero.py
 
 Dopo l’esecuzione del codice, ruota la manopola del potenziometro: l’intensità del LED cambierà di conseguenza.
 
