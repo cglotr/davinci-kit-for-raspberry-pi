@@ -110,7 +110,7 @@ Procedimiento experimental
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer_zero.py
+    sudo python3 2.1.4-2_Potentiometer_zero.py
 
 Después de que el código se ejecute, al girar la perilla del potenciómetro, la intensidad del LED cambiará en consecuencia.
 
