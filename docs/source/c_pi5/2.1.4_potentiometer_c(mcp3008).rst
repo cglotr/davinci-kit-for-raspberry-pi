@@ -150,7 +150,7 @@ Procédure expérimentale
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
 
 **Étape 3 :** Compiler le code.
 
@@ -160,7 +160,7 @@ Procédure expérimentale
 
 .. code-block::
 
-    gcc 2.1.7_Potentiometer.c -lwiringPi
+    gcc 2.1.4_Potentiometer.c -lwiringPi
 
 **Étape 4 :** Exécuter.
 
@@ -262,9 +262,11 @@ Cette fonction lit les données analogiques depuis le MCP3008.
 
 * Vérifie d’abord si le numéro de canal est valide (0 à 7).
 * Initialise un tableau de 3 octets :
+
   * ``buffer[0] = 1`` : bit de démarrage pour la communication avec le MCP3008.
   * ``buffer[1] = (8 + channel) << 4`` : construit l’octet de configuration pour le mode simple et sélectionne le canal.
   * ``buffer[2] = 0`` : octet vide pour recevoir le résultat.
+  
 * ``wiringPiSPIDataRW`` envoie et reçoit les données via le canal SPI.
 * La valeur retournée est extraite des deux derniers octets via des opérations binaires pour obtenir le résultat ADC sur 10 bits.
 

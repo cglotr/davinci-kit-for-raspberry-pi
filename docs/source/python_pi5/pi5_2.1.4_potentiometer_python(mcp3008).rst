@@ -107,7 +107,7 @@ Procédures expérimentales
 
 .. code-block::
 
-    sudo python3 2.1.7-2_Potentiometer_zero.py
+    sudo python3 2.1.4-2_Potentiometer_zero.py
 
 Après exécution du code, tournez le bouton du potentiomètre : l’intensité de la LED changera en conséquence.
 

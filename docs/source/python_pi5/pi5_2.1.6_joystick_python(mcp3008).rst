@@ -107,7 +107,7 @@ Procédures expérimentales
 
 .. code-block::
 
-    sudo python3 2.1.9-2_Joystick_zero.py
+    sudo python3 2.1.6-2_Joystick_zero.py
 
 Après exécution du code, déplacez le joystick : les valeurs correspondantes de X, Y et Btn s’afficheront à l’écran.
 
