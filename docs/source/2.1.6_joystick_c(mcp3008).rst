@@ -124,7 +124,7 @@ For C Language Users
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.9-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.6-2/
 
 **Step 3:** Compile the code.
 
@@ -134,7 +134,7 @@ For C Language Users
 
 .. code-block::
 
-    gcc 2.1.9_Joystick.c -o joystick -lwiringPi
+    gcc 2.1.6_Joystick.c -o joystick -lwiringPi
 
 **Step 4:** Run the executable file.
 
@@ -293,7 +293,7 @@ For Python Language Users
 
 .. code-block::
 
-    sudo python3 2.1.9-2_Joystick.py
+    sudo python3 2.1.6-2_Joystick.py
 
 After the code runs, turn the Joystick, then the corresponding values of
 x, y, Btn are displayed on screen.

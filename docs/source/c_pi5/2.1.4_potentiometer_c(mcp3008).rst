@@ -153,7 +153,7 @@ Experimental Procedures
 
 .. code-block::
 
-    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
 
 **Step 3:** Compile the code.
 
@@ -163,7 +163,7 @@ Experimental Procedures
 
 .. code-block::
 
-    gcc 2.1.7_Potentiometer.c -lwiringPi
+    gcc 2.1.4_Potentiometer.c -lwiringPi
 
 **Step 4:** Run.
 

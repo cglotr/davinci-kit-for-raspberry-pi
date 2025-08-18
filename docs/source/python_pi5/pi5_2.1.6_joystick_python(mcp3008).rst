@@ -110,7 +110,7 @@ Experimental Procedures
 
 .. code-block::
 
-    sudo python3 2.1.9-2_Joystick_zero.py
+    sudo python3 2.1.6-2_Joystick_zero.py
 
 After the code runs, turn the Joystick, then the corresponding values of x, y, Btn are displayed on screen.
 
