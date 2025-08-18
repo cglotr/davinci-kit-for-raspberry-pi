@@ -17,8 +17,5 @@
 
 パッケージを開封した後、部品の数量が製品の説明に一致しているかどうか、およびすべての部品が良好な状態にあるかどうかを確認してください。
 
-.. image:: media/image4.jpeg
-.. image:: media/image6.png
-.. image:: media/image8.jpeg
-.. image:: media/image9.jpeg
-
+.. image:: img/K0402V25-DAVINCI-LIST.png
+    :width: 800px

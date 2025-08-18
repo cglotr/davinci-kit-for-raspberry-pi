@@ -1,0 +1,284 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 について、仲間と一緒により深く学びましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的な課題を、コミュニティとチームがサポートします。
+    - **学びと共有**: 技術や作例の情報交換でスキルを向上させます。
+    - **限定先行情報**: 新製品の発表や先行プレビューを入手できます。
+    - **特別割引**: 最新製品の限定割引を利用できます。
+    - **季節イベントと景品**: プレゼント企画や季節のイベントに参加できます。
+
+    👉 ものづくりの世界を一緒に探求しませんか？[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _2.1.4_c_pi5_mcp3008:
+
+2.1.4 可変抵抗器(MCP3008)
+================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   お使いのキットの種類によって、 **ADC0834** か **MCP3008** のどちらかをご確認のうえ、それぞれの説明に進んでください。
+
+はじめに
+--------
+
+ADC（アナログ-デジタル変換）機能は、アナログ信号をデジタル値に変換するために使われます。  
+この実験では MCP3008 ADC チップを用いて変換を行います。  
+可変抵抗器を回すことで電圧が変化し、その変化を MCP3008 がデジタル値に変換し、Raspberry Pi で読み取り・処理します。
+
+必要な部品
+----------
+
+本プロジェクトで必要な部品は以下の通りです。
+
+.. image:: ../img/list2_2.1.4_potentiometer.png
+
+原理
+----
+
+**MCP3008**
+
+MCP3008 は 8 チャンネル入力を持つ 10ビット逐次比較型ADC で、SPI（シリアルペリフェラルインタフェース）通信方式を採用しています。  
+マイコンと接続してアナログ信号をデジタルデータに変換し、処理に利用できます。
+
+.. image:: ../img/MCP3008.jpg
+      :width: 40%
+
+**動作の流れ**
+
+1. MCP3008 との通信を始めるには、CS（チップセレクト）を Low にします。  
+2. マイコンから SPI 経由で3バイトの制御データを送信し、設定と読み出すチャンネルを指定します。  
+3. 最初のバイトには開始ビットとシングル/差動選択ビットが含まれます。次のビットで CH0〜CH7 を選択します。  
+4. クロックの立ち上がりごとにデータが取り込まれ、同時に変換結果が送信されます。  
+5. 内部で入力チャンネルの安定時間を確保した後、サンプル・アンド・ホールド回路と SAR コンパレータで10ビット変換を行います。  
+6. 変換結果は MISO（Master In Slave Out）から MSB（最上位ビット）から順に送られます。  
+7. 全10ビットのデータが送られると、次のコマンド待ち状態になります。
+
+* `MCP3008シリーズ データシート <https://www.alldatasheet.com/datasheet-pdf/view/304558/MICROCHIP/MCP3008-ISLASHP.html>`_
+
+.. image:: ../img/MCP3008detail.png
+
+**可変抵抗器**
+
+可変抵抗器は3端子を持つ抵抗部品で、つまみやスライダーの位置によって抵抗値を変えることができます。  
+抵抗体と可動接点から構成され、接点の位置によって抵抗値や出力電圧が変化します。
+
+.. image:: ../img/image310.png
+    :width: 300
+    :align: center
+
+可変抵抗器の主な機能は以下の通りです。
+
+1. **分圧器として使う**  
+   軸やスライダーを動かすことで、可動接点が抵抗体上を移動し、その位置に応じて出力電圧が変化します。
+
+回路図
+------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.1.7_potentiometer_mcp3008.png
+
+実験手順
+--------
+
+**手順1:** 回路を組みます。
+
+.. image:: ../img/july24_2.1.7_potentiometer_mcp3008.png
+
+.. note::
+    図の位置関係を参考にチップを配置してください。溝が左側になるように置きます。
+
+**手順2:** コードファイルを開きます。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.7-2/
+
+**手順3:** コードをコンパイルします。
+
+.. code-block::
+
+    gcc 2.1.7_Potentiometer.c -lwiringPi
+
+**手順4:** 実行します。
+
+.. code-block::
+
+    sudo ./a.out
+
+プログラム実行後、可変抵抗器のつまみを回すと、LEDの明るさが変化します。
+
+.. note::
+    実行後に動作しない場合や  
+    「wiringPi.h: No such file or directory」というエラーが出る場合は、:ref:`install_wiringpi` を参照してください。
+
+**コード**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define LedPin      3
+
+    int readADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                             // 開始ビット
+        buffer[1] = (8 + channel) << 4;            // シングルエンドモード + チャンネル指定
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("WiringPi init failed!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100);
+
+        while (1) {
+            int analogVal = readADC(0);  // CH0
+            printf("ADC Value: %d\n", analogVal);
+
+            int pwmVal = analogVal * 100 / 1023;  // 0〜100 に正規化
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**コード解説**
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define LedPin      3
+
+SPI チャンネルを CE0 に設定、通信速度を 1MHz に設定し、LED のピンを GPIO3 に割り当てています。
+
+.. code-block:: c
+
+    int readADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                             // 開始ビット
+        buffer[1] = (8 + channel) << 4;            // シングルエンドモード + チャンネル指定
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+この関数は MCP3008 からアナログデータを読み取ります。
+
+* チャンネル番号が 0〜7 の範囲かを確認します。
+* 3バイト配列を準備し、
+
+  * ``buffer[0]`` に開始ビット
+  * ``buffer[1]`` にシングルエンドモードとチャンネル番号
+  * ``buffer[2]`` は結果受信用の空データ  
+    を格納します。
+    
+* ``wiringPiSPIDataRW`` で SPI 送受信を行います。
+* ビット演算で 10ビットの結果を抽出します。
+
+.. code-block:: c
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("WiringPi init failed!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100);
+
+        while (1) {
+            int analogVal = readADC(0);  // CH0
+            printf("ADC Value: %d\n", analogVal);
+
+            int pwmVal = analogVal * 100 / 1023;  // 0〜100 に正規化
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+メイン関数では、
+
+* ``wiringPiSetup()`` でライブラリを初期化
+* ``wiringPiSPISetup()`` で SPI 通信を設定
+* ``softPwmCreate()`` で GPIO3 に PWM を設定（0〜100）
+
+その後無限ループに入り、
+
+1. CH0 から ADC 値を読み取る  
+2. 値を表示  
+3. PWM 用に 0〜100 に変換  
+4. LED の明るさを更新  
+
+``delay(100)`` で 100ms 待機します。

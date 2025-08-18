@@ -22,10 +22,13 @@
     3.1.2_welcome
     3.1.3_reversing_alarm
     3.1.4_smart_fan
-    3.1.5_battery_indicator
+    3.1.4_smart_fan_c(mcp3008)
+    3.1.5_battery_indicator    
+    3.1.5_battery_indicator_c(mcp3008)
     3.1.6_motion_control
     3.1.7_traffic_light
     3.1.8_overheat_monitor
+    3.1.8_overheat_monitor_c(mcp3008)
     3.1.9_password_lock
     3.1.10_alarm_bell
     3.1.11_morse_code_generator

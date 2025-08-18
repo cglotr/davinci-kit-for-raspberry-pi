@@ -1,0 +1,179 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と共にさらに深く学びましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的な課題を、コミュニティとチームがサポートします。
+    - **学びと共有**: ヒントや作例を交換してスキルを向上させます。
+    - **限定先行情報**: 新製品の発表や先行プレビューを入手できます。
+    - **特別割引**: 最新製品の限定割引を利用できます。
+    - **季節イベントと景品**: プレゼント企画や季節イベントに参加できます。
+
+    👉 一緒にものづくりの世界を探検しませんか？[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _2.2.1_c_pi5_mcp3008:
+
+2.2.1 光依存抵抗器(MCP3008)
+===========================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   お使いのキットによって、 **ADC0834** または **MCP3008** のどちらを使用しているか確認し、対応する説明を参照してください。
+
+はじめに
+--------
+
+光依存抵抗器は、生活の中で周囲の光の強さを検知するためによく使われる部品です。  
+昼夜を判別して常夜灯のような光制御機能を実現できます。  
+このプロジェクトは可変抵抗器の回路に似ていますが、電圧変化を利用して光を検出します。
+
+必要な部品
+----------
+
+本プロジェクトでは以下の部品を使用します。
+
+.. image:: ../img/list2_2.2.1_photoresistor.png
+
+原理
+----
+
+光依存抵抗器（フォトセル）は、光によって抵抗値が変化する抵抗器です。  
+入射光が強くなると抵抗値が下がる、つまり光電導性を示します。  
+光依存抵抗器は、光感知回路や明暗によるスイッチ回路などに利用されます。
+
+.. image:: ../img/image196.png
+    :width: 200
+    :align: center
+
+回路図
+------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.2.1_photoresistor_mcp3008.png
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../img/july24_2.2.1_photoresistor_mcp3008.png
+
+**手順2:** コードのあるフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.1-2/
+
+**手順3:** コードをコンパイルします。
+
+.. code-block::
+
+    gcc 2.2.1_Photoresistor.c -o photoresistor -lwiringPi -lm
+
+**手順4:** 実行ファイルを動かします。
+
+.. code-block::
+
+    ./photoresistor
+
+コードが動作すると、光依存抵抗器が感知した光の強さに応じて LED の明るさが変化します。
+
+.. note::
+    実行後に動作しない場合や  
+    「wiringPi.h: No such file or directory」というエラーが表示される場合は、:ref:`install_wiringpi` を参照してください。
+
+**コード**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+
+    #define SPI_CHANNEL 0      // SPI チャンネル0 (CE0) を使用
+    #define SPI_SPEED   1000000 // 1 MHz SPI 速度
+    #define LedPin      3       // GPIO3 (WiringPi) を LED PWM に使用
+
+    // MCP3008 の指定チャンネル(0〜7)からADC値を読み取る
+    int readMCP3008(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                          // 開始ビット
+        buffer[1] = (8 + channel) << 4;         // SGL/DIF=1, D2-D0=チャンネル
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        // 結果を結合
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi init failed!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100); // ソフトウェアPWMを初期化
+
+        while (1) {
+            int analogVal = readMCP3008(0); // CH0 から読み取り
+            printf("ADC Value: %d\n", analogVal);
+
+            // 10ビットのADC値(0〜1023)をPWM範囲(0〜100)に変換
+            int pwmVal = analogVal * 100 / 1023;
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**コード解説**
+
+このコードは 2.1.4 可変抵抗器 の例と同じ構造です。  
+詳しい説明は :ref:`2.1.4_c_pi5_mcp3008` のコード解説を参照してください。

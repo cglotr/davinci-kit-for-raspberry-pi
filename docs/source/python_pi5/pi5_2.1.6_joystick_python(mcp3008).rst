@@ -1,0 +1,209 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間とともにさらに深く探求しましょう。
+
+    **参加する理由**
+
+    - **専門的な支援**: 購入後の問題や技術的な課題を、コミュニティとチームが解決をサポートします。
+    - **学びと共有**: 技術的なヒントや作例を共有し、技能を高めます。
+    - **限定先行情報**: 新製品の発表やプレビューを早く入手できます。
+    - **特別割引**: 最新製品の特別割引を受けられます。
+    - **季節イベントと景品企画**: 季節ごとのイベントや景品企画に参加できます。
+
+    👉 一緒に創造と探求を始めましょう。[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _2.1.6_py_pi5_mcp3008:
+
+2.1.6 ジョイスティック(MCP3008)
+=================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   キットのバージョンによって **ADC0834** または **MCP3008** が含まれています。  
+   該当する方の説明を参照してください。
+
+はじめに
+--------
+
+このプロジェクトでは、ジョイスティックの動作を学びます。  
+ジョイスティックを操作し、その結果を画面に表示します。
+
+必要な部品
+----------
+
+このプロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../python_pi5/img/image317-copy.png
+
+回路図
+------
+
+ジョイスティックのデータを読み取る場合、軸ごとに違いがあります。  
+X軸とY軸のデータはアナログ信号であり、MCP3008 を使ってアナログ値をデジタル値に変換する必要があります。  
+Z軸のデータはデジタル信号なので、GPIO から直接読み取ることも、ADC を使って読み取ることもできます。
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../python_pi5/img/schematic_2.1.9_joystick_mcp3008.png
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../python_pi5/img/july24_2.1.9_joystick_mcp3008.png
+
+**手順2:** SPI インターフェースを設定し、 ``spidev`` ライブラリをインストールします（詳しくは :ref:`spi_configuration` を参照）。すでに完了している場合はこの手順を省略できます。
+
+**手順3:** コードのフォルダへ移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**手順4:** 実行します。
+
+.. code-block::
+
+    sudo python3 2.1.9-2_Joystick_zero.py
+
+コードを実行後、ジョイスティックを動かすと、x、y、Btn の値が画面に表示されます。
+
+.. warning::
+
+    ``RuntimeError: Cannot determine SOC peripheral base address`` というエラーが出た場合は :ref:`faq_soc` を参照してください。
+
+コード
+------
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    from gpiozero import Button
+    import spidev
+    import time
+
+    # GPIO22（ジョイスティック SW ピン）に接続されたボタンを初期化
+    BtnPin = Button(22)
+
+    # MCP3008 との SPI 通信を初期化
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # バス0、デバイス CE0 を開く
+    spi.max_speed_hz = 1000000  # SPI 通信速度を 1MHz に設定
+
+    def read_adc(channel):
+        """
+        指定した MCP3008 チャンネル (0–7) からアナログ値を読み取る
+        :param channel: ADC チャンネル番号 (0–7)
+        :return: 10ビット整数値 (0–1023)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        # ジョイスティックの値とボタン状態を読み取り表示するメインループ
+        while True:
+            # CH0 と CH1 から X と Y の値を読み取る
+            x_val = read_adc(0)  # VRX が CH0 に接続
+            y_val = read_adc(1)  # VRY が CH1 に接続
+
+            # ジョイスティックのボタン状態（SW ピン）を読み取る
+            Btn_val = BtnPin.value  # 0 = 押下, 1 = 解放
+
+            # 読み取った値を表示
+            print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+
+            # 次の読み取りまで 0.2 秒待機
+            time.sleep(0.2)
+
+    # Ctrl+C 割り込み時の終了処理
+    except KeyboardInterrupt:
+        spi.close()
+
+コード解説
+----------
+
+#. 必要なライブラリをインポートします。
+
+   * ``gpiozero.Button`` — ジョイスティックのボタン（SW ピン）のデジタル状態を読み取ります。
+   * ``spidev`` — MCP3008 ADC チップとの SPI 通信を行います。
+   * ``time`` — 読み取り間隔の制御に使用します。
+
+   .. code-block:: python
+
+       from gpiozero import Button
+       import spidev
+       import time
+
+#. GPIO22 に接続されたボタンを初期化し、SPI 通信（バス0、チップセレクト0）を設定します。通信速度は 1MHz にします。
+
+   .. code-block:: python
+
+       BtnPin = Button(22)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)
+       spi.max_speed_hz = 1000000
+
+#. ``read_adc(channel)`` 関数を定義し、指定チャンネル (0–7) からアナログ値を読み取ります。SPI プロトコルで3バイト送信し、10ビットの値を返します。
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           if channel < 0 or channel > 7:
+               return -1
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. メインループでは、VRX（CH0）と VRY（CH1）からアナログ値を読み取り、ジョイスティックボタンの状態も取得します。  
+   値は0.2秒ごとに表示され、Ctrl+C が押されると SPI 通信を安全に終了します。
+
+   .. code-block:: python
+
+       try:
+           while True:
+               x_val = read_adc(0)
+               y_val = read_adc(1)
+               Btn_val = BtnPin.value
+               print('X: %d  Y: %d  Btn: %d' % (x_val, y_val, Btn_val))
+               time.sleep(0.2)
+       except KeyboardInterrupt:
+           spi.close()

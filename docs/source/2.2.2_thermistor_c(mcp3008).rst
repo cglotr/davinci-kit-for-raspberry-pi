@@ -1,0 +1,468 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と一緒に深く探求しましょう。  
+
+    **参加する理由**
+
+    - **専門的なサポート**: アフターサービスの問題や技術的な課題を、コミュニティやチームのサポートで解決できます。  
+    - **学びと共有**: 技術やチュートリアルを交換し、スキルを高めましょう。  
+    - **先行プレビュー**: 新製品のお知らせや先行情報をいち早く入手できます。  
+    - **特別割引**: 最新製品を対象とした限定割引を受けられます。  
+    - **季節のキャンペーンやプレゼント企画**: プレゼントや祝祭イベントに参加できます。  
+
+    👉 私たちと一緒に探求と創造を始めませんか？ [|link_sf_facebook|] をクリックして、今すぐ参加しましょう！  
+
+
+.. _2.2.2_c_mcp3008:
+
+2.2.2 サーミスタ (MCP3008)
+============================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   キットのバージョンによって **ADC0834** または **MCP3008** が含まれています。  
+   どちらかを確認し、対応するセクションに進んでください。  
+
+導入
+----
+
+フォトレジスタが光を感知できるように、サーミスタは温度に応じて変化する電子部品です。  
+温度制御や温度警報などの機能を実現するために利用できます。  
+
+必要な部品
+----------
+
+このプロジェクトでは以下の部品が必要です。  
+
+.. image:: img/list2_2.2.2_thermistor.png
+
+
+原理
+----
+
+サーミスタは温度に敏感な抵抗器であり、温度の小さな変化に比例して抵抗値が正確かつ予測可能に変化します。  
+抵抗の変化量は材料の特性によって異なります。サーミスタは受動部品の一種であり、能動部品のように電力増幅を行うことはできません。  
+
+サーミスタには **NTC（負の温度係数）** と **PTC（正の温度係数）** の二種類があります。  
+PTC は温度が上がると抵抗値が増加し、NTC は逆に減少します。今回の実験では NTC を使用します。  
+
+.. image:: img/image325.png
+
+原理としては、環境温度が上がると NTC サーミスタの抵抗が減少します。  
+その電圧データが A/D コンバータでデジタル値に変換され、プログラムによって摂氏や華氏の温度が出力されます。  
+
+この実験ではサーミスタと 10kΩ のプルアップ抵抗を使用します。サーミスタの定格抵抗は 25℃ で 10kΩ です。  
+
+抵抗と温度の関係式は以下です：  
+
+R\ :sub:`T` = R\ :sub:`N` exp\ :sup:`B(1/TK – 1/TN)`  
+
+- **R\ T** : 温度 **T\ K** におけるサーミスタの抵抗値  
+- **R\ N** : 定格温度 **T\ N** における抵抗値（ここでは 10kΩ）  
+- **T\ K** : 絶対温度（K = 273.15 + 摂氏温度）  
+- **T\ N** : 定格温度（ここでは 25℃ = 298.15K）  
+- **B** : 材料定数（熱感度指数）、ここでは 3950  
+
+変換式：  
+
+T\ :sub:`K`\ = 1 / ( ln(R\ :sub:`T`/R\ :sub:`N`) / B + 1/T\ :sub:`N` )  
+
+この T(K) から 273.15 を引くことで摂氏温度が求められます。  
+
+この式は実験式であり、一定範囲内でのみ正確に適用できます。  
+
+
+回路図
+------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名
+        - physical
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+
+.. image:: img/schematic_2.2.2_thermistor_mcp3008.png
+
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。  
+
+.. image:: img/july24_2.2.2_thermistor_mcp3008.png
+
+
+C言語利用者向け
+^^^^^^^^^^^^^^^^^^^^
+
+**手順2:** コードのあるフォルダに移動します。
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.2-2/
+
+**手順3:** コードをコンパイルします。
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.2.2_Thermistor.c -o Thermistor -lwiringPi -lm
+
+.. note::
+    -lm は数学関数を使うための数値計算用の標準ライブラリを読み込む指定です。省略するとエラーになります。
+
+**手順4:** 実行可能ファイルを動かします。
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./Thermistor
+
+コードを実行すると、温度センサーが周囲の温度を検知し、計算が終わると結果が画面に表示されます。
+
+.. note::
+
+    実行しても動作しない場合や「wiringPi.h: No such file or directory」というエラーが出る場合は、:ref:`install_wiringpi` を参照してください。
+
+**コード**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // 開始ビット
+        buffer[1] = (8 + channel) << 4;  // 単一入力モード + チャネル番号
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    int main(void) {
+        int analogVal;
+        double Vr, Rt, temp, cel, Fah;
+
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi の初期化に失敗しました！\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI の設定に失敗しました！\n");
+            return 1;
+        }
+
+        while (1) {
+            analogVal = read_ADC(0);  // CH0から読み取り
+
+            // MCP3008 は 10ビットADC (0–1023)
+            Vr = 3.3 * analogVal / 1023.0;  // 基準電圧 3.3V と仮定
+            Rt = 10000.0 * Vr / (3.3 - Vr); // 分圧回路、抵抗は10kΩ
+            temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+            cel = temp - 273.15;
+            Fah = cel * 1.8 + 32;
+
+            printf("摂氏: %.2f C  華氏: %.2f F\n", cel, Fah);
+            delay(1000);
+        }
+
+        return 0;
+    }
+
+
+**コード解説**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <math.h>
+
+これらのヘッダーファイルはそれぞれ、GPIO制御（ ``wiringPi.h`` ）、SPI通信（ ``wiringPiSPI.h`` ）、標準入出力処理（ ``stdio.h`` ）、数値計算関数（ ``math.h`` ）を利用するために読み込みます。
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+
+SPI通信で使うチャネル番号と速度を定義します。ここではチャネル0（CE0）と1MHzの通信速度を使用します。
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+
+この関数は MCP3008 の指定されたチャネルから値を読み取ります。
+
+.. code-block:: c
+
+    buffer[0] = 1;
+    buffer[1] = (8 + channel) << 4;
+    buffer[2] = 0;
+
+これらの行は MCP3008 に送るコマンドを準備しています。開始ビット、単一入力モードの設定、チャネル番号を含みます。
+
+.. code-block:: c
+
+    wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+SPI通信を行い、MCP3008から10ビットの変換値を受け取ります。
+
+.. code-block:: c
+
+    int value = ((buffer[1] & 3) << 8) | buffer[2];
+
+受け取ったデータから10ビットの結果を組み立てます。
+
+.. code-block:: c
+
+    if (wiringPiSetup() == -1) { ... }
+    if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) { ... }
+
+GPIOとSPIの初期化処理です。失敗した場合はプログラムを終了します。
+
+.. code-block:: c
+
+    analogVal = read_ADC(0);
+
+サーミスタが接続されたチャネル0から値を読み取ります。
+
+.. code-block:: c
+
+    Vr = 3.3 * analogVal / 1023.0;
+
+ADC値を電圧に変換します。基準電圧は3.3Vです。
+
+.. code-block:: c
+
+    Rt = 10000.0 * Vr / (3.3 - Vr);
+
+分圧の公式を使ってサーミスタの抵抗値を求めます。直列抵抗は10kΩです。
+
+.. code-block:: c
+
+    temp = 1 / ((log(Rt / 10000.0) / 3950.0) + (1 / (273.15 + 25.0)));
+
+熱抵抗の式（B定数法）を使って、抵抗値から温度（ケルビン）を計算します。  
+式： **T(K) = 1 / [ln(Rt/R₀)/B + 1/T₀]**  
+
+- R₀ = 10kΩ  
+- B = 3950  
+- T₀ = 25℃ = 298.15K
+
+.. code-block:: c
+
+    cel = temp - 273.15;
+
+ケルビンから摂氏に変換します。
+
+.. code-block:: c
+
+    Fah = cel * 1.8 + 32;
+
+摂氏から華氏に変換します。
+
+.. code-block:: c
+
+    printf("摂氏: %.2f C  華氏: %.2f F\n", cel, Fah);
+
+温度を摂氏と華氏で端末に表示します。小数点以下2桁で出力します。
+
+
+Python利用者向け
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**手順2:** SPIを設定し ``spidev`` を導入します。詳しくは :ref:`spi_configuration` を参照してください。すでに完了している場合は省略できます。
+
+**手順3:** コードのあるフォルダに移動します。
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/python
+
+**手順4:** 実行ファイルを動かします。
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo python3 2.2.2-2_thermistor.py
+
+コードを実行すると、温度センサーが周囲の温度を検知し、計算が終わると結果が画面に表示されます。
+
+.. warning::
+
+    ``RuntimeError: Cannot determine SOC peripheral base address`` というエラーが出る場合は、:ref:`faq_soc` を参照してください。
+
+
+**コード**
+
+.. note::
+
+    以下のコードは **修正／リセット／コピー／実行／停止** できます。ただし事前に ``davinci-kit-for-raspberry-pi/python`` のようなソースコードの場所へ移動してください。修正後は直接実行して動作を確認できます。
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+    
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+    import spidev
+    import time
+    import math
+    import RPi.GPIO as GPIO
+
+    # GPIOモードを設定
+    GPIO.setmode(GPIO.BCM)
+
+    # SPI初期化 (MCP3008, バス0, CE0)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # バス0, デバイス0 (CE0)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    def read_adc(channel):
+        """
+        MCP3008 の指定チャネル (0–7) から値を読み取る
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        while True:
+            # CH0から値を読み取る
+            analogVal = read_adc(0)
+
+            # 電圧に変換 (基準電圧3.3V)
+            Vr = 3.3 * analogVal / 1023.0
+
+            # サーミスタ抵抗を計算 (分圧の抵抗は10kΩ)
+            Rt = 10000.0 * Vr / (3.3 - Vr)
+
+            # スタインハート・ハート式
+            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+            # 摂氏と華氏に変換
+            Cel = tempK - 273.15
+            Fah = Cel * 1.8 + 32
+
+            # 結果を表示
+            print('摂氏: %.2f °C  華氏: %.2f °F' % (Cel, Fah))
+
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        spi.close()
+        GPIO.cleanup()
+
+**コード解説**
+
+1. 必要なライブラリを読み込みます。  
+
+   - ``spidev`` : MCP3008との通信  
+   - ``time`` : 待機処理  
+   - ``math`` : 対数計算（スタインハート・ハート式で使用）  
+   - ``RPi.GPIO`` : GPIO初期化と後片付け  
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+    import spidev
+    import time
+    import math
+    import RPi.GPIO as GPIO
+
+2. GPIOモードをBCM方式に設定し、SPIを初期化します。通信速度は1MHzです。
+
+.. code-block:: python
+
+    GPIO.setmode(GPIO.BCM)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)
+    spi.max_speed_hz = 1000000
+
+3. ``read_adc(channel)`` 関数を定義し、指定されたチャネルから10ビットのデータを取得します。
+
+.. code-block:: python
+
+    def read_adc(channel):
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+4. メイン処理では、取得した値を電圧に変換し、抵抗値を計算してスタインハート・ハート式で温度を算出します。結果は摂氏と華氏で0.2秒ごとに表示されます。
+
+5. ``finally`` 節でSPIを閉じ、GPIOを後片付けして終了します。
+
+.. code-block:: python
+
+    finally:
+        spi.close()
+        GPIO.cleanup()

@@ -1,0 +1,330 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と一緒にさらに深く探求しましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的課題を、コミュニティとチームがサポートします。
+    - **学びと共有**: ヒントやチュートリアルを交換してスキルを向上できます。
+    - **限定プレビュー**: 新製品の発表やプレビューに早くアクセスできます。
+    - **特別割引**: 最新製品を会員限定の割引価格で購入できます。
+    - **季節イベントと景品企画**: プレゼントや季節ごとのイベントに参加できます。
+
+    👉 一緒に探求と創造を始めましょう。[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _3.1.4_py_pi5_mcp3008:
+
+3.1.4 スマートファン(MCP3008)
+==========================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   キットのバージョンにより、 **ADC0834** または **MCP3008** が含まれています。  
+   該当するセクションを参照してください。
+
+はじめに
+--------
+
+このプロジェクトでは、モーター、ボタン、サーミスタを使って、手動＋自動の風速調整機能を持つスマートファンを作ります。
+
+必要な部品
+----------
+
+このプロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../python_pi5/img/list2_Smart_Fan.png
+    :width: 800
+    :align: center
+
+回路図
+------
+
+============ ======== ======== ===
+T-Board 名   物理ピン wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+============ ======== ======== ===
+
+.. image:: ../python_pi5/img/schematic_3.1.4_smart_fan_mcp3008.png
+    :align: center
+    :width: 800
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../python_pi5/img/july24_3.1.4_smart_fan_mcp3008.png
+    :width: 800
+
+.. note::
+    電源モジュールは、キットに付属の9V電池スナップを使って9V電池を接続できます。
+
+.. image:: ../python_pi5/img/4.1.10_smart_fan_battery.jpeg
+    :align: center
+
+**手順2:** SPI インターフェースを設定し、 ``spidev`` ライブラリをインストールします（詳細は :ref:`spi_configuration` を参照）。すでに設定済みの場合は省略できます。
+
+**手順3:** コードのフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**手順4:** 実行します。
+
+.. code-block::
+
+    sudo python3 3.1.4-2_SmartFan_zero.py
+
+コードが実行されると、ボタンを押してファンを起動します。押すたびに風速レベルが1段階ずつ上がり、 **0～4** の5段階で調整されます。  
+4段階目でさらに押すと、ファンは停止して風速は **0** になります。
+
+温度が2℃以上上昇または下降すると、自動的に風速レベルが1段階上がるか下がります。
+
+コード
+------
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    from gpiozero import Motor, Button
+    from time import sleep
+    import spidev
+    import math
+
+    # MCP3008 用 SPI 初期化
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # バス 0、CE0 (GPIO8 / 物理ピン 24)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    # ボタンとモーター制御用 GPIO ピン初期化
+    BtnPin = Button(22)  # GPIO22 (物理ピン 15)
+    motor = Motor(forward=5, backward=6, enable=13)  # GPIO5, GPIO6, GPIO13
+
+    # モーター速度レベルと温度管理用変数
+    level = 0
+    currentTemp = 0
+    markTemp = 0
+
+    def read_adc(channel):
+        """
+        MCP3008 チャンネル (0–7) からアナログ値を読み取る
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    def temperature():
+        """
+        サーミスタから温度を読み取り、摂氏で返す
+        """
+        analogVal = read_adc(0)  # CH0 に接続されていると仮定
+        Vr = 3.3 * analogVal / 1023.0  # 3.3V 基準
+        Rt = 10000.0 * Vr / (3.3 - Vr)
+        temp = 1 / (((math.log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)))
+        Cel = temp - 273.15
+        return Cel
+
+    def motor_run(level):
+        """
+        レベルに応じてモーター速度を調整
+        """
+        if level == 0:
+            motor.stop()
+            return 0
+        if level >= 4:
+            level = 4
+        motor.forward(speed=float(level / 4))
+        return level
+
+    def changeLevel():
+        """
+        ボタンが押されたときに風速レベルを変更し、基準温度を更新
+        """
+        global level, currentTemp, markTemp
+        print("Button pressed")
+        level = (level + 1) % 5
+        markTemp = currentTemp
+
+    # ボタンイベントを関数にバインド
+    BtnPin.when_pressed = changeLevel
+
+    def main():
+        """
+        温度変化を監視し、自動的に風速を調整
+        """
+        global level, currentTemp, markTemp
+        markTemp = temperature()
+        while True:
+            currentTemp = temperature()
+            if level != 0:
+                if currentTemp - markTemp <= -2:
+                    level -= 1
+                    markTemp = currentTemp
+                elif currentTemp - markTemp >= 2:
+                    if level < 4:
+                        level += 1
+                    markTemp = currentTemp
+            level = motor_run(level)
+            sleep(0.2)
+
+    try:
+        main()
+    except KeyboardInterrupt:
+        motor.stop()
+        spi.close()
+
+コード解説
+----------
+
+#. モーター・ボタン制御、MCP3008 との SPI 通信、温度計算用のライブラリを読み込みます。 ``gpiozero`` は GPIO 制御、 ``spidev`` は SPI 通信、 ``math`` は温度計算に使用します。
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+
+       from gpiozero import Motor, Button
+       from time import sleep
+       import spidev
+       import math
+
+#. バス 0、デバイス 0 (CE0) で SPI を初期化し、MCP3008 と通信します。
+
+   .. code-block:: python
+
+       # Initialize SPI for MCP3008
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, CE0 (GPIO8 / physical pin 24)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. GPIO22 をボタン入力に設定し、モーターを GPIO5（正転）、GPIO6（逆転）、GPIO13（有効化）で制御します。速度レベルや温度の追跡用変数も初期化します。
+
+   .. code-block:: python
+
+       # Initialize GPIO pins for the button and motor control
+       BtnPin = Button(22)  # GPIO22 (physical pin 15)
+       motor = Motor(forward=5, backward=6, enable=13)  # GPIO5, GPIO6, GPIO13
+
+       # Initialize variables to track the motor speed level and temperatures
+       level = 0
+       currentTemp = 0
+       markTemp = 0
+
+#. ``read_adc()`` 関数で指定チャンネル（0–7）のアナログ値を読み取り、10ビットの整数（0–1023）を返します。
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           """
+           Reads analog value from MCP3008 channel (0–7).
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. ``temperature()`` 関数でサーミスタの値を電圧に変換し、抵抗値を算出して Steinhart–Hart 式で摂氏温度を計算します。
+
+   .. code-block:: python
+
+       def temperature():
+           """
+           Reads and calculates the current temperature from the sensor.
+           Returns:
+               float: The current temperature in Celsius.
+           """
+           analogVal = read_adc(0)  # Assuming thermistor connected to CH0
+           Vr = 3.3 * analogVal / 1023.0  # For 3.3V system
+           Rt = 10000.0 * Vr / (3.3 - Vr)
+           temp = 1 / (((math.log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)))
+           Cel = temp - 273.15
+           return Cel
+
+#. ``motor_run()`` 関数でレベルに応じたモーター速度を設定します。0なら停止、1～4ではPWM制御で比例的に速度を設定します。
+
+   .. code-block:: python
+
+       def motor_run(level):
+           """
+           Adjusts the motor speed based on the specified level.
+           Args:
+               level (int): Desired motor speed level.
+           Returns:
+               int: Adjusted motor speed level.
+           """
+           if level == 0:
+               motor.stop()
+               return 0
+           if level >= 4:
+               level = 4
+           motor.forward(speed=float(level / 4))
+           return level
+
+
+#. ``changeLevel()`` 関数でボタンが押された際にレベルを1段階変更し、基準温度を更新します。
+
+   .. code-block:: python
+
+       def changeLevel():
+           """
+           Changes the motor speed level when the button is pressed and updates the reference temperature.
+           """
+           global level, currentTemp, markTemp
+           print("Button pressed")
+           level = (level + 1) % 5
+           markTemp = currentTemp
+
+       # Bind the button press event to changeLevel function
+       BtnPin.when_pressed = changeLevel
+
+#. ``main()`` 関数で温度変化を監視し、±2℃以上の変化があれば自動的に風速を1段階上げ下げします。短い待機時間を挟みつつ繰り返します。
+
+   .. code-block:: python
+
+       def main():
+           """
+           Main function to continuously monitor and respond to temperature changes.
+           """
+           global level, currentTemp, markTemp
+           markTemp = temperature()
+           while True:
+               currentTemp = temperature()
+               if level != 0:
+                   if currentTemp - markTemp <= -2:
+                       level -= 1
+                       markTemp = currentTemp
+                   elif currentTemp - markTemp >= 2:
+                       if level < 4:
+                           level += 1
+                       markTemp = currentTemp
+               level = motor_run(level)
+               sleep(0.2)
+
+
+#. Ctrl+C 割り込みを検出すると、モーターを停止し SPI 接続を閉じて安全に終了します。
+
+   .. code-block:: python
+
+       # Run the main function and handle KeyboardInterrupt
+       try:
+           main()
+       except KeyboardInterrupt:
+           motor.stop()
+           spi.close()
