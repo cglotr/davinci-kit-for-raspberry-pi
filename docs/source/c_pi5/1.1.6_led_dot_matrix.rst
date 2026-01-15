@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _1.1.6_matrix_c_pi5:
+
 1.1.6 LED Dot Matrix
 =====================
 
@@ -175,7 +177,7 @@ After the code runs, the LED dot matrix lights up and out row by row and column 
 
 .. note::
 
-   If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`C code is not working?`.
+   If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`install_wiringpi_pi5`.
 
 **Code**
 

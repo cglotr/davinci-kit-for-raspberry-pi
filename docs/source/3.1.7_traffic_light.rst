@@ -97,7 +97,7 @@ actions will be executed repeatedly.
 
 .. note::
 
-    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`C code is not working?`.
+    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`install_wiringpi`.
 
 
 **Code Explanation**
@@ -117,7 +117,7 @@ actions will be executed repeatedly.
     void display();
 
 These codes are used to realize the function of number display of 4-Digit 7-Segment 
-Displays. Refer to :ref:`1.1.5 4-Digit 7-Segment Display` of the document for more details. Here, we use the 
+Displays. Refer to :ref:`1.1.5_4digit` of the document for more details. Here, we use the 
 codes to display countdown of traffic light time.
 
 .. code-block:: c
@@ -159,7 +159,7 @@ The codes are used to switch the LED on and off.
         }
     }
 
-The codes are used to switch the timer on and off. Refer to :ref:`1.1.5 4-Digit 7-Segment Display` for more details. Here, when the timer returns to zero, colorState
+The codes are used to switch the timer on and off. Refer to :ref:`1.1.5_4digit` for more details. Here, when the timer returns to zero, colorState
 will be switched so as to switch LED, and the timer will be assigned to
 a new value.
 
@@ -375,7 +375,7 @@ display displays the countdown time continuously.
     def display():
 
 These codes are used to realize the function of number display of
-4-Digit 7-Segment. Refer to :ref:`1.1.5 4-Digit 7-Segment Display` of the document for more
+4-Digit 7-Segment. Refer to :ref:`1.1.5_4digit` of the document for more
 details. Here, we use the codes to display countdown of traffic light
 time.
 
@@ -421,7 +421,7 @@ The codes are used to switch the LED on and off.
         print ("counter : %d    color: %s "%(counter,lightColor[colorState]))
 
 
-The codes are used to switch the timer on and off. Refer to :ref:`1.1.5 4-Digit 7-Segment Display` for more details. Here, when the timer returns to zero, colorState
+The codes are used to switch the timer on and off. Refer to :ref:`1.1.5_4digit` for more details. Here, when the timer returns to zero, colorState
 will be switched so as to switch LED, and the timer will be assigned to
 a new value.
 

@@ -103,7 +103,7 @@ You need to turn both of them counterclockwise to the end.
 
 .. note::
 
-    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`C code is not working?`.
+    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`install_wiringpi`.
     
 **Code Explanation**
 
@@ -277,7 +277,7 @@ the number on the 4-digit segment display will add 1.
 
 **Code Explanation**
 
-Based on **1.1.5 4-Digit 7-Segment Display**, this lesson adds **PIR
+Based on :ref:`1.1.5_4digit`, this lesson adds **PIR
 module** to change the automatic counting of lesson 1.1.5 into count
 detecting. When the PIR detects that someone is passing by, the number
 on the 4-digit segment display will add 1.

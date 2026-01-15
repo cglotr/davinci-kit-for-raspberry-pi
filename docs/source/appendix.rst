@@ -12,30 +12,17 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-Projects
-=============
-
-In this section, you will start learning to create IoT projects.
-
-Before starting the project, you should have downloaded the code we provided (:ref:`Download the Code`).
-
-Then copy the codes from the ``iot`` folder to the ``cloud4rpi-raspberrypi-python`` folder.
-
-.. raw:: html
-
-   <run></run>
-
-.. code-block:: 
-
-    cp -r ~/davinci-kit-for-raspberry-pi/iot/* ~/cloud4rpi-raspberrypi-python
-
+Appendix
+===============
 
 .. toctree::
     :maxdepth: 1
 
-    temperature_and_humidity_acquisition
-    remote_switch
-    smart_light
-    smart_curtain
-    attendance_system
-
+    libraries
+    _shared/appendix/i2c_configuration
+    _shared/appendix/spi_configuration
+    _shared/appendix/remote_desktop
+    _shared/appendix/filezilla
+    _shared/appendix/blynk_app
+    _shared/appendix/install_openssh_powershell
+    _shared/appendix/login_windows

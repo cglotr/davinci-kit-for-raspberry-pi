@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _2.1.1_button_nodejs:
+
 2.1.1 Button
 ===============
 

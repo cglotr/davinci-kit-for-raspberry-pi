@@ -95,14 +95,13 @@ increase the difficulty of the game.
 
 .. note::
 
-    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`C code is not working?`.
+    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`install_wiringpi_pi5`.
 
 
 **Code Explanation**
 
-Based on **1.1.6 LED Dot Matrix**, this lesson adds **2** buttons to
-make an amusing game device. So, if you are not very familiar with the
-dot matrix, please refer to :ref:`1.1.6 LED Dot Matrix`.
+Based on :ref:`1.1.6_matrix_c_pi5`, this lesson adds **2** buttons to
+make an amusing game device.
 
 The whole program process is as below:
 

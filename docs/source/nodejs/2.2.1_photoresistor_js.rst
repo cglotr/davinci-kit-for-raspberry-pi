@@ -108,9 +108,9 @@ the brightness of the LED will change according to the light intensity sensed by
 **Code Explanation**
 
 The codes here are the same as that in 2.1.4 Potentiometer. 
-Please check the code explanation of :ref:`2.1.4 Potentiometer` for details.
+Please check the code explanation of :ref:`2.1.4_potentiometer_nodejs` for details.
 
 Phenomenon Picture
-------------------
+----------------------
 
 .. image:: ../img/image199.jpeg

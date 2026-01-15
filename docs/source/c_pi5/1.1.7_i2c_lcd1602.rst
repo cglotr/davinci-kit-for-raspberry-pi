@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _1.1.7_i2c_lcd_c_pi5:
+
 1.1.7 I2C LCD1602
 ======================
 
@@ -87,7 +89,7 @@ Experimental Procedures
 
 
 
-**Step 2**: Setup I2C (see :ref:`I2C Configuration`. If you have set I2C, skip this step.)
+**Step 2**: Setup I2C (see :ref:`i2c_config`. If you have set I2C, skip this step.)
 
 **Step 3:** Change directory.
 
@@ -123,7 +125,7 @@ After the code runs, you can see \"Greetings\",\"From SunFounder\" displaying on
 
 .. note::
 
-    * If there is an error prompt ``wiringPi.h: No such file or directory``, please refer to :ref:`install_wiringpi`.
+    * If there is an error prompt ``wiringPi.h: No such file or directory``, please refer to :ref:`install_wiringpi_pi5`.
     * If you get ``Unable to open I2C device: No such file or directory`` error, you need to refer to :ref:`i2c_config` to enable I2C and check if the wiring is correct.
     * If the code and wiring are fine, but the LCD still does not display content, you can turn the potentiometer on the back to increase the contrast.
 

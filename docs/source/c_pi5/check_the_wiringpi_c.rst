@@ -1,4 +1,4 @@
-.. _install_wiringpi:
+.. _install_wiringpi_pi5:
 
 Install and Check the WiringPi
 -------------------------------------

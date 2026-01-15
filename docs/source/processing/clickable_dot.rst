@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _clickable_dot:
+
 Clickable Dot
 ==================
 
@@ -55,7 +57,7 @@ We've tried drawing motion graphic, responding to mouse event, and controlling L
 
 **How it works?**
 
-This project has a lot in common with :ref:`Blinking Dot`, the difference is that it puts the toggle state in the mouse event.
+This project has a lot in common with :ref:`blinking_dot`, the difference is that it puts the toggle state in the mouse event.
 This causes the LED to not blink automatically, but to light up and go off with a mouse click.
 
 And in the ``mouseClicked()`` event, the ``dist()`` function is used to determine the position of the mouse at the time of the click, and the dot is considered clicked only if the distance between the mouse and the center of the dot is less than the radius.

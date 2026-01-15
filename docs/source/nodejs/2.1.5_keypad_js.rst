@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _2.1.5_keypad_nodejs:
+
 2.1.5 Keypad
 ============
 

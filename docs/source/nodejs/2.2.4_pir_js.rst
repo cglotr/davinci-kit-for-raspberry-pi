@@ -139,7 +139,7 @@ need to try to adjust these two potentiometers.
 
 **Code Explanation**
 
-The code for this example is a combination of :ref:`2.1.1 Button` and :ref:`1.1.2 RGB LED`, no need to go into details.
+The code for this example is a combination of :ref:`2.1.1_button_nodejs` and :ref:`1.1.2_rgb_nodejs`, no need to go into details.
 
 
 Phenomenon Picture

@@ -12,6 +12,8 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
+.. _1.1.5_4digit_nodejs:
+
 1.1.5 4-Digit 7-Segment Display
 ====================================
 

@@ -116,7 +116,7 @@ press the button, the fan stops working with a **0** wind speed.
 
 .. note::
 
-    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`C code is not working?`.
+    If it does not work after running, or there is an error prompt: \"wiringPi.h: No such file or directory\", please refer to :ref:`install_wiringpi`.
 
 
 Once the temperature goes up or down for more than 2℃, the speed
@@ -141,7 +141,7 @@ automatically gets 1-grade faster or slower.
     }
 
 Temperture() works by converting thermistor values read by ADC0834 into
-temperature values. Refer to :ref:`2.2.2 Thermistor` for more details.
+temperature values. Refer to :ref:`2.2.2_thermistor` for more details.
 
 .. code-block:: c
 
@@ -344,7 +344,7 @@ automatically gets 1-grade faster or slower.
         return Cel
 
 temperture() works by converting thermistor values read by **ADC0834**
-into temperature values. Refer to :ref:`2.2.2 Thermistor` for more details.
+into temperature values. Refer to :ref:`2.2.2_thermistor` for more details.
 
 .. code-block:: python
 

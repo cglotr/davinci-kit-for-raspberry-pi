@@ -12,16 +12,21 @@
 
     👉 Ready to explore and create with us? Click [|link_sf_facebook|] and join today!
 
-Appendix
-===============
+.. _get_start:
+
+Quick Start
+===============================
+
+This section is to teach you how to install Raspberry Pi OS, configure wifi to Raspberry Pi, remote access to Raspberry Pi to run the corresponding code.
+
+If you are familiar with Raspberry Pi and can open the command line successfully, then you can skip the first 3 parts and then complete the last part. 
+
+
 
 .. toctree::
     :maxdepth: 1
 
-    i2c_configuration
-    spi_configuration
-    remote_desktop
-    get_ip
-    install_openssh_powershell
-    login_windows
-    create_virtual_environment
+    _shared/pi_start/need_components
+    _shared/pi_start/install_os_trixie
+    _shared/pi_start/set_up_pi
+    download_the_code
