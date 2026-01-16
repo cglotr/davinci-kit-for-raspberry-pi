@@ -12,13 +12,21 @@
 
     👉 私たちと一緒に探索し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
-部品一覧
-================
+.. _get_start:
 
-パッケージを開封した後、部品の数量が製品の説明に一致しているかどうか、およびすべての部品が良好な状態にあるかどうかを確認してください。
+クイックスタート
+===============================
 
-.. image:: media/image4.jpeg
-.. image:: media/image6.png
-.. image:: media/image8.jpeg
-.. image:: media/image9.jpeg
+このセクションでは、Raspberry Pi OS のインストール方法、Raspberry Pi への Wi-Fi 設定、そしてリモートから Raspberry Pi にアクセスして対応するコードを実行する方法を説明します。
 
+Raspberry Pi に慣れており、すでにコマンドラインを問題なく開ける場合は、最初の 3 つのパートを省略して、最後のパートのみを実行してもかまいません。
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    _shared/pi_start/need_components
+    _shared/pi_start/install_os_trixie
+    _shared/pi_start/set_up_pi
+    download_the_code

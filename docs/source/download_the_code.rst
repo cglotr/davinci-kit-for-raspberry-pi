@@ -12,41 +12,95 @@
 
     👉 私たちと一緒に探索し、創造する準備はできていますか？[|link_sf_facebook|]をクリックして今すぐ参加しましょう！
 
-コードをダウンロードする
-========================
+コードのダウンロード
+===============================
 
+このキットで使用されるすべてのサンプルプログラムは、公式 GitHub リポジトリに保存されています。  
+以下のコマンドを使用して、プロジェクト全体を Raspberry Pi にダウンロードしてください。
 
-コードをダウンロードする前に、サンプルコードはRaspberry Pi OS のみ でテストすることに注意してください。ダウンロードには二つの方法がある：
+リポジトリをクローンする
+------------------------------------
 
-**方法1：git cloneを使用する（推奨）**
+#. Raspberry Pi にログインして、次のコマンドを実行します：
 
-Raspberry Piにログインし、ディレクトリを ``/home/pi`` に変更する。
-
-.. raw:: html
-
-   <run></run>
+   .. raw:: html
    
-.. code-block::
-
-   cd ~/
-
-
-.. note::
-
-   現在のパスから目的のディレクトリに移動するcd。非公式には、パス ``~/`` に移動する。
-
-GitHubからリポジトリを複製する。
-
-.. raw:: html
-
-   <run></run>
+       <run></run>
    
-.. code-block::
+   .. code-block:: bash
+   
+      cd ~/
+      git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
 
-   git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
+#. プロジェクトのディレクトリに入ります：
 
-方法2：コードをダウンロードする。
+   .. raw:: html
+   
+       <run></run>
+   
+   .. code-block:: bash
+   
+      cd ~/davinci-kit-for-raspberry-pi/
 
-githubからソースコードをダウンロードする： https://github.com/sunfounder/davinci-kit-for-raspberry-pi.
+#. ファイル一覧を表示します：
 
-.. image:: media/image33.png
+   .. raw:: html
+   
+       <run></run>
+   
+   .. code-block:: bash
+   
+      ls
+
+#. 次のような構成が表示されます：
+
+   .. code-block:: text
+   
+      davinci-kit-for-raspberry-pi/
+      ├── c/
+      ├── datasheet
+      ├── iot/
+      ├── nodejs/
+      ├── python-pi5/
+      ├── python/
+      ├── scratch/
+      └── README.md
+
+プロジェクト構成の概要
+--------------------------
+
+各フォルダの簡単な説明は以下のとおりです：
+
+* **c/**  
+
+  Raspberry Pi で C 言語によるプログラミングを行いたいユーザー向けの C 言語サンプルとライブラリです。
+
+* **datasheet/**  
+
+  プロジェクトで使用されているハードウェア部品のデータシート、仕様書、および参考資料が含まれています。
+
+* **iot/**  
+
+  Blynk プラットフォームとの接続、センサーのデモ、通信モジュールなど、IoT 関連のサンプルが含まれています。
+
+* **nodejs/**
+
+  Raspberry Pi 上で JavaScript ベースの開発を行うユーザー向けの Node.js サンプルです。
+
+* **python-pi5/**  
+
+  **Raspberry Pi 5** 向けに最適化された ``GPIO Zero`` ライブラリを使用した Python サンプルです。
+
+* **python/**  
+
+  ``RPi.GPIO`` ライブラリを使用した Python のサンプルプログラムで、ほとんどの Raspberry Pi ボードに対応しています。
+
+* **scratch/** 
+
+  グラフィカルプログラミングを学ぶ初心者向けの Scratch サンプルです。
+
+* **README.md**  
+
+  リポジトリの基本情報および一般的な使用方法が記載されています。
+
+これで、お好みのプログラミング言語やプロジェクトタイプに対応するフォルダに移動して、サンプルを実行できるようになります。

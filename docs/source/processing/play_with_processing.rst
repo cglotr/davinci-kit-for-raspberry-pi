@@ -29,7 +29,7 @@ Processingをインストールする
 
 .. note:: 
 
-    Processingを使用する前に、Raspberry Piデスクトップにリモートでアクセスするか( :ref:`set_up_raspberrypi` ) 、RaspberryPiのディスプレイを接続する必要があります。
+    Processingを使用する前に、Raspberry Piデスクトップにリモートでアクセスするか( :ref:`setup_pi` ) 、RaspberryPiのディスプレイを接続する必要があります。
 
 
 最初に https://processing.org/download にアクセスし、 ``Linux ARM32-bit``  バージョンを選択します。

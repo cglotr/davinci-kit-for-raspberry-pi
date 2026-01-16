@@ -274,7 +274,7 @@ Python言語ユーザー向け
 .. note::
 
     * ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'`` というエラーが発生した場合は、 :ref:`i2c_config` を参照して I2C を有効にする必要があります。
-    * ``ModuleNotFoundError: No module named 'smbus2'`` エラーが発生した場合は、 ``sudo pip3 install smbus2`` を実行してください。
+    * ``ModuleNotFoundError: No module named 'smbus2'`` エラーが発生した場合は、 ``sudo apt install python3-smbus2`` を実行してください。
     * ``OSError: [Errno 121] Remote I/O`` というエラーが発生した場合は、モジュールの配線が間違っているか、モジュールが破損しています。
     * コードと配線に問題がないのに LCD に内容が表示されない場合は、背面のポテンショメータをひねってみてください。
 

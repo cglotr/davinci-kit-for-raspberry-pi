@@ -18,10 +18,11 @@
 .. toctree::
     :maxdepth: 1
 
-    i2c_configuration
-    spi_configuration
-    remote_desktop
-    get_ip
-    install_openssh_powershell
-    login_windows
-    create_virtual_environment
+    libraries
+    _shared/appendix/i2c_configuration
+    _shared/appendix/spi_configuration
+    _shared/appendix/remote_desktop
+    _shared/appendix/filezilla
+    _shared/appendix/blynk_app
+    _shared/appendix/install_openssh_powershell
+    _shared/appendix/login_windows
