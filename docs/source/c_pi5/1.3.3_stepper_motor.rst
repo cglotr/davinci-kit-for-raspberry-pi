@@ -12,6 +12,8 @@
 
     👉 Pronto per esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti oggi stesso!
 
+.. _1.3.3_motor_c_pi5:
+
 1.3.3 Motore Passo-passo
 =============================
 
@@ -160,7 +162,7 @@ antiorario in base all'input che fornisci, 'a' o 'c'.
 
 .. note::
 
-    Se il programma non funziona dopo l'esecuzione o compare un errore come : \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l'esecuzione o compare un errore come : \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

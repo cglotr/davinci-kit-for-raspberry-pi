@@ -12,6 +12,8 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti subito!
 
+.. _1.1.2_rgb_nodejs:
+
 1.1.2 LED RGB
 ================
 

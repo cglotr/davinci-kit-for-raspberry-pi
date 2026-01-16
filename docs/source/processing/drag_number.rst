@@ -134,4 +134,4 @@ In questo progetto, disegneremo una barra di scorrimento per controllare il disp
 
 **Come funziona?**
 
-Questo progetto integra lo Slider e il Display a 7 segmenti del corso precedente. Per punti di riferimento specifici, consulta :ref:`Mostrare un Numero` e :ref:`Metronomo`.
+Questo progetto integra lo Slider e il Display a 7 segmenti del corso precedente. Per punti di riferimento specifici, consulta :ref:`show_number` e :ref:`metronome`.

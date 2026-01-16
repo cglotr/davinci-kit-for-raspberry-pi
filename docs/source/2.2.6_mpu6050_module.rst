@@ -178,7 +178,7 @@ MPU6050 verranno calcolati e visualizzati sullo schermo.
 
 .. note::
 
-    Se il programma non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta la sezione :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta la sezione :ref:`faq_c_nowork`.
 
 **Codice**
 

@@ -12,6 +12,8 @@
 
     👉 Sei pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti subito!
 
+.. _blinking_dot:
+
 Punto Lampeggiante
 ===========================
 

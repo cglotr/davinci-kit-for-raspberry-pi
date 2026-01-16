@@ -167,7 +167,7 @@ Dopo aver eseguito il codice, vedrai il display a 7 segmenti mostrare i numeri d
 
 .. note::
 
-    Se il programma non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

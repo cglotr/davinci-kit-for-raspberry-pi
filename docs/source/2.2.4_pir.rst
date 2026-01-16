@@ -136,7 +136,7 @@ antiorario fino in fondo.
 
 .. note::
 
-    Se il codice non funziona o appare l'errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`Il codice C non funziona?`.
+    Se il codice non funziona o appare l'errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`faq_c_nowork`.
 
 **Codice**
 
@@ -191,7 +191,7 @@ antiorario fino in fondo.
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Queste funzioni sono usate per impostare il colore del LED RGB. Per ulteriori 
-dettagli, fare riferimento a :ref:`1.1.2 LED RGB`.
+dettagli, fare riferimento a :ref:`1.1.2_rgb`.
 
 .. code-block:: c
 
@@ -350,7 +350,7 @@ modulo PIR, si consiglia di ruotarli entrambi completamente in senso antiorario.
     ...
 
 Questi codici sono utilizzati per impostare il colore del LED RGB; 
-per maggiori dettagli consulta :ref:`1.1.2 LED RGB`.
+per maggiori dettagli consulta :ref:`1.1.2_rgb`.
 
 .. code-block:: python
 

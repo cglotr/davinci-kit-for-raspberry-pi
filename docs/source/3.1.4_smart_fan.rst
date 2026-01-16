@@ -116,7 +116,7 @@ il pulsante, il ventilatore si ferma con velocità del vento **0**.
 .. note::
 
     Se il programma non funziona dopo l'esecuzione o appare il messaggio di 
-    errore: "wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+    errore: "wiringPi.h: No such file or directory", fai riferimento a :ref:`faq_c_nowork`.
 
 Quando la temperatura aumenta o diminuisce di oltre 2°C, la velocità aumenta o 
 diminuisce automaticamente di 1 livello.
@@ -139,7 +139,7 @@ diminuisce automaticamente di 1 livello.
     }
 
 La funzione **temperature()** converte i valori del termistore letti da 
-ADC0834 in valori di temperatura. Per ulteriori dettagli consulta :ref:`2.2.2 Termistore`.
+ADC0834 in valori di temperatura. Per ulteriori dettagli consulta :ref:`2.2.2_thermistor`.
 
 .. code-block:: c
 
@@ -344,7 +344,7 @@ diminuisce automaticamente di un livello.
         return Cel
 
 La funzione **temperature()** converte i valori del termistore letti da **ADC0834** 
-in valori di temperatura. Per maggiori dettagli consulta :ref:`2.2.2 Termistore`.
+in valori di temperatura. Per maggiori dettagli consulta :ref:`2.2.2_thermistor`.
 
 .. code-block:: python
 

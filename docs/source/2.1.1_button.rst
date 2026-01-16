@@ -12,6 +12,8 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti oggi stesso!
 
+.. _2.1.1_button:
+
 2.1.1 Pulsante
 ===============
 
@@ -124,7 +126,7 @@ altrimenti, resterà spento.
 
 .. note::
 
-    Se il programma non funziona o compare il messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o compare il messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

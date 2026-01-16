@@ -93,7 +93,7 @@ il ciclo ricomincia con il LED rosso acceso per 60 secondi.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 
@@ -112,7 +112,7 @@ il ciclo ricomincia con il LED rosso acceso per 60 secondi.
     void display();
 
 Queste righe di codice permettono la visualizzazione dei numeri sul display 
-a 4 cifre e 7 segmenti. Per maggiori dettagli, consulta :ref:`1.1.5 Display a 7 segmenti a 4 cifre`. 
+a 4 cifre e 7 segmenti. Per maggiori dettagli, consulta :ref:`1.1.5_4digit_c_pi5`. 
 In questo progetto, il display viene utilizzato per visualizzare il conto alla rovescia del semaforo.
 
 .. code-block:: c
@@ -155,7 +155,7 @@ Questo codice accende e spegne i LED per simulare i colori del semaforo.
     }
 
 Il codice serve per attivare e disattivare il timer. Per maggiori dettagli, 
-consulta :ref:`1.1.5 Display a 7 segmenti a 4 cifre`. Qui, quando il timer 
+consulta :ref:`1.1.5_4digit_c_pi5`. Qui, quando il timer 
 raggiunge lo zero, `colorState` cambia per passare al LED successivo e al 
 timer viene assegnato un nuovo valore.
 

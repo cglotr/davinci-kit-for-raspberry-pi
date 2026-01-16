@@ -123,7 +123,7 @@ della distanza sullo schermo.
 
 .. note::
 
-    Se il programma non funziona o viene visualizzato un messaggio di errore: \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o viene visualizzato un messaggio di errore: \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

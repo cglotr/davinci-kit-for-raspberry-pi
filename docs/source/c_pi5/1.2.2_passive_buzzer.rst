@@ -80,7 +80,7 @@ Quando il codice viene eseguito, il cicalino riproduce un pezzo musicale.
 
 .. note::
 
-    Se il programma non funziona o appare un errore come : \"wiringPi.h: No such file or directory", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o appare un errore come : \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

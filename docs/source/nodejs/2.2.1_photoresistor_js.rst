@@ -105,7 +105,7 @@ base all'intensità della luce rilevata dalla fotoresistenza.
 **Spiegazione del Codice**
 
 Il codice è lo stesso della sezione 2.1.4 Potenziometro. Consulta la 
-spiegazione del codice in :ref:`2.1.4 Potenziometro` per ulteriori dettagli.
+spiegazione del codice in :ref:`2.1.4_potentiometer` per ulteriori dettagli.
 
 Immagine del Fenomeno
 -----------------------

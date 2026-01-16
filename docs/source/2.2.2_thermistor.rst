@@ -12,6 +12,8 @@
 
     👉 Pronto per esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti oggi stesso!
 
+.. _2.2.2_thermistor:
+
 2.2.2 Termistore
 ==================
 
@@ -151,7 +153,7 @@ che verrà visualizzata sullo schermo una volta completato il calcolo.
 
 .. note::
 
-    Se il programma non funziona dopo l’esecuzione, o compare un errore del tipo: \"wiringPi.h: Nessun file o directory\", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l’esecuzione, o compare un errore del tipo: \"wiringPi.h: Nessun file o directory\", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

@@ -12,6 +12,8 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti oggi stesso!
 
+.. _1.1.5_4digit:
+
 1.1.5 Display a 7 segmenti a 4 cifre
 =======================================
 
@@ -120,7 +122,7 @@ Dopo l'esecuzione del codice, il programma avvia un conteggio, aumentando di 1 o
 
 .. note::
 
-    Se non funziona dopo l’esecuzione o compare un messaggio d’errore come \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l’esecuzione o compare un messaggio d’errore come \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

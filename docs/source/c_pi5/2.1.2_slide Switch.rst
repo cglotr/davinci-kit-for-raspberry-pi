@@ -132,7 +132,7 @@ accenderà il LED giallo; spostandolo a destra, si accenderà il LED rosso.
 
 .. note::
 
-    Se non funziona dopo l’esecuzione, o appare un messaggio di errore: \"wiringPi.h: No such file or directory\", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l’esecuzione, o appare un messaggio di errore: \"wiringPi.h: No such file or directory\", fai riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

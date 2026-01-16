@@ -140,7 +140,7 @@ e dalla chiusura del contatto normalmente aperto.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione, o appare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta la guida :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione, o appare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta la guida :ref:`faq_c_nowork`.
 
 **Codice**
 

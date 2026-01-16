@@ -98,7 +98,7 @@ ottimale, ruotali entrambi in senso antiorario fino alla fine.
 
 .. note::
 
-    Se il codice non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se il codice non funziona o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 

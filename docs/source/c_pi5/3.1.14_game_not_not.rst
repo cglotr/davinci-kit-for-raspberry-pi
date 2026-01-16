@@ -94,14 +94,14 @@ giù, sinistra e destra – aumentando così la difficoltà del gioco.
 
 .. note::
 
-    Se il programma non funziona dopo l'avvio o compare un messaggio di errore come \"wiringPi.h: File o directory inesistente\", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l'avvio o compare un messaggio di errore come \"wiringPi.h: File o directory inesistente\", consulta :ref:`faq_c_nowork`.
 
 
 **Spiegazione del Codice**
 
 Basandosi su **1.1.6 Matrice LED**, questa lezione aggiunge **2** 
 pulsanti per creare un dispositivo di gioco divertente. Se non hai 
-familiarità con la matrice a punti, consulta :ref:`1.1.6 Matrice di LED`.
+familiarità con la matrice a punti, consulta :ref:`1.1.6_matrix_c_pi5`.
 
 L’intero processo del programma è il seguente:
 

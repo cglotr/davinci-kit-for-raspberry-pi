@@ -12,6 +12,8 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti subito!
 
+.. _1.1.2_rgb:
+
 1.1.2 LED RGB
 ====================
 
@@ -139,7 +141,7 @@ rosso, verde, blu, giallo, rosa e ciano.
 
 .. note::
 
-    Se il programma non funziona o compare l’errore "wiringPi.h: No such file or directory", consulta la sezione :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o compare l’errore "wiringPi.h: No such file or directory", consulta la sezione :ref:`faq_c_nowork`.
 
 **Codice**
 

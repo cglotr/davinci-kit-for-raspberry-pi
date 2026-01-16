@@ -12,6 +12,8 @@
 
     👉 Sei pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti subito!
 
+.. _clickable_dot:
+
 Punto Cliccabile
 ==================
 
@@ -56,7 +58,7 @@ Abbiamo provato a disegnare grafica in movimento, rispondere agli eventi del mou
 **Come funziona?**
 
 
-Questo progetto ha molte somiglianze con :ref:`Punto Lampeggiante`, la differenza è che lo stato alternato è inserito nell'evento del mouse.
+Questo progetto ha molte somiglianze con :ref:`blinking_dot`, la differenza è che lo stato alternato è inserito nell'evento del mouse.
 Questo fa sì che il LED non lampeggi automaticamente, ma si accenda e si spenga con un click del mouse.
 
 Nell'evento ``mouseClicked()``, la funzione ``dist()`` viene usata per determinare la posizione del mouse al momento del clic, e il punto viene considerato cliccato solo se la distanza tra il mouse e il centro del punto è inferiore al raggio.

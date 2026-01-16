@@ -97,7 +97,7 @@ un nuovo round di gioco.
 
 .. note::
 
-    Se il programma non funziona dopo l’esecuzione o appare un errore: \"wiringPi.h: Nessun file o directory", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l’esecuzione o appare un errore: \"wiringPi.h: Nessun file o directory", fai riferimento a :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 

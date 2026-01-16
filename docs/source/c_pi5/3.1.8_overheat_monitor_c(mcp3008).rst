@@ -104,7 +104,7 @@ Il **joystick** serve per regolare la soglia di alta temperatura: muovendolo lun
 
 .. note::
 
-    * Se appare l’errore ``wiringPi.h: No such file or directory``, fai riferimento a :ref:`install_wiringpi`.
+    * Se appare l’errore ``wiringPi.h: No such file or directory``, fai riferimento a :ref:`install_wiringpi_pi5`.
     * Se ricevi ``Unable to open I2C device: No such file or directory``, consulta :ref:`i2c_config` per abilitare l’I2C e controllare il cablaggio.
     * Se il codice e il cablaggio sono corretti, ma l’LCD non mostra nulla, regola il potenziometro sul retro per aumentare il contrasto.
 

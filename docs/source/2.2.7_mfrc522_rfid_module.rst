@@ -139,7 +139,7 @@ Per Utenti Linguaggio C
 
 .. note::
 
-    Se il programma non funziona o appare il messaggio di errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`Il codice C non funziona?`. 
+    Se il programma non funziona o appare il messaggio di errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`faq_c_nowork`. 
 
 **Spiegazione del Codice**
 

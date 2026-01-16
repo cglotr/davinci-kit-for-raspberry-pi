@@ -101,7 +101,7 @@ computer la temperatura e l’umidità rilevate dal DHT11.
 .. note::
 
     Se il programma non funziona dopo l'esecuzione o compare un messaggio 
-    di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+    di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

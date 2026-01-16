@@ -174,7 +174,7 @@ l'intensità del LED cambierà di conseguenza.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o appare il messaggio di errore: \"wiringPi.h: No such file or directory", fare riferimento a :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o appare il messaggio di errore: \"wiringPi.h: No such file or directory", fare riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

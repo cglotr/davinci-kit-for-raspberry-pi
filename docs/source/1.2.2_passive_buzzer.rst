@@ -83,7 +83,7 @@ Eseguito il codice, il buzzer riproduce un pezzo musicale.
 
 .. note::
 
-    Se, dopo l’esecuzione, non funziona o compare un messaggio di errore come: \"wiringPi.h: No such file or directory\", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se, dopo l’esecuzione, non funziona o compare un messaggio di errore come: \"wiringPi.h: No such file or directory\", fai riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

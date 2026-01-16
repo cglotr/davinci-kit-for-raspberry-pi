@@ -139,7 +139,7 @@ la distanza di rilevamento. Per ottenere le migliori prestazioni del modulo PIR,
 
 **Spiegazione del Codice**
 
-Il codice di questo esempio è una combinazione di :ref:`2.1.1 Pulsante` e :ref:`1.1.2 LED RGB`, pertanto non è necessario approfondire i dettagli.
+Il codice di questo esempio è una combinazione di :ref:`2.1.1_button_nodejs` e :ref:`1.1.2_rgb_nodejs`, pertanto non è necessario approfondire i dettagli.
 
 
 Immagine del Fenomeno

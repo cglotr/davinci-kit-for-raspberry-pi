@@ -112,7 +112,7 @@ del gioco.
 
 .. note::
 
-   Se il programma non funziona o appare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta :ref:`Il codice C non funziona?`.
+   Se il programma non funziona o appare un messaggio di errore: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 All’avvio del gioco, viene generato un numero casuale “ **point** ” che 
 non appare sul display LCD, e il tuo compito è indovinarlo. Il numero 
@@ -128,8 +128,8 @@ apparirà “Hai indovinato!”.
 **Spiegazione del Codice**
 
 Nella parte iniziale del codice troviamo le funzioni per **keypad** e 
-**I2C LCD1602**. Per ulteriori dettagli, puoi consultare **1.1.7 LCD1602 I2C** 
-e **2.1.5 Tastierino.**
+**I2C LCD1602**. Per ulteriori dettagli, puoi consultare :ref:`1.1.7_i2c_lcd_c_pi5` 
+e :ref:`2.1.5_keypad_c_pi5`
 
 Ecco alcuni elementi chiave da conoscere:
 

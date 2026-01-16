@@ -167,7 +167,7 @@ Dopo l’esecuzione del codice, ruotare la manopola del potenziometro: l’inten
 
 .. note::
 
-    Se non funziona dopo l’esecuzione o appare l’errore: \"wiringPi.h: No such file or directory\", fare riferimento a :ref:`install_wiringpi`.
+    Se non funziona dopo l’esecuzione o appare l’errore: \"wiringPi.h: No such file or directory\", fare riferimento a :ref:`install_wiringpi_pi5`.
 
 **Codice**
 

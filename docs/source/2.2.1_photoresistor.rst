@@ -113,7 +113,7 @@ dell'intensità di luce rilevata dal fotoresistore.
 
 .. note::
 
-    Se il programma non funziona o viene visualizzato un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`Il codice C non funziona?`.
+    Se il programma non funziona o viene visualizzato un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta la sezione :ref:`faq_c_nowork`.
 
 **Codice**
 

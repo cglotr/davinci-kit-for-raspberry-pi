@@ -106,7 +106,7 @@ all'intensità della luce rilevata dal fotoresistore.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o appare un messaggio di errore: \"wiringPi.h: File o directory non esistente\", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o appare un messaggio di errore: \"wiringPi.h: File o directory non esistente\", fai riferimento a :ref:`faq_c_nowork`.
 
 **Codice**
 

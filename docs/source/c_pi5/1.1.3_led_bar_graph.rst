@@ -102,7 +102,7 @@ e spegnersi regolarmente.
 
 .. note::
 
-    Se, dopo l'esecuzione, il programma non funziona o compare il messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`Il codice C non funziona?`.
+    Se, dopo l'esecuzione, il programma non funziona o compare il messaggio di errore: \"wiringPi.h: No such file or directory", fai riferimento a :ref:`faq_c_nowork`.
     
 **Codice**
 

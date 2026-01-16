@@ -12,7 +12,7 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti oggi stesso!
 
-.. _2.2.2_c_mcp3008:
+.. _2.2.2_thermistor_mcp3008:
 
 2.2.2 Termistore (MCP3008)
 ============================

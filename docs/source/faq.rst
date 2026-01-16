@@ -15,6 +15,8 @@
 FAQ
 ============
 
+.. _faq_c_nowork:
+
 Il codice C non funziona?
 ----------------------------------
 

@@ -12,7 +12,7 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca [|link_sf_facebook|] e unisciti oggi stesso!
 
-.. _2.2.2_c_pi5_mcp3008:
+.. _2.2.2_thermistor_mcp3008_pi5:
 
 2.2.2 Termistore (MCP3008)
 ==========================
@@ -150,7 +150,7 @@ Quando il codice è in esecuzione, il termistore rileva la temperatura ambiente 
 
 .. note::
 
-    Se il programma non funziona o appare l’errore «wiringPi.h: No such file or directory», fare riferimento a :ref:`install_wiringpi`.
+    Se il programma non funziona o appare l’errore «wiringPi.h: No such file or directory», fare riferimento a :ref:`install_wiringpi_pi5`.
 
 **Codice**
 

@@ -12,25 +12,19 @@
 
     👉 Sei pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti oggi!
 
-Grazie
-====================
+.. _get_start:
 
-Grazie ai valutatori che hanno esaminato i nostri prodotti, ai veterani che hanno fornito suggerimenti per il tutorial e agli utenti che ci seguono e supportano continuamente.
-I vostri preziosi suggerimenti sono per noi una fonte di motivazione per offrire prodotti sempre migliori!
+Avvio Rapido
+===============================
 
-**Ringraziamenti particolari**
+Questa sezione ha lo scopo di insegnarti come installare Raspberry Pi OS, configurare il WiFi sul Raspberry Pi e accedere da remoto al Raspberry Pi per eseguire il codice corrispondente.
 
-* Len Davisson
-* Kalen Daniel
-* Juan Delacosta
-  
-    
-Ora, potresti dedicare qualche minuto per compilare questo questionario?
+Se hai già familiarità con il Raspberry Pi e riesci ad aprire correttamente la riga di comando, puoi saltare le prime 3 parti e completare direttamente l’ultima parte.
 
-.. raw:: html
-    
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf-AZ1nPakmt9MBxZWVaQDlTZ9V5CL8zq-tTQOno60y9mqgpw/viewform?embedded=true" width="640" height="2127" frameborder="0" marginheight="0" marginwidth="0">正在加载…</iframe>
+.. toctree::
+    :maxdepth: 1
 
-.. note:: 
-
-    Dopo aver inviato il questionario, torna in cima alla pagina per visualizzare i risultati.
+    _shared/pi_start/need_components
+    _shared/pi_start/install_os_trixie
+    _shared/pi_start/set_up_pi
+    download_the_code

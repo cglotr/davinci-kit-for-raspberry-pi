@@ -90,7 +90,7 @@ se è inferiore a **-45°**, il motore ruota in senso orario.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 
@@ -130,7 +130,7 @@ La funzione mpu6050 calcola l’angolo di inclinazione nella direzione dell’as
 
 Se il **tasto** della direzione ricevuto è **\'c\'**, il motore passo-passo 
 ruota in senso orario; se il **tasto** è **\'a\'**, il motore ruota in senso 
-antiorario. Consulta :ref:`1.3.3 Motore Passo-Passo` per ulteriori dettagli 
+antiorario. Consulta :ref:`1.3.3_motor_c_pi5` per ulteriori dettagli 
 sul calcolo della direzione di rotazione del motore passo-passo.
 
 .. code-block:: c

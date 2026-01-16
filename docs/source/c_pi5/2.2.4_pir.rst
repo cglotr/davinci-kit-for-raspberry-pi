@@ -137,7 +137,7 @@ girarli entrambi in senso antiorario fino in fondo.
 
 .. note::
 
-    Se il programma non funziona dopo l'esecuzione o viene visualizzato un errore: \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l'esecuzione o viene visualizzato un errore: \"wiringPi.h: Nessun file o directory di questo tipo", consulta :ref:`faq_c_nowork`.
 
 
 **Codice**
@@ -193,7 +193,7 @@ girarli entrambi in senso antiorario fino in fondo.
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Questi codici sono utilizzati per impostare il colore dell'LED RGB; per maggiori 
-dettagli, consulta :ref:`1.1.2 LED RGB`.
+dettagli, consulta :ref:`1.1.2_rgb_c_pi5`.
 
 .. code-block:: c
 

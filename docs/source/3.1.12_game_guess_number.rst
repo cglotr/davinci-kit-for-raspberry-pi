@@ -112,7 +112,7 @@ Premi 'A' per iniziare il gioco, e la schermata di gioco apparirà sul LCD.
 
 .. note::
 
-   Se il programma non funziona o ricevi un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+   Se il programma non funziona o ricevi un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 All'inizio del gioco viene generato un numero casuale \"**point**\" 
 che non viene visualizzato sul display LCD. Il tuo compito è indovinarlo. 
@@ -127,7 +127,7 @@ il messaggio "You've got it!".
 **Spiegazione del Codice**
 
 Nella parte iniziale del codice ci sono le funzioni di **Keypad** e **I2C LCD1602**. 
-Per ulteriori dettagli, consulta **1.1.7 LCD1602 I2C** e **2.1.5 Tastierino**.
+Per ulteriori dettagli, consulta :ref:`1.1.7_i2c_lcd` e :ref:`2.1.5_keypad`.
 
 Qui di seguito i dettagli principali:
 
@@ -472,7 +472,7 @@ restringe; se lo indovini correttamente, apparirà "You've got it!".
 
 All'inizio del codice si trovano le funzioni per il funzionamento del 
 **keypad** e del **display I2C LCD1602**. Puoi trovare maggiori dettagli 
-su di esse in **1.1.7 LCD1602 I2C** e **2.1.5 Tastierino**.
+su di esse in :ref:`1.1.7_i2c_lcd` e :ref:`2.1.5_keypad`.
 
 Qui di seguito sono illustrate le funzioni principali:
 

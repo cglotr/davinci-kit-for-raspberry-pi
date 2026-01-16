@@ -102,7 +102,7 @@ prestazioni, ruota entrambi i potenziometri in senso antiorario fino in fondo.
 
 .. note::
 
-    Se non funziona dopo l’esecuzione o appare un errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l’esecuzione o appare un errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 

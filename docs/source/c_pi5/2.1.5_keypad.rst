@@ -12,6 +12,8 @@
 
     👉 Pronto a esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti subito!
 
+.. _2.1.5_keypad_c_pi5:
+
 2.1.5 Tastiera
 =================
 
@@ -100,7 +102,7 @@ tastiera (Valore pulsante) verranno stampati sullo schermo.
 
 .. note::
 
-    Se non funziona dopo l’esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l’esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 

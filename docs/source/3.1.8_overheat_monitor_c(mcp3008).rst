@@ -452,7 +452,7 @@ Il **joystick** permette di regolare la soglia di alta temperatura: spostandolo 
 .. note::
 
     * Se appare l’errore ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'``, abilita l’I2C come spiegato in :ref:`i2c_config`.
-    * Se appare ``ModuleNotFoundError: No module named 'smbus2'``, esegui ``sudo pip3 install smbus2``.
+    * Se appare ``ModuleNotFoundError: No module named 'smbus2'``, esegui ``sudo apt install python3-smbus2``.
     * Se appare ``OSError: [Errno 121] Remote I/O error``, significa che il modulo è cablato male o difettoso.
     * Se l’LCD non mostra nulla, regola il potenziometro sul retro.
 

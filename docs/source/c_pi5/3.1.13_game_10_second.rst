@@ -95,7 +95,7 @@ iniziare un nuovo round.
 
 .. note::
 
-    Se il programma non funziona dopo l’avvio o compare un messaggio di errore come : \"wiringPi.h:  File o directory inesistente\", consulta :ref:`Il codice C non funziona?`.
+    Se il programma non funziona dopo l’avvio o compare un messaggio di errore come : \"wiringPi.h:  File o directory inesistente\", consulta :ref:`faq_c_nowork`.
 
 **Spiegazione del Codice**
 

@@ -114,7 +114,7 @@ nuovo, il ventilatore si ferma con velocità pari a **0**.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o compare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 Quando la temperatura aumenta o diminuisce di più di 2℃, la velocità aumenta 
 o diminuisce automaticamente di 1 livello.
@@ -138,7 +138,7 @@ o diminuisce automaticamente di 1 livello.
     }
 
 La funzione temperture() converte i valori del termistore letti da ADC0834 
-in valori di temperatura. Consulta :ref:`2.2.2 Termistore` per ulteriori dettagli.
+in valori di temperatura. Consulta :ref:`2.2.2_thermistor_c_pi5` per ulteriori dettagli.
 
 .. code-block:: c
 

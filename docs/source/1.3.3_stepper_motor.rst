@@ -12,6 +12,8 @@
 
     👉 Pronto per esplorare e creare con noi? Clicca su [|link_sf_facebook|] e unisciti oggi stesso!
 
+..  _1.3.3_motor:
+
 1.3.3 Motore Passo-passo
 ===========================
 
@@ -148,7 +150,7 @@ o \'c\' per orario.
 
 .. note::
 
-    Se non funziona dopo l'esecuzione o appare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`Il codice C non funziona?`.
+    Se non funziona dopo l'esecuzione o appare un messaggio di errore: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Codice**
 
