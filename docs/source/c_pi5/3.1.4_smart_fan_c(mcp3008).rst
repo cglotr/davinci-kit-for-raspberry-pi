@@ -1,0 +1,345 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と共にさらに深く学びましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的な課題を、コミュニティとチームがサポートします。
+    - **学びと共有**: ヒントや作例を交換してスキルを高めます。
+    - **限定先行情報**: 新製品の発表や事前プレビューを入手できます。
+    - **特別割引**: 最新製品の限定割引を利用できます。
+    - **季節イベントと景品**: プレゼント企画や季節イベントに参加できます。
+
+    👉 一緒にものづくりの世界を探検しませんか？[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _3.1.4_c_pi5_mcp3008:
+
+3.1.4 スマートファン(MCP3008)
+=============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   お使いのキットによって、 **ADC0834** または **MCP3008** のどちらを使用しているかを確認し、対応する説明に進んでください。
+
+はじめに
+--------
+
+このプロジェクトでは、モーター、ボタン、サーミスタを使って、手動と自動の両方で動作する風量調整可能なスマートファンを作ります。
+
+必要な部品
+----------
+
+このプロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../img/list2_Smart_Fan.png
+    :align: center
+
+回路図
+------
+
+============ ======== ======== ===
+T-Board 名   物理ピン wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+============ ======== ======== ===
+
+.. image:: ../img/schematic_3.1.4_smart_fan_mcp3008.png
+    :align: center
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../img/july24_3.1.4_smart_fan_mcp3008.png
+    :align: center
+
+.. note::
+    電源モジュールはキットに付属の 9V 電池スナップで 9V 電池を使用できます。  
+    電源モジュールのジャンパキャップをブレッドボードの 5V バスストリップに挿し込みます。
+
+.. image:: ../img/image118.jpeg
+    :align: center
+
+**手順2:** コードのあるフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.4-2/
+
+**手順3:** コンパイルします。
+
+.. code-block::
+
+    gcc 3.1.4_SmartFan.c -o SmartFan -lwiringPi -lm
+
+**手順4:** 実行ファイルを動かします。
+
+.. code-block::
+
+    ./SmartFan
+
+コードが動作すると、ボタンを押すことでファンを起動できます。  
+押すたびに速度段階が 1 段階ずつ変わります。速度段階は **0〜4** の 5 段階です。4 段階からさらに押すと停止（0）になります。
+
+温度が ±2℃ 以上変化すると、自動で速度が 1 段階上がるか下がります。
+
+.. note::
+    実行後に動作しない場合や  
+    「wiringPi.h: No such file or directory」というエラーが出る場合は、:ref:`install_wiringpi` を参照してください。
+
+コード
+------
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+    #define MotorPin1   21
+    #define MotorPin2   22
+    #define MotorEnable 23
+    #define BtnPin      3
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                      // 開始ビット
+        buffer[1] = (8 + channel) << 4;     // シングルエンドモード + チャンネル
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+    int temperture()
+    {
+        int analogVal = read_ADC(0);
+        double Vr = 3.3 * analogVal / 1023.0;
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double temp = 1 / (((log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)));
+        double cel = temp - 273.15;
+        double Fah = cel * 1.8 + 32;
+        printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+        return (int)cel;
+    }
+
+    int motor(int level)
+    {
+        if (level == 0) {
+            digitalWrite(MotorEnable, LOW);
+            return 0;
+        }
+        if (level >= 4) {
+            level = 4;
+        }
+        digitalWrite(MotorEnable, HIGH);
+        softPwmWrite(MotorPin1, level * 25);
+        return level;
+    }
+
+    void setup()
+    {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi setup failed!\n");
+            return;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return;
+        }
+
+        softPwmCreate(MotorPin1, 0, 100);
+        softPwmCreate(MotorPin2, 0, 100);
+        pinMode(MotorEnable, OUTPUT);
+        pinMode(BtnPin, INPUT);
+    }
+
+    int main(void)
+    {
+        setup();
+        int currentState, lastState = 0;
+        int level = 0;
+        int currentTemp, markTemp = 0;
+
+        while (1) {
+            currentState = digitalRead(BtnPin);
+            currentTemp = temperture();
+
+            if (currentTemp <= 0) continue;
+
+            if (currentState == 1 && lastState == 0) {
+                level = (level + 1) % 5;
+                markTemp = currentTemp;
+                delay(500);
+            }
+
+            lastState = currentState;
+
+            if (level != 0) {
+                if (currentTemp - markTemp <= -2) {
+                    level = level - 1;
+                    markTemp = currentTemp;
+                }
+                if (currentTemp - markTemp >= 2) {
+                    level = level + 1;
+                    markTemp = currentTemp;
+                }
+            }
+
+            level = motor(level);
+        }
+
+        return 0;
+    }
+
+コード解説
+----------
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                      // Start bit
+        buffer[1] = (8 + channel) << 4;     // Single-ended mode and channel
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+MCP3008 の指定チャンネルからアナログ値を読み取ります。  
+3 バイトの SPI コマンドを送信し、0〜1023 の 10 ビットデジタル値を返します。
+
+.. code-block:: c
+
+    int temperture()
+    {
+        int analogVal = read_ADC(0);
+        double Vr = 3.3 * analogVal / 1023.0;  // Use 3.3V as Vref for MCP3008
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double temp = 1 / (((log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)));
+        double cel = temp - 273.15;
+        double Fah = cel * 1.8 + 32;
+        printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+        return (int)cel;
+    }
+
+
+サーミスタからのアナログ値を MCP3008 経由で取得し、電圧・抵抗を計算して摂氏・華氏温度に変換します。  
+B 定数式（Steinhart–Hart 近似式）を用いて計算します。
+
+.. code-block:: c
+
+    int motor(int level)
+    {
+        if (level == 0) {
+            digitalWrite(MotorEnable, LOW);
+            return 0;
+        }
+        if (level >= 4) {
+            level = 4;
+        }
+        digitalWrite(MotorEnable, HIGH);
+        softPwmWrite(MotorPin1, level * 25);
+        return level;
+    }
+
+PWM を用いてファンの速度を制御します。  
+レベルは 0〜4 の範囲で、0 は停止、1 段階ごとにデューティ比を 25% ずつ増やします。
+
+.. code-block:: c
+
+    void setup()
+    {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi setup failed!\n");
+            return;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return;
+        }
+
+        softPwmCreate(MotorPin1, 0, 100);
+        softPwmCreate(MotorPin2, 0, 100);
+        pinMode(MotorEnable, OUTPUT);
+        pinMode(BtnPin, INPUT);
+    }
+
+WiringPi を初期化し、SPI を設定します。PWM 出力ピンとボタン入力ピンを構成します。
+
+.. code-block:: c
+
+    int main(void)
+    {
+        setup();
+        int currentState, lastState = 0;
+        int level = 0;
+        int currentTemp, markTemp = 0;
+
+        while (1) {
+            currentState = digitalRead(BtnPin);
+            currentTemp = temperture();
+
+            if (currentTemp <= 0) continue;
+
+            if (currentState == 1 && lastState == 0) {
+                level = (level + 1) % 5;
+                markTemp = currentTemp;
+                delay(500);
+            }
+
+            lastState = currentState;
+
+            if (level != 0) {
+                if (currentTemp - markTemp <= -2) {
+                    level = level - 1;
+                    markTemp = currentTemp;
+                }
+                if (currentTemp - markTemp >= 2) {
+                    level = level + 1;
+                    markTemp = currentTemp;
+                }
+            }
+
+            level = motor(level);
+        }
+
+        return 0;
+    }
+
+
+メインループの動作:
+
+1. ボタン状態と現在の温度を取得  
+2. ボタンが押されるとレベルを 1 段階増加（0〜4 を循環）し、その時点の温度を記録  
+3. 温度が ±2℃ 変化すると自動でレベルを 1 段階増減  
+4. ``motor(level)`` を呼び出し PWM 出力を更新

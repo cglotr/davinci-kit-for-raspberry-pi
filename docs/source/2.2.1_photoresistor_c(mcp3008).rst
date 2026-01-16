@@ -1,0 +1,332 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好者コミュニティ（Facebook）へようこそ！Raspberry Pi、Arduino、ESP32 をさらに深く学び、仲間と交流しましょう。
+
+    **参加する理由**
+
+    - **専門的な支援**: 購入後の問題や技術的な課題を、コミュニティやチームの助けで解決できます。
+    - **学びと共有**: 技術や工夫を交換し、知識を広げることができます。
+    - **限定の先行情報**: 新製品のお知らせや先行公開をいち早く入手できます。
+    - **特別割引**: 最新製品を会員限定の割引で入手できます。
+    - **祭りや贈り物企画**: 季節ごとの企画や贈り物イベントに参加できます。
+
+    👉 一緒に探求し、ものづくりを楽しみましょう！こちらから参加してください → [|link_sf_facebook|]
+
+.. _2.2.1_c_mcp3008:
+
+2.2.1 フォトレジスタ (MCP3008)
+===============================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   キットの種類によって **ADC0834** または **MCP3008** が含まれています。必ず手元の部品を確認し、対応する章に進んでください。
+
+はじめに
+---------
+
+フォトレジスタは生活の中で周囲の明るさを検出するために広く使われる部品です。  
+昼夜を検知し、常夜灯のような光制御に利用されます。  
+この実験は可変抵抗器の実験とよく似ており、電圧の変化を利用して光を検知します。
+
+必要な部品
+------------------------------
+
+.. image:: img/list2_2.2.1_photoresistor.png
+
+原理
+-----
+
+フォトレジスタ（光依存抵抗）は光で抵抗値が変化する素子です。  
+入射する光が強くなるほど抵抗値は低下し、光導電性を示します。  
+光検出回路や明暗によって切り替わる回路に広く利用されます。
+
+.. image:: img/image196.png
+    :width: 200
+    :align: center
+
+回路図
+------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名称
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: img/schematic_2.2.1_photoresistor_mcp3008.png
+
+実験手順
+--------
+
+**手順1:** 回路を組みます。
+
+.. image:: img/july24_2.2.1_photoresistor_mcp3008.png
+
+C言語の場合
+^^^^^^^^^^^^
+
+**手順2:** コードのあるフォルダに移動します。
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.1-2/
+
+**手順3:** コンパイルします。
+
+.. code-block:: 
+
+    gcc 2.2.1_Photoresistor.c -o photoresistor -lwiringPi -lm
+
+**手順4:** 実行します。
+
+.. code-block:: 
+
+    ./photoresistor
+
+実行すると、フォトレジスタが検知した光の強さに応じて LED の明るさが変化します。
+
+.. note::
+
+    「wiringPi.h が見つかりません」というエラーが出た場合は :ref:`install_wiringpi` を参照してください。
+
+**コード**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+    #define LedPin      3
+
+    int readMCP3008(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;
+        buffer[1] = (8 + channel) << 4;
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi 初期化失敗!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI 初期化失敗!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100);
+
+        while (1) {
+            int analogVal = readMCP3008(0);
+            printf("ADC 値: %d\n", analogVal);
+
+            int pwmVal = analogVal * 100 / 1023;
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**コード解説**
+
+このコードは :ref:`2.1.4_c_mcp3008` で説明した内容と同じです。詳しくはそちらを参照してください。
+
+
+
+Pythonの場合
+^^^^^^^^^^^^^
+
+**手順2:** SPI を設定し、 ``spidev`` をインストールしてください（詳細は :ref:`spi_configuration` を参照）。  
+
+**手順3:** コードのあるフォルダに移動します。  
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python
+
+**手順4:** 実行します。  
+
+.. code-block::
+
+    sudo python3 2.2.1-2_photoresistor.py
+
+実行すると、フォトレジスタが検知した光の強さに応じて LED の明るさが変化します。
+
+.. warning::
+
+    ``RuntimeError: Cannot determine SOC peripheral base address`` というエラーが出た場合は :ref:`faq_soc` を参照してください。
+
+**コード**
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    import RPi.GPIO as GPIO
+    import spidev
+    import time
+
+    PWM_PIN = 22
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(PWM_PIN, GPIO.OUT)
+
+    pwm = GPIO.PWM(PWM_PIN, 1000)
+    pwm.start(0)
+
+    spi = spidev.SpiDev()
+    spi.open(0, 0)
+    spi.max_speed_hz = 1000000
+
+    def read_adc(channel):
+        if channel < 0 or channel > 7:
+            return -1
+        r = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((r[1] & 3) << 8) | r[2]
+        return value
+
+    try:
+        while True:
+            analogVal = read_adc(0)
+            print(f"value = {analogVal}")
+
+            duty_cycle = analogVal * 100 / 1023
+            pwm.ChangeDutyCycle(duty_cycle)
+
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        pwm.stop()
+        GPIO.cleanup()
+        spi.close()
+
+**コード解説**
+
+1. ライブラリを読み込みます。  
+
+   - ``RPi.GPIO`` : GPIO 制御と PWM 出力  
+   - ``spidev`` : MCP3008 と SPI 通信  
+   - ``time`` : 待機処理  
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+
+       import RPi.GPIO as GPIO
+       import spidev
+       import time
+
+2. GPIO22 を PWM 出力として設定し、周波数 1000Hz で開始します。  
+
+   .. code-block:: python
+
+       # GPIO pin for PWM LED
+       PWM_PIN = 22
+
+       # Setup GPIO
+       GPIO.setmode(GPIO.BCM)
+       GPIO.setup(PWM_PIN, GPIO.OUT)
+
+       # Initialize PWM (frequency = 1000Hz)
+       pwm = GPIO.PWM(PWM_PIN, 1000)
+       pwm.start(0)  # Start with 0% duty cycle
+
+3. SPI をバス0、CE0 で初期化し、速度を 1MHz に設定します。  
+
+   .. code-block:: python
+
+       # Initialize SPI (MCP3008 on Bus 0, CE0)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+4. ``read_adc()`` 関数で MCP3008 の指定チャンネルから 0–1023 の値を取得します。  
+
+   .. code-block:: python
+
+       # Function to read MCP3008 ADC value
+       def read_adc(channel):
+           """
+           Read analog value from MCP3008 (channel 0–7)
+           Returns: 10-bit value (0–1023)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           r = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((r[1] & 3) << 8) | r[2]
+           return value
+
+5. メインループでは CH0 の値を読み取り、PWM デューティ比に変換し LED の明るさを調整します。0.2秒ごとに更新します。  
+
+   .. code-block:: python
+
+       # Main loop to read ADC and set PWM brightness
+       try:
+           while True:
+               analogVal = read_adc(0)
+               print(f"value = {analogVal}")
+
+               # Scale ADC value (0–1023) to duty cycle (0–100)
+               duty_cycle = analogVal * 100 / 1023
+               pwm.ChangeDutyCycle(duty_cycle)
+
+               time.sleep(0.2)
+
+6. Ctrl+C で終了すると PWM と GPIO を解放し、SPI を閉じます。  
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           pass
+
+       finally:
+           pwm.stop()
+           GPIO.cleanup()
+           spi.close()

@@ -32,7 +32,12 @@
       cd ~/
       git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
 
+<<<<<<< HEAD
 #. プロジェクトのディレクトリに入ります：
+=======
+   git clone --branch master --depth 1 https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git
+
+>>>>>>> 0ba16163e918325a4174c5ccb91614687a1010ed
 
    .. raw:: html
    

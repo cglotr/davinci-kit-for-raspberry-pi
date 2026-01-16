@@ -15,8 +15,7 @@
 Input
 ========
 
-2.1 コントローラー
---------------------
+**2.1 コントローラー**
 
 .. toctree::
     :maxdepth: 1
@@ -25,17 +24,21 @@ Input
     2.1.2_slide_switch_js
     2.1.3_tilt_switch_js
     2.1.4_potentiometer_js
+    2.1.4_potentiometer_js(mcp3008)
     2.1.5_keypad_js
     2.1.6_joystick_js
+    2.1.6_joystick_js(mcp3008)
 
-2.2 センサー
-----------------
+
+**2.2 センサー**
 
 .. toctree::
     :maxdepth: 1
 
     2.2.1_photoresistor_js
+    2.2.1_photoresistor_js(mcp3008)
     2.2.2_thermistor_js
+    2.2.2_thermistor_js(mcp3008)
     2.2.3_dht-11_js
     2.2.4_pir_js
     2.2.5_ultrasonic_sensor_module_js

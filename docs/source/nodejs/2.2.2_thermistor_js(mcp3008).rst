@@ -1,0 +1,187 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間とともにさらに深く楽しみましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的課題を、コミュニティやチームが解決します。
+    - **学びと共有**: ヒントや作例を共有してスキルを向上させます。
+    - **限定先行情報**: 新製品発表やプレビューをいち早く入手できます。
+    - **特別割引**: 最新製品の特別割引を利用できます。
+    - **季節イベントとプレゼント企画**: 季節ごとのイベントやプレゼント企画に参加できます。
+
+    👉 一緒に創造と探求の旅に出かけましょう。[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _2.2.2_js_pi5_mcp3008:
+
+2.2.2 サーミスタ(MCP3008)
+============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   キットのバージョンによって、 **ADC0834** または **MCP3008** が含まれています。  
+   該当する方の説明を参照してください。
+
+はじめに
+--------
+
+フォトレジスタが光を感知できるように、サーミスタは温度に反応する電子部品で、  
+熱アラームのような温度制御機能の実現に利用できます。
+
+必要な部品
+----------
+
+このプロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../img/list2_2.2.2_thermistor.png
+
+回路図
+------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board 名
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: ../img/schematic_2.2.2_thermistor_mcp3008.png
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../img/2.2.2_Thermistor_bb.png
+
+**手順2:** コードのフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**手順3:** コードを実行します。
+
+.. code-block::
+
+    sudo node thermistor-2.js
+
+コードを実行すると、サーミスタが周囲温度を検出し、  
+計算後にその結果を画面に表示します。
+
+コード
+------
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+    // Open MCP3008 channel 0 (CH0), analog input from thermistor voltage divider
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1350000 }, (err) => {
+      if (err) {
+        console.error('Failed to open MCP3008 channel:', err);
+        process.exit(1);
+      }
+
+      console.log('MCP3008 thermistor channel opened.');
+
+      setInterval(() => {
+        adc.read((err, reading) => {
+          if (err) {
+            console.error('ADC read error:', err);
+            return;
+          }
+
+          const adcValue = reading.value; // Float: 0.0–1.0
+          const raw = Math.round(adcValue * 1023); // 10-bit integer value
+
+          const Vr = 3.3 * raw / 1023; // Convert to voltage (assuming 3.3V Vref)
+          const R0 = 10000;            // Fixed resistor: 10k
+          const B = 3950;              // B constant
+          const Rt = R0 * Vr / (3.3 - Vr); // Thermistor resistance
+
+          const tempK = 1 / ((Math.log(Rt / R0) / B) + (1 / (273.15 + 25))); // Kelvin
+          const tempC = tempK - 273.15; // Celsius
+          const tempF = tempC * 1.8 + 32; // Fahrenheit
+
+          console.log(`Celsius: ${tempC.toFixed(2)} °C  |  Fahrenheit: ${tempF.toFixed(2)} °F`);
+        });
+      }, 1000);
+    });
+
+
+コード解説
+----------
+
+.. code-block:: js
+
+    setInterval(() => {
+      adc.read((err, reading) => {
+        ...
+      });
+    }, 1000);
+
+MCP3008 のチャンネル0から 1000 ミリ秒（1 秒）ごとにデータを読み取るループを設定します。  
+``read`` 関数は 0.0〜1.0 の範囲のアナログ値を返します。
+
+.. code-block:: js
+
+    const raw = Math.round(reading.value * 1023);
+
+正規化された浮動小数点の ADC 値を 10 ビット整数（0〜1023）に変換します。
+
+.. code-block:: js
+
+    const Vr = 3.3 * raw / 1023;
+
+ADC の読み取り値からサーミスタの電圧 ``Vr`` を計算します。MCP3008 の基準電圧は 3.3V と仮定します。
+
+.. code-block:: js
+
+    const Rt = R0 * Vr / (3.3 - Vr);
+
+分圧回路の公式を用いてサーミスタの抵抗値 ``Rt`` を計算します。 ``R0`` は直列接続された固定抵抗（10kΩ）です。
+
+.. code-block:: js
+
+    const tempK = 1 / ((Math.log(Rt / R0) / B) + (1 / (273.15 + 25)));
+
+**B パラメータ式** （Steinhart-Hart 式の簡易版）を適用して温度をケルビン単位で求めます。
+
+.. code-block:: js
+
+    const tempC = tempK - 273.15;
+    const tempF = tempC * 1.8 + 32;
+
+ケルビン温度を摂氏に変換し、さらに華氏に変換します。
+
+.. code-block:: js
+
+    console.log(`Celsius: ${tempC.toFixed(2)} °C  |  Fahrenheit: ${tempF.toFixed(2)} °F`);
+
+摂氏および華氏の温度を小数点以下 2 桁で表示します。

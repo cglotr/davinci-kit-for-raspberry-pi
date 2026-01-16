@@ -1,0 +1,259 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と共にさらに深く学びましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的な課題を、コミュニティとチームがサポートします。
+    - **学びと共有**: ヒントや作例を交換してスキルを高めます。
+    - **限定先行情報**: 新製品の発表や事前プレビューを入手できます。
+    - **特別割引**: 最新製品の限定割引を利用できます。
+    - **季節イベントと景品**: プレゼント企画や季節イベントに参加できます。
+
+    👉 一緒にものづくりの世界を探検しませんか？[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _3.1.5_c_pi5_mcp3008:
+
+
+3.1.5 電池残量表示器(MCP3008)
+==================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   お使いのキットによって、 **ADC0834** または **MCP3008** のどちらを使用しているかを確認し、対応する説明に進んでください。
+
+はじめに
+--------
+
+このプロジェクトでは、LED バーグラフでバッテリー残量を視覚的に表示するバッテリーインジケーターを作ります。
+
+.. warning::
+
+    3.3V を超えるバッテリーを使用しないでください。過電圧によりチップや Raspberry Pi が損傷するおそれがあります。
+
+必要な部品
+----------
+
+本プロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../img/list2_Battery_Indicator.png
+    :align: center
+
+回路図
+------
+
+============ ======== ======== ===
+T-Board 名   物理ピン wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO25       Pin 22   6        25
+GPIO12       Pin 32   26       12
+GPIO16       Pin 36   27       16
+GPIO20       Pin 38   28       20
+GPIO21       Pin 40   29       21
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+GPIO19       Pin 35   24       19
+GPIO26       Pin 37   25       26
+============ ======== ======== ===
+
+.. image:: ../img/schematic_battery_indicator_mcp3008.png
+   :align: center
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../img/july24_3.1.5_battery_indicator_mcp3008.png
+
+**手順2:** コードのあるフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.5-2/
+
+**手順3:** コードをコンパイルします。
+
+.. code-block::
+
+    gcc 3.1.5_BatteryIndicator.c -lwiringPi
+
+**手順4:** 実行します。
+
+.. code-block::
+
+    sudo ./a.out
+
+プログラムが動作したら、MCP3008 の 3 番ピンと GND にそれぞれリード線を接続し、バッテリーの両極に接続します。  
+LED バーグラフ上の対応する LED が点灯し、電圧に応じた残量を表示します（測定範囲: 0〜5V）。
+
+.. note::
+    実行後に動作しない場合や  
+    「wiringPi.h: No such file or directory」というエラーが表示された場合は、:ref:`install_wiringpi` を参照してください。
+
+コード
+------
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define VREF        3.3      
+
+    int pins[10] = {6, 26, 27, 28, 29, 21, 22, 23, 24, 25};
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // 開始ビット
+        buffer[1] = (8 + channel) << 4;  // シングルエンドモード
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    void LedBarGraph(int value) {
+        for (int i = 0; i < 10; i++) {
+            if (i < value)
+                digitalWrite(pins[i], HIGH);  
+            else
+                digitalWrite(pins[i], LOW);
+        }
+    }
+
+    int main(void)
+    {
+        if (wiringPiSetup() == -1) {
+            printf("setup wiringPi failed!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return 1;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            pinMode(pins[i], OUTPUT);
+            digitalWrite(pins[i], HIGH);
+        }
+
+        while (1) {
+            int analogVal = read_ADC(0);  // MCP3008 CH0
+            if (analogVal < 0) continue;
+
+            float voltage = analogVal * VREF / 1023.0;
+            int level = analogVal * 10 / 1024;  
+            if (level > 10) level = 10;  
+
+            LedBarGraph(level);
+
+            printf("ADC Value: %d\tVoltage: %.2f V\tLevel: %d\n", analogVal, voltage, level);
+
+            delay(200);
+        }
+
+        return 0;
+    }
+
+コード解説
+----------
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Start bit
+        buffer[1] = (8 + channel) << 4;  // Single-ended mode, CH0~CH7
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];  // Combine 10-bit result
+        return value;
+    }
+
+MCP3008 の指定チャンネルからアナログ値を SPI 経由で読み取ります。  
+戻り値は 0〜1023 の範囲の 10 ビットデジタル値です。
+
+
+.. code-block:: c
+
+    void LedBarGraph(int value) {
+        for (int i = 0; i < 10; i++) {
+            if (i < value)
+                digitalWrite(pins[i], HIGH);  // Turn on LED (assumes active HIGH wiring)
+            else
+                digitalWrite(pins[i], LOW);   // Turn off LED
+        }
+    }
+
+
+10 個の LED バーグラフを制御します。  
+引数の値に応じて先頭から順に LED を点灯させます（アクティブ HIGH 接続を想定）。
+
+.. code-block:: c
+
+    int main(void)
+    {
+        if (wiringPiSetup() == -1) {
+            printf("setup wiringPi failed!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI setup failed!\n");
+            return 1;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            pinMode(pins[i], OUTPUT);
+            digitalWrite(pins[i], HIGH);  // Initialize all LEDs to ON
+        }
+
+        while (1) {
+            int analogVal = read_ADC(0);  // Read voltage on CH0
+            if (analogVal < 0) continue;
+
+            float voltage = analogVal * VREF / 1023.0;
+            int level = analogVal * 10 / 1024;  // Map to 0–10 levels
+            if (level > 10) level = 10;
+
+            LedBarGraph(level);  // Display level on LEDs
+
+            printf("ADC Value: %d\tVoltage: %.2f V\tLevel: %d\n", analogVal, voltage, level);
+
+            delay(200);  // Update rate: 5 Hz
+        }
+
+        return 0;
+    }
+
+
+- WiringPi と SPI を初期化  
+- LED バーグラフ用の GPIO ピンを出力に設定  
+- MCP3008 CH0 からアナログ電圧を読み取る  
+- ADC 値を電圧に変換（VREF = 3.3V）  
+- 電圧を 0〜10 段階にスケーリングして LED に表示  
+- シリアルコンソールに ADC 値・電圧・LED 段階を出力

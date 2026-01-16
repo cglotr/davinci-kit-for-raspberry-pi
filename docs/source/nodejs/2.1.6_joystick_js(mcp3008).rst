@@ -1,0 +1,191 @@
+.. note::
+
+    こんにちは、SunFounder Raspberry Pi & Arduino & ESP32 愛好家コミュニティ（Facebook）へようこそ！  
+    Raspberry Pi、Arduino、ESP32 を仲間と一緒にさらに深く楽しみましょう。
+
+    **参加する理由**
+
+    - **専門的なサポート**: 購入後の問題や技術的課題を、コミュニティやチームが解決します。
+    - **学びと共有**: ヒントや作例を共有してスキルを向上させます。
+    - **限定先行情報**: 新製品発表やプレビューをいち早く入手できます。
+    - **特別割引**: 最新製品の特別割引を利用できます。
+    - **季節イベントとプレゼント企画**: イベントやプレゼント企画に参加できます。
+
+    👉 一緒に創造と探求の旅に出かけましょう。[|link_sf_facebook|] をクリックして今すぐ参加！
+
+.. _2.1.6_js_pi5_mcp3008:
+
+2.1.6 ジョイスティック(MCP3008)
+=================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   使用しているキットによって **ADC0834** または **MCP3008** のどちらかを確認し、該当する説明に進んでください。
+   
+はじめに
+--------
+
+このプロジェクトでは、ジョイスティックの仕組みを学びます。  
+ジョイスティックを操作し、その結果を画面に表示します。
+
+必要な部品
+----------
+
+このプロジェクトで使用する部品は以下の通りです。
+
+.. image:: ../img/image317-copy.png
+
+回路図
+------
+
+ジョイスティックのデータを読み取る際、軸ごとに違いがあります。  
+X軸とY軸のデータはアナログ信号のため、MCP3008 を使ってアナログ値をデジタル値に変換する必要があります。  
+Z軸（ボタン）のデータはデジタル信号のため、GPIO から直接読み取ることも、ADC を経由して読み取ることもできます。
+
+.. .. image:: ../img/image319.png
+
+    *   - T-Board 名
+        - 物理ピン
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.1.9_joystick_mcp3008_js.png
+
+実験手順
+--------
+
+**手順1:** 回路を組み立てます。
+
+.. image:: ../img/2.1.9_Joystick_js.png
+
+**手順2:** コードのフォルダに移動します。
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**手順3:** コードを実行します。
+
+.. code-block::
+
+    sudo node joystick-2.js
+
+コードを実行したら、ジョイスティックを動かすと、  
+x、y、Btn の値が画面に表示されます。
+
+コード
+------
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+    const mcpadc = require('mcp-spi-adc');
+
+    // チャンネル1（X軸）を開く
+    const xChannel = mcpadc.openMcp3008(1, { speedHz: 1350000 }, (err) => {
+    if (err) {
+        console.error('X チャンネルを開けません:', err);
+        process.exit(1);
+    }
+    });
+
+    // チャンネル2（Y軸）を開く
+    const yChannel = mcpadc.openMcp3008(2, { speedHz: 1350000 }, (err) => {
+    if (err) {
+        console.error('Y チャンネルを開けません:', err);
+        process.exit(1);
+    }
+    });
+
+    // GPIO22 をプルアップ入力で設定（ボタン用）
+    const btn = new Gpio(22, {
+    mode: Gpio.INPUT,
+    pullUpDown: Gpio.PUD_UP,
+    });
+
+    // 読み取りループ
+    setInterval(() => {
+    xChannel.read((errX, xReading) => {
+        if (errX) {
+        console.error('X チャンネル読み取りエラー:', errX);
+        return;
+        }
+
+        yChannel.read((errY, yReading) => {
+        if (errY) {
+            console.error('Y チャンネル読み取りエラー:', errY);
+            return;
+        }
+
+        const x_val = Math.round(xReading.value * 1023);
+        const y_val = Math.round(yReading.value * 1023);
+        const btn_val = btn.digitalRead();
+
+        console.log(`x = ${x_val}, y = ${y_val}, btn = ${btn_val}\n`);
+        });
+    });
+    }, 100);
+
+コード解説
+----------
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+``mcp-spi-adc`` モジュールを読み込み、Raspberry Pi のハードウェア SPI を使って MCP3008 と通信できるようにします。
+
+.. code-block:: js
+
+    const xChannel = mcpadc.openMcp3008(1, { speedHz: 1350000 }, ...);
+    const yChannel = mcpadc.openMcp3008(2, { speedHz: 1350000 }, ...);
+
+MCP3008 のアナログ入力チャンネル1（X軸）とチャンネル2（Y軸）を開きます。  
+SPI 通信速度は 1.35 MHz に設定しています。
+
+.. code-block:: js
+
+    const btn = new Gpio(22, {
+      mode: Gpio.INPUT,
+      pullUpDown: Gpio.PUD_UP,
+    });
+
+GPIO22 をデジタル入力として設定し、内部プルアップ抵抗を有効化します。  
+このピンでプッシュボタンの状態を読み取ります。
+
+.. code-block:: js
+
+    setInterval(() => {
+      xChannel.read(...);
+      yChannel.read(...);
+    }, 100);
+
+100ミリ秒ごとに、MCP3008 のチャンネル1とチャンネル2から X軸・Y軸の値を読み取ります。  
+取得した値（0.0〜1.0の範囲）は 0〜1023 の10ビット整数に変換されます。  
+また、GPIO22 からボタンの状態を読み取り、押されているときは 0、離されているときは 1 が返ります。  
+これらの値はすべてコンソールに表示されます。
