@@ -196,7 +196,7 @@
        Cel = tempK - 273.15
        Fah = Cel * 1.8 + 32
 
-#. ``KeyboardInterrupt``（Ctrl+C）を検出して安全に終了し、SPI 接続を閉じます。
+#. ``KeyboardInterrupt`` （Ctrl+C）を検出して安全に終了し、SPI 接続を閉じます。
 
    .. code-block:: python
 

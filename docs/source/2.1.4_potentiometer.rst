@@ -18,7 +18,7 @@
 
 .. note::
 
-   .. image:: ../img/mcp3008_and_adc0834.jpg
+   .. image:: img/mcp3008_and_adc0834.jpg
       :width: 25%
       :align: left
 
