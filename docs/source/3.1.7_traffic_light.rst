@@ -96,7 +96,7 @@ Cette série d'actions se répétera continuellement.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : « wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : « wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Explication du code**
 
@@ -115,7 +115,7 @@ Cette série d'actions se répétera continuellement.
     void display();
 
 Ces codes sont utilisés pour réaliser l'affichage des chiffres sur un afficheur 7 segments 
-à 4 chiffres. Référez-vous à :ref:`1.1.5 4-Digit 7-Segment Display` du document pour plus 
+à 4 chiffres. Référez-vous à :ref:`1.1.5_4digit` du document pour plus 
 de détails. Ici, les codes servent à afficher le décompte du temps des feux de circulation.
 
 .. code-block:: c
@@ -157,7 +157,7 @@ Ces codes servent à allumer et éteindre les LEDs.
         }
     }
 
-Ces codes permettent de contrôler le minuteur. Référez-vous à :ref:`1.1.5 4-Digit 7-Segment Display` 
+Ces codes permettent de contrôler le minuteur. Référez-vous à :ref:`1.1.5_4digit` 
 pour plus de détails. Ici, lorsque le minuteur atteint zéro, `colorState` change pour alterner les LEDs,
 et le minuteur est réinitialisé à une nouvelle valeur.
 
@@ -374,7 +374,7 @@ affiche en continu le décompte du temps.
     def display():
 
 Ces codes sont utilisés pour réaliser l'affichage des chiffres sur un afficheur 7 
-segments à 4 chiffres. Référez-vous à :ref:`1.1.5 4-Digit 7-Segment Display` du 
+segments à 4 chiffres. Référez-vous à :ref:`1.1.5_4digit` du 
 document pour plus de détails. Ici, les codes servent à afficher le décompte du temps 
 des feux de circulation.
 
@@ -419,7 +419,7 @@ Ces codes permettent de gérer l'allumage et l'extinction des LEDs.
             colorState=(colorState+1)%3
         print ("counter : %d    color: %s "%(counter,lightColor[colorState]))
 
-Ces codes permettent de contrôler le minuteur. Référez-vous à :ref:`1.1.5 4-Digit 7-Segment Display` 
+Ces codes permettent de contrôler le minuteur. Référez-vous à :ref:`1.1.5_4digit` 
 pour plus de détails. Ici, lorsque le minuteur atteint zéro, `colorState` change pour alterner les LEDs, 
 et le minuteur est réinitialisé à une nouvelle valeur.
 

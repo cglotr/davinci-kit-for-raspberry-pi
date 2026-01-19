@@ -213,7 +213,7 @@ Après exécution du code, vous verrez la LED clignoter.
 
 .. note::
 
-   Si cela ne fonctionne pas après exécution ou si un message d'erreur du type : "wiringPi.h: No such file or directory" apparaît, veuillez consulter :ref:`C code is not working?`.
+   Si cela ne fonctionne pas après exécution ou si un message d'erreur du type : "wiringPi.h: No such file or directory" apparaît, veuillez consulter :ref:`faq_c_nowork`.
 
 Si vous souhaitez modifier le fichier de code ``1.1.1_BlinkingLed.c``, appuyez sur 
 ``Ctrl + C`` pour arrêter l'exécution du code. Tapez ensuite la commande suivante 

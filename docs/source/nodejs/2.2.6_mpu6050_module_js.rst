@@ -51,7 +51,7 @@ Procédures expérimentales
 .. image:: ../img/image227.png
 
 
-**Étape 2 :** Configurez l'I2C (voir l'annexe :ref:`i2c configuration`. Si vous avez déjà configuré l'I2C, passez cette étape.)
+**Étape 2 :** Configurez l'I2C (voir l'annexe :ref:`i2c_config`. Si vous avez déjà configuré l'I2C, passez cette étape.)
 
 **Étape 3 :** Accédez au répertoire du code.
 

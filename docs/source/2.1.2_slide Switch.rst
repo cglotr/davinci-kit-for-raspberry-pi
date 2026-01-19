@@ -141,7 +141,7 @@ la LED jaune s'allume ; vers la droite, la lumière rouge s'allume.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

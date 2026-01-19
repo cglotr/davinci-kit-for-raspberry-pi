@@ -118,7 +118,7 @@ distance entre l'obstacle devant lui et le module, puis affichera la distance su
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h:  Fichier ou répertoire introuvable", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h:  Fichier ou répertoire introuvable", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

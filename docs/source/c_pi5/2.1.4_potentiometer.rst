@@ -173,7 +173,7 @@ la LED changera en conséquence.
 .. note::
 
     Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur 
-    indiquant : \"wiringPi.h: No such file or directory\", veuillez consulter :ref:`C code is not working?`.
+    indiquant : \"wiringPi.h: No such file or directory\", veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 

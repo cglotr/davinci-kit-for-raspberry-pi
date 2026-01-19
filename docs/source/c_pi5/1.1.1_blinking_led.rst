@@ -210,7 +210,7 @@ Après l'exécution du code, vous verrez la LED clignoter.
 
 .. note::
 
-   Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : « wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`C code is not working?`.
+   Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : « wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 Si vous souhaitez modifier le fichier de code ``1.1.1_BlinkingLed.c``, appuyez sur
  ``Ctrl + C`` pour arrêter l'exécution du code. Ensuite, tapez la commande suivante 

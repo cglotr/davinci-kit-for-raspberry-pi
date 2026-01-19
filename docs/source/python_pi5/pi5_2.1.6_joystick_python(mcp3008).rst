@@ -37,7 +37,7 @@ Composants requis
 
 Dans ce projet, nous avons besoin des composants suivants :  
 
-.. image:: ../python_pi5/img/image317-copy.png
+.. image:: ../python_pi5/img/2.1.9_joystick_list.png
 
 Schéma de câblage
 -----------------

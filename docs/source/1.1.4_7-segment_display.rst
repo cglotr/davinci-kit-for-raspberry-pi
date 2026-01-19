@@ -162,7 +162,7 @@ Après l'exécution du code, vous verrez l'affichage 7 segments afficher les chi
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : "wiringPi.h: No such file or directory", veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : "wiringPi.h: No such file or directory", veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 

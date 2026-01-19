@@ -73,15 +73,9 @@ le tournant dans le sens antihoraire, vous réduisez le délai jusqu'à un minim
 
 Deux modes de déclenchement : (choisir différents modes en utilisant le cavalier).
 
--  **H :** **Mode de déclenchement répétable**, après avoir détecté la présence d'un 
-humain, le module maintient une sortie de niveau haut. Pendant la période de délai, 
-si une autre personne entre dans la zone de détection, la sortie reste au niveau haut.
+-  **H :** **Mode de déclenchement répétable**, après avoir détecté la présence d'un humain, le module maintient une sortie de niveau haut. Pendant la période de délai, si une autre personne entre dans la zone de détection, la sortie reste au niveau haut.
 
--  **L :** **Mode de déclenchement non répétable**, la sortie passe au niveau haut 
-lorsqu'il détecte un humain. Après le délai, la sortie redevient automatiquement à 
-un niveau bas.
-
-
+-  **L :** **Mode de déclenchement non répétable**, la sortie passe au niveau haut lorsqu'il détecte un humain. Après le délai, la sortie redevient automatiquement à un niveau bas.
 
 Schéma de câblage
 ---------------------
@@ -138,7 +132,7 @@ du module PIR, tournez les deux potentiomètres complètement dans le sens antih
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 
 **Code**
@@ -194,7 +188,7 @@ du module PIR, tournez les deux potentiomètres complètement dans le sens antih
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Ces lignes de code sont utilisées pour définir la couleur de la LED RVB. Veuillez vous référer à
- :ref:`1.1.2 RGB LED` pour plus de détails.
+ :ref:`1.1.2_rgb_c_pi5` pour plus de détails.
 
 .. code-block:: c
 

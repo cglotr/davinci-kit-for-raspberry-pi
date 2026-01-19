@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _1.1.6_matrix:
+
 1.1.6 LED Dot Matrix
 ==========================
 
@@ -175,7 +177,7 @@ Après avoir exécuté le code, la matrice de LED s'allume et s'éteint ligne pa
 
 .. note::
 
-   Si cela ne fonctionne pas après l'exécution, ou si une erreur du type \"wiringPi.h: No such file or directory\" est affichée, veuillez consulter :ref:`C code is not working?`.
+   Si cela ne fonctionne pas après l'exécution, ou si une erreur du type \"wiringPi.h: No such file or directory\" est affichée, veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 

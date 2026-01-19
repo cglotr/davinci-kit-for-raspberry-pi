@@ -96,7 +96,7 @@ LED rouge s'allume à nouveau pour **60s**. Cette série d'actions sera répét�
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`faq_c_nowork`.
 
 
 **Explication du Code**
@@ -116,7 +116,7 @@ LED rouge s'allume à nouveau pour **60s**. Cette série d'actions sera répét�
     void display();
 
 Ces fonctions servent à afficher les numéros sur un afficheur 7 segments à quatre 
-chiffres. Reportez-vous à la section :ref:`1.1.5 Afficheur 7 segments à 4 chiffres` 
+chiffres. Reportez-vous à la section :ref:`1.1.5_4digit_c_pi5` 
 pour plus de détails. Ici, les codes permettent d'afficher le décompte du temps du 
 feu tricolore.
 
@@ -160,7 +160,7 @@ Ces lignes contrôlent l'allumage et l'extinction des LEDs.
     }
 
 Ce code active ou désactive le minuteur. Reportez-vous à la section
- :ref:`1.1.5 4-Digit 7-Segment Display` pour plus de détails. Lorsque 
+ :ref:`1.1.5_4digit` pour plus de détails. Lorsque 
  le compteur atteint zéro, `colorState` change, ce qui permet de changer 
  la LED et d'attribuer une nouvelle valeur au minuteur.
 

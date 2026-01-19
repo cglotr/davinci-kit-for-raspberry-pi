@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _2.2.2_thermistor_nodejs:
+
 2.2.2 Thermistance
 ====================
 

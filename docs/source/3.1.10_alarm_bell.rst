@@ -89,7 +89,7 @@ et verte clignoteront à une certaine fréquence.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`faq_c_nowork`.
 
 
 **Explication du code**

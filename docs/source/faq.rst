@@ -15,7 +15,9 @@
 FAQ
 ============
 
-C code is not working?
+.. _faq_c_nowork:
+
+Le code C ne fonctionne pas ?
 ----------------------------------
 
 * Vérifiez votre câblage pour détecter d'éventuels problèmes.

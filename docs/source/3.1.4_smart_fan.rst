@@ -117,7 +117,7 @@ niveau et que vous appuyez de nouveau, le ventilateur s'arrête avec une vitesse
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 Une variation de température supérieure ou inférieure à 2℃ entraîne automatiquement 
 une augmentation ou une diminution d'un cran de la vitesse.
@@ -141,7 +141,7 @@ une augmentation ou une diminution d'un cran de la vitesse.
     }
 
 La fonction `temperture()` convertit les valeurs de la thermistance lues par l'ADC0834 
-en valeurs de température. Pour plus de détails, reportez-vous à :ref:`2.2.2 Thermistor`.
+en valeurs de température. Pour plus de détails, reportez-vous à :ref:`2.2.2_thermistor`.
 
 .. code-block:: c
 
@@ -350,7 +350,7 @@ augmentation ou une diminution d'un cran de la vitesse.
 
 La fonction `temperature()` convertit les valeurs de la thermistance lues 
 par **ADC0834** en valeurs de température. Pour plus de détails, reportez-vous 
-à :ref:`2.2.2 Thermistor`.
+à :ref:`2.2.2_thermistor`.
 
 .. code-block:: python
 

@@ -111,7 +111,7 @@ niveau de charge (plage de mesure : 0-5V).
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Explication du code**
 

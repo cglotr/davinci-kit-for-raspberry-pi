@@ -121,7 +121,7 @@ de x, y et Btn seront affichées à l'écran.
 
 .. note::
 
-    Si cela ne fonctionne pas après exécution ou si une erreur « wiringPi.h: Aucun fichier ou répertoire de ce type » apparaît, veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après exécution ou si une erreur « wiringPi.h: Aucun fichier ou répertoire de ce type » apparaît, veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

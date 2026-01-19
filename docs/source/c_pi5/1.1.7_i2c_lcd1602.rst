@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _1.1.7_i2c_lcd_c_pi5:
+
 1.1.7 LCD1602 I2C
 ======================
 
@@ -86,7 +88,7 @@ Procédures expérimentales
 
 
 
-**Étape 2 :** Configurez I2C (voir :ref:`I2C Configuration`. Si vous avez déjà configuré I2C, passez cette étape).
+**Étape 2 :** Configurez I2C (voir :ref:`i2c_config`. Si vous avez déjà configuré I2C, passez cette étape).
 
 **Étape 3 :** Changez de répertoire.
 

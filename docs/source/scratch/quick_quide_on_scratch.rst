@@ -17,7 +17,7 @@ Guide rapide sur Scratch
 
 .. note::
 
-    Lors de la programmation avec Scratch 3, il est recommandé d'utiliser un écran pour une meilleure expérience. Bien sûr, si vous n'avez pas d'écran, vous pouvez utiliser **VNC** pour accéder au bureau du Raspberry Pi à distance. Pour un tutoriel détaillé, veuillez vous référer à :ref:`VNC`.
+    Lors de la programmation avec Scratch 3, il est recommandé d'utiliser un écran pour une meilleure expérience. Bien sûr, si vous n'avez pas d'écran, vous pouvez utiliser **VNC** pour accéder au bureau du Raspberry Pi à distance. Pour un tutoriel détaillé, veuillez vous référer à :ref:`remote_desktop`.
 
 De plus, Scratch 3 nécessite au moins 1 Go de RAM pour fonctionner, et nous recommandons un Raspberry Pi 4 avec au moins 2 Go de RAM. Bien que vous puissiez exécuter Scratch 3 sur un Raspberry Pi 2, 3, 3B+ ou un Raspberry Pi 4 avec 1 Go de RAM, les performances sur ces modèles seront réduites et, selon le nombre de logiciels exécutés simultanément, Scratch 3 pourrait ne pas se lancer par manque de mémoire.
 

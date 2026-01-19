@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _1.1.5_4digit_c_pi5:
+
 1.1.5 Afficheur 7 segments à 4 chiffres
 ===========================================
 
@@ -120,7 +122,7 @@ Après l'exécution du code, le programme commence un comptage qui augmente de 1
 
 .. note::
 
-    Si cela ne fonctionne pas après exécution, ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après exécution, ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

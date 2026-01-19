@@ -12,11 +12,17 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
-Liste des composants
-========================
+Appendice
+===============
 
-Après avoir ouvert l'emballage, veuillez vérifier si la quantité de composants est conforme à la description du produit et si tous les composants sont en bon état.
+.. toctree::
+    :maxdepth: 1
 
-
-.. image:: img/K0402V25-DAVINCI-LIST.png
-    :width: 800px
+    libraries
+    _shared/appendix/i2c_configuration
+    _shared/appendix/spi_configuration
+    _shared/appendix/remote_desktop
+    _shared/appendix/filezilla
+    _shared/appendix/blynk_app
+    _shared/appendix/install_openssh_powershell
+    _shared/appendix/login_windows

@@ -107,6 +107,7 @@ Procédures expérimentales
 .. code-block::
 
     gcc 2.2.5_Ultrasonic.c -lwiringPi
+
 **Étape 4 :** Exécutez le fichier exécutable.
 
 .. raw:: html
@@ -125,7 +126,7 @@ cette distance est affichée à l'écran.
 
     Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur 
     indiquant: \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez 
-    vous référer à :ref:`C code is not working?`.
+    vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

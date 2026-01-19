@@ -135,4 +135,4 @@ Dessinez une barre de défilement pour contrôler l'affichage à 7 segments.
 
 **Comment ça marche ?**
 
-Ce projet intègre le curseur et l'affichage à 7 segments abordés dans le cours précédent. Pour plus de détails sur ces points spécifiques, veuillez consulter les sections :ref:`Show Number` et :ref:`Metronome`.
+Ce projet intègre le curseur et l'affichage à 7 segments abordés dans le cours précédent. Pour plus de détails sur ces points spécifiques, veuillez consulter les sections :ref:`show_number_processing` et :ref:`metronome_processing`.

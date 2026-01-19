@@ -112,7 +112,7 @@ pour vous alerter.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur indiquant: \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur indiquant: \"wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`faq_c_nowork`.
 
 
 Le **Joystick** vous permet d'ajuster le seuil de température élevé. En le 

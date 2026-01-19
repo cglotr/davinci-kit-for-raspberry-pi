@@ -94,7 +94,7 @@ aiguilles d'une montre.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`faq_c_nowork`.
 
 
 **Explication du Code**
@@ -135,7 +135,7 @@ aiguilles d'une montre.
 
 Si la direction reçue est `c`, le moteur pas-à-pas tourne dans le sens des aiguilles 
 d'une montre ; si la direction est `a`, le moteur tourne dans le sens inverse. Consultez
-:ref:`1.3.3 Stepper Motor` pour plus de détails sur le calcul de la direction de 
+:ref:`1.3.3_stepper_c_pi5` pour plus de détails sur le calcul de la direction de 
 rotation du moteur pas-à-pas.
 
 .. code-block:: c

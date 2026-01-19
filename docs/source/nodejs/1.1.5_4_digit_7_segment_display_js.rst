@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _1.1.5_4digit_nodejs:
+
 Afficheur 7 segments à 4 chiffres
 ====================================
 

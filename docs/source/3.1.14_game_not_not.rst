@@ -98,13 +98,13 @@ boutons ou les remplacer par des touches de joystick pour avoir 4 directions
 
 .. note::
 
-    Si le programme ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`C code is not working?`.
+    Si le programme ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`faq_c_nowork`.
 
 **Explication du code**
 
 Basé sur **1.1.6 Matrice LED**, cette leçon ajoute **2** boutons pour créer un 
 dispositif de jeu amusant. Donc, si vous n'êtes pas très familier avec la matrice 
-à points, veuillez consulter:ref:`1.1.6 LED Dot Matrix`.
+à points, veuillez consulter:ref:`1.1.6_matrix`.
 
 Le processus du programme complet est le suivant :
 
@@ -446,7 +446,7 @@ directions (haut, bas, gauche et droite) et augmenter la difficulté du jeu.
 
 Basé sur **1.1.6 Matrice de LED**, cette leçon ajoute **2** boutons pour créer un 
 dispositif de jeu amusant. Donc, si vous n'êtes pas très familier avec la matrice 
-de points, veuillez vous référer à :ref:`1.1.6 LED Dot Matrix`.
+de points, veuillez vous référer à :ref:`1.1.6_matrix`.
 
 Le déroulement complet du programme est le suivant :
 

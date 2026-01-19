@@ -143,7 +143,7 @@ des aiguilles d'une montre jusqu'à la butée.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si une erreur apparaît: \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si une erreur apparaît: \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 
@@ -198,7 +198,7 @@ des aiguilles d'une montre jusqu'à la butée.
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Ces fonctions sont utilisées pour définir la couleur de la LED RGB. Veuillez vous 
-référer à la section :ref:`1.1.2 RGB LED` pour plus de détails.
+référer à la section :ref:`1.1.2_rgb` pour plus de détails.
 
 .. code-block:: c
 
@@ -354,7 +354,7 @@ dans le sens inverse des aiguilles d'une montre jusqu'à la fin.
     def setColor(color):
     ...
 
-Ces lignes de code sont utilisées pour régler la couleur de la LED RVB, veuillez consulter :ref:`1.1.2 LED RVB` pour plus de détails.
+Ces lignes de code sont utilisées pour régler la couleur de la LED RVB, veuillez consulter :ref:`1.1.2_rgb` pour plus de détails.
 
 .. code-block:: python
 

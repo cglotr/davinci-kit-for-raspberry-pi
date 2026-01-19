@@ -64,16 +64,13 @@ nous répondrons dès que possible.
     :maxdepth: 2
 
     About this Kit <self>
-    component_list
-    gpio_extension_board
-    download_the_code
-    install_setup_os/install_setup_os
+    quick_start
     for_pi5
     for_other_models
     python_video/python_video
-    appendix/appendix
+    component
+    appendix
     faq
-    thank-learning
 
 
 Avis de droits d'auteur

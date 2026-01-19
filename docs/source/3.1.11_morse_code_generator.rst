@@ -87,7 +87,7 @@ ainsi que la LED enverront les signaux correspondants en code Morse.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: No such file or directory\", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Explication du Code**
 

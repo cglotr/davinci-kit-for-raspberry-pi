@@ -18,7 +18,7 @@
 
 .. note::
 
-   .. image:: ../img/mcp3008_and_adc0834.jpg
+   .. image:: img/mcp3008_and_adc0834.jpg
       :width: 25%
       :align: left
     
@@ -112,7 +112,7 @@ Lorsque le code s'exécute, la température actuelle et le seuil de haute tempé
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : \"wiringPi.h: Aucun fichier ou dossier de ce type », veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Le joystick** vous permet d'ajuster le seuil de haute température. En déplaçant le 
 **joystick** sur l'axe X et Y, vous pouvez ajuster (augmenter ou diminuer) le seuil 
@@ -236,10 +236,7 @@ le buzzer et la LED se déclenchent pour vous alerter.
 
 La fonction `main()` contient le processus global du programme comme suit :
 
-1) Lorsque le programme démarre, la valeur initiale de **stage** est **0**, et la 
-température actuelle ainsi que le seuil de haute température **40** s'affichent sur
- **I2C LCD1602**. Si la température actuelle dépasse ce seuil, le buzzer et la LED 
- se déclenchent pour vous alerter.
+1) Lorsque le programme démarre, la valeur initiale de **stage** est **0**, et la température actuelle ainsi que le seuil de haute température **40** s'affichent sur **I2C LCD1602**. Si la température actuelle dépasse ce seuil, le buzzer et la LED se déclenchent pour vous alerter.
 
 2) Appuyez sur le joystick, et **stage** passera à **1**, vous permettant d'ajuster 
 le seuil de haute température. En déplaçant le joystick sur l'axe X et Y, vous pouvez 

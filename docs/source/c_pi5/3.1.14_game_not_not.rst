@@ -93,14 +93,14 @@ directions (haut, bas, gauche et droite) et augmenter la difficulté du jeu.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`faq_c_nowork`.
 
 
 **Explication du code**
 
 Basé sur **1.1.6 LED Dot Matrix**, cette leçon ajoute **2** boutons pour créer un appareil 
 de jeu amusant. Si vous n'êtes pas encore familier avec la matrice de points, veuillez 
-vous référer à :ref:`1.1.6 LED Dot Matrix`.
+vous référer à :ref:`1.1.6_matrix_c_pi5`.
 
 Le déroulement complet du programme est le suivant :
 

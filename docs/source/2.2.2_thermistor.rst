@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _2.2.2_thermistor:
+
 2.2.2 Thermistor
 ====================
 
@@ -149,7 +151,7 @@ qui sera affichée à l'écran une fois le calcul terminé.
 
     Si le programme ne fonctionne pas ou s'il y a un message d'erreur tel que 
     "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter 
-    :ref:`C code is not working?`.
+    :ref:`faq_c_nowork`.
 
 
 **Code**

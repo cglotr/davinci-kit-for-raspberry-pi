@@ -97,7 +97,7 @@ Replacez-le horizontalement et la LED verte se rallumera.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 
@@ -156,6 +156,7 @@ Replacez-le horizontalement et la LED verte se rallumera.
         }
         return 0;
     }
+    
 **Explication du code**
 
 .. code-block:: c

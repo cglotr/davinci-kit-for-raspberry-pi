@@ -63,9 +63,7 @@ contrôler un courant ou une tension élevés avec un faible signal électrique.
 
 Un relais se compose de 5 éléments principaux :
 
-- **Électroaimant** : constitué d'un noyau de fer entouré de fils. Lorsqu'il est traversé 
-par un courant, il devient magnétique.
-
+- **Électroaimant** : constitué d'un noyau de fer entouré de fils. Lorsqu'il est traversé par un courant, il devient magnétique.
 
 - **Armature** : bande magnétique mobile qui réagit au champ magnétique créé par l’électroaimant pour activer ou désactiver les points normalement ouverts (N/O) ou normalement fermés (N/C).
 
@@ -144,7 +142,7 @@ du contact normalement ouvert.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: No such file or directory\", veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou s'il y a un message d'erreur : \"wiringPi.h: No such file or directory\", veuillez consulter :ref:`faq_c_nowork`.
 
 
 **Code**

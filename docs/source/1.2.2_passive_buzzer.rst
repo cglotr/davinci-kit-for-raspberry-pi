@@ -82,7 +82,7 @@ Une fois le code exécuté, le buzzer joue un morceau de musique.
 
 .. note::
 
-    Si cela ne fonctionne pas après exécution, ou si un message d'erreur comme « wiringPi.h : Aucun fichier ou répertoire de ce type » s'affiche, veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après exécution, ou si un message d'erreur comme « wiringPi.h : Aucun fichier ou répertoire de ce type » s'affiche, veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 

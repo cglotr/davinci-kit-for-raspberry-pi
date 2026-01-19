@@ -176,7 +176,7 @@ de la LED changera en conséquence.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez consulter :ref:`faq_c_nowork`.
 
 **Code**
 

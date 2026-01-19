@@ -12,6 +12,7 @@
 
     👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _1.1.2_rgb_c_pi5:
 
 1.1.2 LED RGB
 =====================
@@ -147,7 +148,7 @@ vert, bleu, jaune, rose et cyan.
 
 .. note::
 
-    Si le programme ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : « wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter : :ref:`C code is not working?`.
+    Si le programme ne fonctionne pas après l'exécution, ou si un message d'erreur apparaît : « wiringPi.h: Aucun fichier ou répertoire de ce type », veuillez consulter : :ref:`faq_c_nowork`.
 
 **Code**
 

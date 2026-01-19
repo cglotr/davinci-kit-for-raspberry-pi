@@ -65,7 +65,7 @@ Nous avons déjà essayé de dessiner un point cliquable pour contrôler la LED,
 
 **Comment ça fonctionne ?**
 
-Ce projet est très similaire au :ref:`Clickable Dot`, à la différence qu'il affine les conditions de détermination de l'événement de clic de la souris.
+Ce projet est très similaire au :ref:`clickable_dot`, à la différence qu'il affine les conditions de détermination de l'événement de clic de la souris.
 
 On dessine d'abord trois blocs de couleur dans la fonction ``draw()``, puis on détermine quel bloc de couleur a été cliqué en se basant sur la valeur de ``mouseX`` (la coordonnée X de la souris). Ensuite, on allume la couleur correspondante de la LED RVB.
 

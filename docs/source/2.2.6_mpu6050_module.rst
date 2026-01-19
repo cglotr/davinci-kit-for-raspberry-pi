@@ -170,7 +170,7 @@ sur l'écran à partir des données lues par le MPU6050.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur tel que « wiringPi.h: No such file or directory » apparaît, veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur tel que « wiringPi.h: No such file or directory » apparaît, veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

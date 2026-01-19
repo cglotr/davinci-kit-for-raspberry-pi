@@ -12,6 +12,8 @@
 
     👉 Prêt à explorer et à créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
+.. _2.1.5_keypad_c_pi5:
+
 2.1.5 Clavier
 ================
 
@@ -105,7 +107,7 @@ Après l'exécution du code, les valeurs des boutons pressés sur le clavier
 
     Si le programme ne fonctionne pas après exécution, ou si un message d'erreur 
     s'affiche : \"wiringPi.h: No such file or directory\", veuillez vous référer à 
-    :ref:`C code is not working?`.
+    :ref:`faq_c_nowork`.
     
 **Code**
 

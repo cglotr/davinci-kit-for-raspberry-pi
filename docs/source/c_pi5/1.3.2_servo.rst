@@ -118,7 +118,7 @@ puis de 180 à 0 degrés, de manière circulaire.
 
 .. note::
 
-    Si le programme ne fonctionne pas après l'exécution ou si un message d'erreur s'affiche : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`C code is not working?`.
+    Si le programme ne fonctionne pas après l'exécution ou si un message d'erreur s'affiche : « wiringPi.h: No such file or directory », veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 

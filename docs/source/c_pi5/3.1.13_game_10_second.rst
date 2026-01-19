@@ -96,7 +96,7 @@ commencer une nouvelle manche.
 
     Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur 
     s'affiche : "wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez 
-    consulter :ref:`C code is not working?`.
+    consulter :ref:`faq_c_nowork`.
 
 **Explication du code**
 

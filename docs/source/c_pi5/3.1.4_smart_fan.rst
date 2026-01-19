@@ -118,7 +118,7 @@ de vent à **0**.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou s'il y a un message d'erreur indiquant : « wiringPi.h : Aucun fichier ou répertoire de ce type », veuillez consulter :ref:`faq_c_nowork`.
 
 Dès que la température augmente ou diminue de plus de 2℃, la vitesse se règle 
 automatiquement d'un niveau plus rapide ou plus lent.
@@ -141,7 +141,7 @@ automatiquement d'un niveau plus rapide ou plus lent.
         return t;
     }
 
-La fonction `temperature()` convertit les valeurs de la thermistance lues par l'ADC0834 en valeurs de température. Pour plus de détails, consultez :ref:`2.2.2 Thermistor`.
+La fonction `temperature()` convertit les valeurs de la thermistance lues par l'ADC0834 en valeurs de température. Pour plus de détails, consultez :ref:`2.2.2_thermistor_c_pi5`.
 
 .. code-block:: c
 

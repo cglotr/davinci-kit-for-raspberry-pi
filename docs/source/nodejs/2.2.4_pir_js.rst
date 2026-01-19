@@ -139,7 +139,7 @@ PIR, ajustez ces deux potentiomètres selon vos besoins.
 
 **Explication du code**
 
-Le code de cet exemple combine des concepts des sections :ref:`2.1.1 Button` et :ref:`1.1.2 RGB LED`, donc il n'est pas nécessaire de rentrer dans les détails.
+Le code de cet exemple combine des concepts des sections :ref:`2.1.1_button_nodejs` et :ref:`1.1.2_rgb_nodejs`, donc il n'est pas nécessaire de rentrer dans les détails.
 
 
 Image du phénomène

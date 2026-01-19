@@ -96,7 +96,7 @@ gagnez. Secouez encore une fois pour lancer la manche suivante.
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur indique : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution, ou si un message d'erreur indique : \"wiringPi.h: Aucun fichier ou répertoire de ce type", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Explication du code**
 

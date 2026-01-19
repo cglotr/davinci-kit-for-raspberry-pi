@@ -119,7 +119,7 @@ Après l'exécution du programme, le servomoteur tournera de 0 degrés à
 
 .. note::
 
-    Si cela ne fonctionne pas après l'exécution ou si vous recevez un message d'erreur : \"wiringPi.h : Fichier ou répertoire introuvable\", veuillez vous référer à :ref:`C code is not working?`.
+    Si cela ne fonctionne pas après l'exécution ou si vous recevez un message d'erreur : \"wiringPi.h : Fichier ou répertoire introuvable\", veuillez vous référer à :ref:`faq_c_nowork`.
 
 **Code**
 
