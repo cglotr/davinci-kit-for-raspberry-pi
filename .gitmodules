@@ -2,3 +2,7 @@
 	path = docs/source/_shared
 	url = https://github.com/sunfounder/sf-shared.git
 	branch = docs-ja
+[submodule "docs/docs/source/_shared"]
+	path = docs/docs/source/_shared
+	url = git@github.com:sunfounder/sf-shared.git
+	branch = docs-ja
