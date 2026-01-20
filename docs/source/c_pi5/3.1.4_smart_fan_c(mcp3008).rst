@@ -1,0 +1,358 @@
+.. note::
+
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
+
+    **Warum beitreten?**
+
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Vorschauen.
+    - **Sonderrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Verlosungen**: Nimm an Verlosungen und Feiertagsaktionen teil.
+
+    👉 Bereit, mit uns zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
+
+.. _3.1.4_c_pi5_mcp3008:
+
+3.1.4 Intelligenter Lüfter (MCP3008)
+====================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+Einführung
+----------
+
+In diesem Projekt verwenden wir Motoren, Taster und Thermistoren, um einen manuellen + automatischen intelligenten Lüfter zu bauen, dessen Windgeschwindigkeit einstellbar ist.
+
+Benötigte Komponenten
+---------------------
+
+In diesem Projekt benötigen wir die folgenden Komponenten. 
+
+.. image:: ../img/list2_Smart_Fan.png
+    :align: center
+
+Schaltplan
+----------
+
+============ ======== ======== ===
+T-Board-Name Physical WiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+============ ======== ======== ===
+
+.. image:: ../img/schematic_3.1.4_smart_fan_mcp3008.png
+   :align: center
+
+Experimentelle Schritte
+-----------------------
+
+**Schritt 1:** Baue die Schaltung auf.
+
+.. image:: ../img/july24_3.1.4_smart_fan_mcp3008.png
+    :align: center
+
+.. note::
+    Das Strommodul kann mit einer 9V-Batterie über den im Kit enthaltenen 9V-Batterieclip betrieben werden.  
+    Stecke die Jumperkappe des Strommoduls in die 5V-Stromschiene des Breadboards.
+
+.. image:: ../img/image118.jpeg
+    :align: center
+
+**Schritt 2:** Gehe in den Code-Ordner.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.4-2/
+
+**Schritt 3:** Kompiliere.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    gcc 3.1.4_SmartFan.c -o SmartFan -lwiringPi -lm
+
+**Schritt 4:** Führe die erstellte Datei aus.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    ./SmartFan
+
+Während der Code läuft, starte den Lüfter, indem du den Taster drückst.  
+Jedes Drücken erhöht oder verringert die Geschwindigkeit um eine Stufe.  
+Es gibt **5** Geschwindigkeitsstufen: **0–4**.  
+Wenn die 4. Stufe erreicht ist und du erneut drückst, stoppt der Lüfter (Stufe 0).
+
+Sobald die Temperatur um mehr als 2 °C steigt oder fällt, wird die Geschwindigkeit automatisch um eine Stufe erhöht oder verringert.
+
+.. note::
+
+    Falls es nach dem Ausführen nicht funktioniert oder die Fehlermeldung „wiringPi.h: No such file or directory“ erscheint, siehe :ref:`install_wiringpi`.
+
+Code
+----
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+    #include <math.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000
+    #define MotorPin1   21
+    #define MotorPin2   22
+    #define MotorEnable 23
+    #define BtnPin      3
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                      // Startbit
+        buffer[1] = (8 + channel) << 4;     // Single-Ended-Modus und Kanal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+    int temperture()
+    {
+        int analogVal = read_ADC(0);
+        double Vr = 3.3 * analogVal / 1023.0;  // 3,3V als Vref
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double temp = 1 / (((log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)));
+        double cel = temp - 273.15;
+        double Fah = cel * 1.8 + 32;
+        printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+        return (int)cel;
+    }
+
+    int motor(int level)
+    {
+        if (level == 0) {
+            digitalWrite(MotorEnable, LOW);
+            return 0;
+        }
+        if (level >= 4) {
+            level = 4;
+        }
+        digitalWrite(MotorEnable, HIGH);
+        softPwmWrite(MotorPin1, level * 25);
+        return level;
+    }
+
+    void setup()
+    {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi-Setup fehlgeschlagen!\n");
+            return;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI-Setup fehlgeschlagen!\n");
+            return;
+        }
+
+        softPwmCreate(MotorPin1, 0, 100);
+        softPwmCreate(MotorPin2, 0, 100);
+        pinMode(MotorEnable, OUTPUT);
+        pinMode(BtnPin, INPUT);
+    }
+
+    int main(void)
+    {
+        setup();
+        int currentState, lastState = 0;
+        int level = 0;
+        int currentTemp, markTemp = 0;
+
+        while (1) {
+            currentState = digitalRead(BtnPin);
+            currentTemp = temperture();
+
+            if (currentTemp <= 0) continue;
+
+            if (currentState == 1 && lastState == 0) {
+                level = (level + 1) % 5;
+                markTemp = currentTemp;
+                delay(500);
+            }
+
+            lastState = currentState;
+
+            if (level != 0) {
+                if (currentTemp - markTemp <= -2) {
+                    level = level - 1;
+                    markTemp = currentTemp;
+                }
+                if (currentTemp - markTemp >= 2) {
+                    level = level + 1;
+                    markTemp = currentTemp;
+                }
+            }
+
+            level = motor(level);
+        }
+
+        return 0;
+    }
+
+Code-Erklärung
+--------------
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                      // Startbit
+        buffer[1] = (8 + channel) << 4;     // Single-Ended-Modus und Kanal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+Diese Funktion liest den analogen Eingang des MCP3008 am angegebenen Kanal.  
+Sie sendet einen 3-Byte-SPI-Befehl und gibt einen 10-Bit-Digitalwert (0–1023) zurück.
+
+.. code-block:: c
+
+    int temperture()
+    {
+        int analogVal = read_ADC(0);
+        double Vr = 3.3 * analogVal / 1023.0;  // 3,3V als Vref
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double temp = 1 / (((log(Rt / 10000.0)) / 3950.0) + (1 / (273.15 + 25.0)));
+        double cel = temp - 273.15;
+        double Fah = cel * 1.8 + 32;
+        printf("Celsius: %.2f C  Fahrenheit: %.2f F\n", cel, Fah);
+        return (int)cel;
+    }
+
+Die Funktion ``temperture()`` liest das analoge Signal des Thermistors über den MCP3008,  
+berechnet die Spannung und den Widerstand und wandelt diese mithilfe der Thermistorformel (Steinhart–Hart-Approximation) in °C und °F um.
+
+.. code-block:: c
+
+    int motor(int level)
+    {
+        if (level == 0) {
+            digitalWrite(MotorEnable, LOW);
+            return 0;
+        }
+        if (level >= 4) {
+            level = 4;
+        }
+        digitalWrite(MotorEnable, HIGH);
+        softPwmWrite(MotorPin1, level * 25);
+        return level;
+    }
+
+Die Funktion ``motor()`` steuert die Lüftergeschwindigkeit über PWM.  
+Die Stufen reichen von 0–4, wobei 0 den Lüfter ausschaltet und jede höhere Stufe den Tastgrad um 25 % erhöht.
+
+.. code-block:: c
+
+    void setup()
+    {
+        if (wiringPiSetup() == -1) {
+            printf("wiringPi-Setup fehlgeschlagen!\n");
+            return;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI-Setup fehlgeschlagen!\n");
+            return;
+        }
+
+        softPwmCreate(MotorPin1, 0, 100);
+        softPwmCreate(MotorPin2, 0, 100);
+        pinMode(MotorEnable, OUTPUT);
+        pinMode(BtnPin, INPUT);
+    }
+
+Die Funktion ``setup()`` initialisiert WiringPi, richtet SPI ein,  
+konfiguriert PWM und GPIO-Pins für Motorsteuerung und Tastereingabe.
+
+.. code-block:: c
+
+    int main(void)
+    {
+        setup();
+        int currentState, lastState = 0;
+        int level = 0;
+        int currentTemp, markTemp = 0;
+
+        while (1) {
+            currentState = digitalRead(BtnPin);
+            currentTemp = temperture();
+
+            if (currentTemp <= 0) continue;
+
+            if (currentState == 1 && lastState == 0) {
+                level = (level + 1) % 5;
+                markTemp = currentTemp;
+                delay(500);
+            }
+
+            lastState = currentState;
+
+            if (level != 0) {
+                if (currentTemp - markTemp <= -2) {
+                    level = level - 1;
+                    markTemp = currentTemp;
+                }
+                if (currentTemp - markTemp >= 2) {
+                    level = level + 1;
+                    markTemp = currentTemp;
+                }
+            }
+
+            level = motor(level);
+        }
+
+        return 0;
+    }
+
+Die ``main()``-Funktion enthält die Hauptschleife:
+
+1. Liest kontinuierlich den Tasterzustand und die aktuelle Temperatur.  
+2. Bei Tastendruck wird die Lüfterstufe erhöht (0–4) und die Temperatur gespeichert.  
+3. Ändert sich die Temperatur um ±2 °C, wird die Lüftergeschwindigkeit automatisch angepasst.  
+4. Ruft ``motor(level)`` auf, um die PWM-Ausgabe entsprechend der aktuellen Stufe zu setzen.

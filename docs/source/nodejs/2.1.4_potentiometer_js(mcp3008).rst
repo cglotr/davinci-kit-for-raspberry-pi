@@ -1,0 +1,202 @@
+.. note::
+
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
+
+    **Warum beitreten?**
+
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Vorschauen.
+    - **Sonderrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Verlosungen**: Nimm an Verlosungen und Feiertagsaktionen teil.
+
+    👉 Bereit, mit uns zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
+
+.. _2.1.4_js_pi5_mcp3008:
+
+2.1.4 Potentiometer (MCP3008)
+=============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+Einführung
+----------
+
+Die ADC-Funktion wird verwendet, um analoge Signale in digitale Werte umzuwandeln.  
+In diesem Experiment verwenden wir den MCP3008-ADC-Chip für diese Umwandlung.  
+Ein Potentiometer wird eingesetzt, um eine variable Spannung zu erzeugen, die eine physikalische Größe verändert.  
+Der MCP3008 wandelt diese analoge Spannung in einen digitalen Wert um, der vom Raspberry Pi gelesen und verarbeitet werden kann.
+
+Benötigte Komponenten
+---------------------
+
+In diesem Projekt benötigen wir die folgenden Komponenten.
+
+.. image:: ../img/list2_2.1.4_potentiometer.png
+
+Schaltplan
+----------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board-Name
+        - Physical
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.1.7_potentiometer_mcp3008.png
+
+Experimentelle Schritte
+-----------------------
+
+**Schritt 1:** Baue die Schaltung auf.
+
+.. image:: ../img/2.1.7_Potentiometer_bb.png
+
+.. note::
+    Bitte platziere den Chip entsprechend der Position in der Abbildung.  
+    Beachte, dass sich die Kerbe des Chips auf der linken Seite befinden sollte, wenn er richtig platziert ist.
+
+**Schritt 2:** Öffne die Code-Datei.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/nodejs/
+
+**Schritt 3:** Führe den Code aus.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo node potentionmeter-2.js
+
+Nachdem der Code läuft, drehe den Knopf am Potentiometer – die Helligkeit der LED ändert sich entsprechend.
+
+**Code**
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+    const mcpadc = require('mcp-spi-adc');
+
+    // Öffne MCP3008 Kanal 0 (analoger Eingang CH0)
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1000000 }, (err) => {
+    if (err) {
+        console.error("Fehler beim Öffnen des ADC-Kanals:", err);
+        process.exit(1);
+    }
+
+    console.log("MCP3008 Kanal 0 erfolgreich geöffnet.");
+
+    // Initialisiere LED an GPIO22 im PWM-Ausgabemodus
+    const led = new Gpio(22, { mode: Gpio.OUTPUT });
+
+    // Lese alle 100 ms den ADC-Wert und aktualisiere die LED-Helligkeit
+    setInterval(() => {
+        adc.read((err, reading) => {
+        if (err) {
+            console.error("Fehler beim Lesen des ADC:", err);
+            return;
+        }
+
+        // Konvertiere den Gleitkommawert (0.0–1.0) in den PWM-Bereich (0–255)
+        const pwmVal = Math.round(reading.value * 255);
+
+        console.log(`Aktueller analogVal: ${pwmVal}`);
+
+        // Aktualisiere die LED-Helligkeit über PWM
+        led.pwmWrite(pwmVal);
+        });
+    }, 100);
+    });
+
+**Code-Erklärung**
+
+.. code-block:: js
+
+    const Gpio = require('pigpio').Gpio;
+
+Diese Zeile importiert das Modul ``pigpio``, das eine präzise PWM- und GPIO-Steuerung auf dem Raspberry Pi ermöglicht.
+
+.. code-block:: js
+
+    const mcpadc = require('mcp-spi-adc');
+
+Diese Zeile importiert die Bibliothek ``mcp-spi-adc``, die die Kommunikation mit dem MCP3008-ADC über die SPI-Schnittstelle ermöglicht.
+
+.. code-block:: js
+
+    const adc = mcpadc.openMcp3008(0, { speedHz: 1000000 }, (err) => {
+        if (err) {
+            console.error("Fehler beim Öffnen des ADC-Kanals:", err);
+            process.exit(1);
+        }
+    });
+
+Initialisiert den analogen Eingangskanal 0 des MCP3008.  
+Setzt die SPI-Kommunikationsgeschwindigkeit auf 1 MHz.  
+Falls die Initialisierung fehlschlägt, wird ein Fehler protokolliert und das Programm beendet.
+
+.. code-block:: js
+
+    const led = new Gpio(22, { mode: Gpio.OUTPUT });
+
+Erstellt ein GPIO-Objekt für Pin 22 am Raspberry Pi.  
+Dieser Pin ist als Ausgang konfiguriert und wird verwendet, um die Helligkeit einer LED per PWM zu steuern.
+
+.. code-block:: js
+
+    setInterval(() => {
+        adc.read((err, reading) => {
+            if (err) {
+                console.error("Fehler beim Lesen des ADC:", err);
+                return;
+            }
+
+            const pwmVal = Math.round(reading.value * 255);
+            console.log(`Aktueller analogVal: ${pwmVal}`);
+            led.pwmWrite(pwmVal);
+        });
+    }, 100);
+
+Alle 100 Millisekunden liest diese Funktion den Analogwert vom MCP3008-Kanal 0.  
+Der ADC gibt eine normalisierte Gleitkommazahl zwischen 0.0 und 1.0 zurück.  
+Dieser Wert wird in den Bereich 0–255 skaliert und mit ``pwmWrite()`` an GPIO22 geschrieben, um die LED-Helligkeit zu steuern.  
+Der PWM-Wert wird zudem in der Konsole ausgegeben.

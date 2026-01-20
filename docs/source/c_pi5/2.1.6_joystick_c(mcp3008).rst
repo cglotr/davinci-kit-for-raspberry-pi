@@ -1,0 +1,264 @@
+.. note::
+
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
+
+    **Warum beitreten?**
+
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Vorschauen.
+    - **Sonderrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Verlosungen**: Nimm an Verlosungen und Feiertagsaktionen teil.
+
+    👉 Bereit, mit uns zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
+
+.. _2.1.6_c_pi5_mcp3008:
+
+2.1.6 Joystick (MCP3008)
+========================
+
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+Einführung
+----------
+
+In diesem Projekt lernen wir, wie ein Joystick funktioniert.  
+Wir bewegen den Joystick und zeigen die Ergebnisse auf dem Bildschirm an.
+
+Benötigte Komponenten
+---------------------
+
+In diesem Projekt benötigen wir die folgenden Komponenten. 
+
+.. image:: ../img/image317-copy.png
+
+Prinzip
+-------
+
+**Joystick**
+
+Die Grundidee eines Joysticks besteht darin, die Bewegung eines Steuerknüppels in elektronische Informationen umzuwandeln, die ein Computer verarbeiten kann.
+
+Um dem Computer einen vollständigen Bewegungsbereich mitzuteilen, muss ein Joystick die Position des Steuerknüppels auf zwei Achsen messen – die X-Achse (links nach rechts) und die Y-Achse (hoch und runter). Genau wie in der Geometrie bestimmen die X-Y-Koordinaten die exakte Position des Knüppels.
+
+Um die Position des Knüppels zu bestimmen, überwacht das Joystick-Steuersystem einfach die Position jeder Achse. Das herkömmliche analoge Joystick-Design macht dies mit zwei Potentiometern oder verstellbaren Widerständen.
+
+Der Joystick hat außerdem einen digitalen Eingang, der betätigt wird, wenn der Joystick heruntergedrückt wird.
+
+.. image:: ../img/image318.png
+
+
+Schaltplan
+----------
+
+Beim Auslesen der Joystick-Daten gibt es Unterschiede zwischen den Achsen:  
+Die Daten der X- und Y-Achse sind analog und müssen mit dem MCP3008 in digitale Werte umgewandelt werden.  
+Die Daten der Z-Achse sind digital, daher kannst du sie direkt über GPIO auslesen – oder ebenfalls über den ADC.
+
+.. .. image:: ../img/image319.png
+
+    *   - T-Board-Name
+        - Physical
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: ../img/schematic_2.1.9_joystick_mcp3008.png
+
+
+Experimentelle Schritte
+-----------------------
+
+**Schritt 1:** Baue die Schaltung auf.
+
+.. image:: ../img/july24_2.1.9_joystick_mcp3008.png
+
+**Schritt 2:** Wechsle in den Code-Ordner.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.6-2/
+
+**Schritt 3:** Kompiliere den Code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.1.6_Joystick.c -o joystick -lwiringPi
+
+**Schritt 4:** Führe die ausführbare Datei aus.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./joystick
+
+Nachdem der Code ausgeführt wurde, bewege den Joystick – die entsprechenden Werte von x, y und Btn werden auf dem Bildschirm angezeigt.
+
+.. note::
+
+    Falls es nach dem Ausführen nicht funktioniert oder die Fehlermeldung „wiringPi.h: No such file or directory“ erscheint, siehe :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000  // 1 MHz
+    #define BtnPin      3        // WiringPi 3 = BCM GPIO22
+
+    // Lesen vom MCP3008-Kanal (0–7)
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                            // Startbit
+        buffer[1] = (8 + channel) << 4;           // Kanal-Konfiguration
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int result = ((buffer[1] & 0x03) << 8) | buffer[2];
+        return result;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("WiringPi-Setup fehlgeschlagen!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI-Setup fehlgeschlagen!\n");
+            return 1;
+        }
+
+        pinMode(BtnPin, INPUT);
+        pullUpDnControl(BtnPin, PUD_UP);
+
+        while (1) {
+            int x_val = read_ADC(0);     // VRX an CH0
+            int y_val = read_ADC(1);     // VRY an CH1
+            int btn_val = digitalRead(BtnPin);  // SW-Taster
+
+            printf("x = %d, y = %d, btn = %d\n", x_val, y_val, btn_val);
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**Code-Erklärung**
+
+#. Dieser Abschnitt initialisiert die für GPIO- und SPI-Kommunikation benötigten Bibliotheken.
+
+   .. code-block:: c
+
+       #include <wiringPi.h>
+       #include <wiringPiSPI.h>
+       #include <stdio.h>
+
+       #define SPI_CHANNEL 0
+       #define SPI_SPEED   1000000  // 1 MHz
+       #define BtnPin      3        // WiringPi 3 = BCM GPIO22
+
+#. Definiert eine Funktion ``read_ADC()``, um analoge Daten vom MCP3008 zu lesen.  
+   Sie kommuniziert über SPI, um Daten von einem bestimmten Kanal (0–7) anzufordern, und wertet dann die Antwort aus, um ein 10-Bit-ADC-Ergebnis zu erhalten.
+
+   .. code-block:: c
+
+       int read_ADC(int channel) {
+           if (channel < 0 || channel > 7) return -1;
+
+           unsigned char buffer[3];
+           buffer[0] = 1;
+           buffer[1] = (8 + channel) << 4;
+           buffer[2] = 0;
+
+           wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+           int result = ((buffer[1] & 0x03) << 8) | buffer[2];
+           return result;
+       }
+
+#. Die Hauptfunktion initialisiert WiringPi und die SPI-Schnittstelle,  
+   konfiguriert den Taster-Pin des Joysticks und liest kontinuierlich die Joystick-Werte aus, um sie auf der Konsole anzuzeigen.
+
+   .. code-block:: c
+
+       int main(void) {
+           if (wiringPiSetup() == -1) {
+               printf("WiringPi-Setup fehlgeschlagen!\n");
+               return 1;
+           }
+
+           if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+               printf("SPI-Setup fehlgeschlagen!\n");
+               return 1;
+           }
+
+           pinMode(BtnPin, INPUT);
+           pullUpDnControl(BtnPin, PUD_UP);
+
+           while (1) {
+               int x_val = read_ADC(0);     // VRX an CH0
+               int y_val = read_ADC(1);     // VRY an CH1
+               int btn_val = digitalRead(BtnPin);  // SW an GPIO22
+
+               printf("x = %d, y = %d, btn = %d\n", x_val, y_val, btn_val);
+               delay(100);
+           }
+
+           return 0;
+       }
+
+#. In diesem Programm:
+
+   - Der VRX des Joysticks ist mit CH0 des MCP3008 verbunden.
+   - Der VRY ist mit CH1 verbunden.
+   - Der Taster (SW) ist mit GPIO22 (WiringPi-Pin 3) verbunden.
+   - Die Funktion ``read_ADC()`` wird verwendet, um analoge Werte von VRX und VRY zu lesen.
+   - Der digitale Wert des Joystick-Tasters wird mit ``digitalRead()`` gelesen.
+   - Alle Werte werden kontinuierlich alle 100 Millisekunden ausgegeben.

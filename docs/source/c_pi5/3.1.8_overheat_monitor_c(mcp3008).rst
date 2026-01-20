@@ -1,0 +1,260 @@
+.. note::
+
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
+
+    **Warum beitreten?**
+
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Vorschauen.
+    - **Sonderrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Verlosungen**: Nimm an Verlosungen und Feiertagsaktionen teil.
+
+    👉 Bereit, mit uns zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
+
+.. _3.1.8_c_pi5_mcp3008:
+
+3.1.8 Überhitzungsmonitor (MCP3008)
+===================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+Einführung
+----------
+
+Vielleicht möchtest du ein Überhitzungsüberwachungsgerät bauen, das in verschiedenen Situationen einsetzbar ist – z. B. in einer Fabrik, wenn man einen Alarm und ein automatisches rechtzeitiges Abschalten der Maschine bei Überhitzung einer Schaltung benötigt.  
+In diesem Projekt verwenden wir einen Thermistor, einen Joystick, einen Summer, eine LED und ein LCD, um ein intelligentes Temperaturüberwachungsgerät zu bauen, dessen Schwellenwert einstellbar ist.
+
+Benötigte Komponenten
+---------------------
+
+In diesem Projekt benötigen wir die folgenden Komponenten.
+
+.. image:: ../img/list2_Overheat_Monitor.png
+    :align: center
+
+Schaltplan
+----------
+
+============ ======== ======== ===
+T-Board-Name Physical WiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO22       Pin 15   3        22
+GPIO23       Pin 16   4        23
+GPIO24       Pin 18   5        24
+SDA1         Pin 3              
+SCL1         Pin 5              
+============ ======== ======== ===
+
+.. image:: ../img/Schematic_three_one8.png
+   :align: center
+
+Experimentelle Schritte
+-----------------------
+
+**Schritt 1:** Baue die Schaltung auf.
+
+.. image:: ../img/july24_3.1.8_overheat_monitor_mcp3008.png
+
+**Schritt 2:** Gehe in den Code-Ordner.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.8-2/
+
+**Schritt 3:** Kompiliere den Code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    gcc 3.1.8_OverheatMonitor.c -lm -lwiringPi
+
+**Schritt 4:** Führe die erstellte Datei aus.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo ./a.out
+
+Während der Code läuft, werden die aktuelle Temperatur und der Hochtemperatur-Schwellenwert **40** auf dem **I2C LCD1602** angezeigt.  
+Wenn die aktuelle Temperatur höher als der Schwellenwert ist, werden Summer und LED aktiviert, um dich zu warnen.
+
+Der **Joystick** dient hier zur Einstellung des Hochtemperatur-Schwellenwerts.  
+Durch Kippen des **Joysticks** entlang der X- und Y-Achse kannst du den aktuellen Schwellenwert erhöhen oder verringern.  
+Durch erneutes Drücken des **Joysticks** wird der Schwellenwert auf den Anfangswert zurückgesetzt.
+
+.. note::
+
+    * Wenn die Fehlermeldung ``wiringPi.h: No such file or directory`` erscheint, siehe :ref:`install_wiringpi`.
+    * Wenn die Fehlermeldung ``Unable to open I2C device: No such file or directory`` erscheint, musst du I2C aktivieren (siehe :ref:`i2c_config`) und die Verkabelung überprüfen.
+    * Wenn Code und Verkabelung korrekt sind, das LCD aber trotzdem nichts anzeigt, kannst du das Potentiometer auf der Rückseite drehen, um den Kontrast zu erhöhen.
+
+Code-Erklärung
+--------------
+
+.. code-block:: c
+
+    int read_ADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+        unsigned char buffer[3];
+        buffer[0] = 1;
+        buffer[1] = (8 + channel) << 4;
+        buffer[2] = 0;
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+        return ((buffer[1] & 0x03) << 8) | buffer[2];
+    }
+
+Liest einen 10-Bit-Analogwert vom MCP3008-Kanal (CH0–CH7) über SPI und gibt einen ganzzahligen Wert von 0 bis 1023 zurück.
+
+.. code-block:: c
+
+    int get_joystick_value() {
+        int x = read_ADC(1);
+        int y = read_ADC(2);
+
+        if (x > 900)      return 1;   // Rechts
+        else if (x < 100) return -1;  // Links
+        else if (y > 900) return -10; // Hoch
+        else if (y < 100) return 10;  // Runter
+        else              return 0;
+    }
+
+Liest die analogen X- und Y-Werte des Joysticks von CH1 und CH2.  
+Gibt eine Ganzzahl zurück, die die Bewegungsrichtung anhand von Schwellwerten angibt.
+
+.. code-block:: c
+
+    void upper_tem_setting() {
+        write_lcd(0,0, "Upper Adjust:");
+
+        int change = get_joystick_value();
+
+        if (change != 0 && change != lastJoystickChange) {
+            upperTem += change;
+            lastJoystickChange = change;
+        }
+        else if (change == 0) {
+            lastJoystickChange = 0;
+        }
+
+        char str[6];
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, str);
+        write_lcd(strlen(str),1, "            ");
+
+        delay(100);
+    }
+
+Ermöglicht dem Benutzer, den Hochtemperatur-Schwellenwert mit dem Joystick einzustellen.  
+Verhindert wiederholte Änderungen, wenn die Richtung gehalten wird.
+
+.. code-block:: c
+
+    double temperature() {
+        int raw = read_ADC(0);
+        double Vr = 3.3 * ((double)raw / 1023.0);
+        double Rt = 10000.0 * Vr / (3.3 - Vr);
+        double tempK = 1.0 / ((log(Rt/10000.0)/3950.0) + 1.0/(273.15+25.0));
+        return tempK - 273.15;
+    }
+
+Liest den analogen Wert von CH0 (verbunden mit dem Thermistor).  
+Verwendet die Steinhart–Hart-Gleichung, um die Temperatur in Grad Celsius zu berechnen.
+
+.. code-block:: c
+
+    void monitoring_temp() {
+        char str[6];
+        double cel = temperature();
+        snprintf(str, sizeof(str), "%.2f", cel);
+        write_lcd(0,0, "Temp: ");
+        write_lcd(6,0, str);
+
+        snprintf(str, sizeof(str), "%d", upperTem);
+        write_lcd(0,1, "Upper: ");
+        write_lcd(7,1, str);
+        delay(100);
+
+        if (cel >= upperTem) {
+            digitalWrite(buzzPin, HIGH);
+            digitalWrite(LedPin,  HIGH);
+        } else {
+            digitalWrite(buzzPin, LOW);
+            digitalWrite(LedPin,  LOW);
+        }
+    }
+
+Liest kontinuierlich die aktuelle Temperatur und zeigt sie zusammen mit dem Schwellenwert an.  
+Wenn die Temperatur den Schwellenwert überschreitet, werden Summer und LED aktiviert.
+
+.. code-block:: c
+
+    void setup_all() {
+        fd = wiringPiI2CSetup(LCDAddr);
+        lcd_init();
+        if (wiringPiSetup() == -1 || wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("Setup failed!\n");
+            return;
+        }
+        pinMode(Joy_BtnPin, INPUT);
+        pullUpDnControl(Joy_BtnPin, PUD_UP);
+        pinMode(buzzPin, OUTPUT);
+        pinMode(LedPin,  OUTPUT);
+    }
+
+Initialisiert LCD, SPI und die GPIO-Pins für Joystick-Taste, Summer und LED.  
+Setzt außerdem einen Pull-up-Widerstand für die Joystick-Taste.
+
+.. code-block:: c
+
+    int main(void) {
+        setup_all();
+
+        int lastBtnState = HIGH;
+        int stage = 0;
+
+        while (1) {
+            int curBtn = digitalRead(Joy_BtnPin);
+            if (curBtn == HIGH && lastBtnState == LOW) {
+                stage = (stage + 1) % 2;
+                lastJoystickChange = 0;
+                delay(100);
+                lcd_clear();
+            }
+            lastBtnState = curBtn;
+
+            if (stage == 1)
+                upper_tem_setting();
+            else
+                monitoring_temp();
+        }
+
+        return 0;
+    }
+
+Die Hauptschleife wechselt zwischen zwei Modi:
+
+1. Temperaturüberwachung.  
+2. Einstellung des oberen Grenzwerts über den Joystick.
+
+Der Moduswechsel erfolgt, wenn die Joystick-Taste losgelassen wird (Flanken-Trigger).

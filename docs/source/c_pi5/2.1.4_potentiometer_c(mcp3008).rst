@@ -1,0 +1,305 @@
+.. note::
+
+    Hallo und willkommen in der SunFounder Raspberry Pi & Arduino & ESP32 Enthusiasten-Community auf Facebook! Tauche tiefer in Raspberry Pi, Arduino und ESP32 mit anderen Enthusiasten ein.
+
+    **Warum beitreten?**
+
+    - **Expertenunterstützung**: Löse Probleme nach dem Kauf und technische Herausforderungen mit Hilfe unserer Community und unseres Teams.
+    - **Lernen & Teilen**: Tausche Tipps und Tutorials aus, um deine Fähigkeiten zu verbessern.
+    - **Exklusive Vorschauen**: Erhalte frühzeitigen Zugang zu neuen Produktankündigungen und Vorschauen.
+    - **Sonderrabatte**: Genieße exklusive Rabatte auf unsere neuesten Produkte.
+    - **Festliche Aktionen und Verlosungen**: Nimm an Verlosungen und Feiertagsaktionen teil.
+
+    👉 Bereit, mit uns zu entdecken und zu erschaffen? Klicke auf [|link_sf_facebook|] und tritt noch heute bei!
+
+.. _2.1.4_c_pi5_mcp3008:
+
+2.1.4 Potentiometer (MCP3008)
+=============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Je nach deiner Kit-Version überprüfe bitte, ob du **ADC0834** oder **MCP3008** hast, und fahre mit dem entsprechenden Abschnitt fort.
+
+Einführung
+----------
+
+Die ADC-Funktion wird verwendet, um analoge Signale in digitale Werte umzuwandeln.  
+In diesem Experiment verwenden wir den MCP3008 ADC-Chip, um diese Umwandlung durchzuführen.  
+Ein Potentiometer wird verwendet, um eine variable Spannung zu erzeugen, die eine physikalische Größe verändert.  
+Der MCP3008 wandelt diese analoge Spannung dann in einen digitalen Wert um, der vom Raspberry Pi gelesen und verarbeitet werden kann.
+
+Benötigte Komponenten
+---------------------
+
+In diesem Projekt benötigen wir die folgenden Komponenten. 
+
+.. image:: ../img/list2_2.1.4_potentiometer.png
+
+
+Prinzip
+-------
+
+**MCP3008**
+
+Der MCP3008 ist ein 10-Bit-SAR-Analog-Digital-Wandler (ADC) mit 8 Eingangskanälen und einem SPI- (Serial Peripheral Interface) Kommunikationsprotokoll. Er kann mit einem Mikrocontroller verbunden werden, um analoge Eingangssignale in digitale Daten für die Weiterverarbeitung umzuwandeln.
+
+.. image:: ../img/MCP3008.jpg
+      :width: 40%
+
+**Ablauf der Operation**
+
+Eine Wandlung im MCP3008 beginnt damit, dass der CS- (Chip Select) Pin auf Low gesetzt wird, wodurch die Kommunikation mit dem Gerät aktiviert wird. Der Mikrocontroller sendet dann einen 3-Byte-Steuerstrom über die SPI-Schnittstelle, um die Konfiguration festzulegen und den Eingangskanal auszuwählen.
+
+Das erste gesendete Byte enthält das Startbit und das Bit für die Einzel-/Differentialauswahl. Die nächsten Bits geben an, welcher der 8 Kanäle (CH0–CH7) gelesen werden soll. Daten werden bei jeder steigenden Flanke des SPI-Takts (SCLK) in das Gerät verschoben, und das Konvertierungsergebnis wird gleichzeitig zurückgegeben.
+
+Eine kurze Verzögerung wird intern eingefügt, damit der ausgewählte Eingangskanal sich stabilisieren kann, bevor die Konvertierung beginnt. Der MCP3008 führt dann eine 10-Bit-Analog-Digital-Wandlung mit einer Sample-and-Hold-Schaltung und einem SAR-Komparator (Successive Approximation Register) durch.
+
+Das Konvertierungsergebnis wird über die MISO- (Master In Slave Out) Leitung an den Mikrocontroller übertragen. Das höchstwertige Bit (MSB) des 10-Bit-Ergebnisses wird zuerst gesendet, gefolgt von den verbleibenden Bits. Der Mikrocontroller liest das Ergebnis während dieser Zeit über den SPI-Bus.
+
+Nachdem der vollständige 10-Bit-Digitalwert ausgegeben wurde, beendet der MCP3008 den Zyklus und wartet auf den nächsten Befehl.
+
+* `MCP3008 Serie Datenblatt <https://www.alldatasheet.com/datasheet-pdf/view/304558/MICROCHIP/MCP3008-ISLASHP.html>`_
+
+.. image:: ../img/MCP3008detail.png
+
+
+**Potentiometer**
+
+Ein Potentiometer ist ebenfalls ein Widerstandselement mit 3 Anschlüssen, dessen Widerstandswert sich nach einer bestimmten Regelmäßigkeit einstellen lässt.  
+Ein Potentiometer besteht normalerweise aus einem Widerstand und einem beweglichen Schleifer. Wenn sich der Schleifer entlang des Widerstands bewegt, ergibt sich ein bestimmter Widerstands- oder Spannungsausgang, abhängig von der Position.
+
+.. image:: ../img/image310.png
+    :width: 300
+    :align: center
+
+
+Die Funktionen des Potentiometers in der Schaltung sind wie folgt:
+
+1. Als Spannungsteiler dienen
+
+Ein Potentiometer ist ein kontinuierlich einstellbarer Widerstand. Wenn du die Achse oder den Schieberegler des Potentiometers verstellst, bewegt sich der bewegliche Kontakt auf dem Widerstand. In diesem Moment kann eine Spannung ausgegeben werden, abhängig von der an das Potentiometer angelegten Spannung und dem Drehwinkel oder der Verschiebung des beweglichen Arms.
+
+Schaltplan
+----------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - T-Board-Name
+        - Physical
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+
+.. image:: ../img/schematic_2.1.7_potentiometer_mcp3008.png
+
+
+Experimentelle Schritte
+-----------------------
+
+**Schritt 1:** Baue die Schaltung auf.
+
+.. image:: ../img/july24_2.1.7_potentiometer_mcp3008.png
+
+
+.. note::
+    Bitte platziere den Chip entsprechend der Position im Bild. Achte darauf, dass die Kerbe auf dem Chip nach links zeigt, wenn er platziert wird.
+
+**Schritt 2:** Öffne die Codedatei.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.1.4-2/
+
+**Schritt 3:** Kompiliere den Code.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.1.4_Potentiometer.c -lwiringPi
+
+**Schritt 4:** Ausführen.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo ./a.out
+
+Nachdem der Code ausgeführt wurde, ändere die Position des Potentiometerknopfs – die Helligkeit der LED wird sich entsprechend ändern.
+
+.. note::
+
+    Falls es nach dem Ausführen nicht funktioniert oder die Fehlermeldung „wiringPi.h: No such file or directory“ erscheint, siehe :ref:`install_wiringpi`.
+
+**Code**
+
+.. code-block:: c
+
+        #include <wiringPi.h>
+        #include <wiringPiSPI.h>
+        #include <stdio.h>
+        #include <softPwm.h>
+
+        #define SPI_CHANNEL 0  // CE0
+        #define SPI_SPEED   1000000  // 1MHz
+        #define LedPin      3
+
+        int readADC(int channel) {
+            if (channel < 0 || channel > 7) return -1;
+
+            unsigned char buffer[3];
+            buffer[0] = 1;                             // Startbit
+            buffer[1] = (8 + channel) << 4;            // Single-Ended-Modus, Kanal
+            buffer[2] = 0;
+
+            wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+            int value = ((buffer[1] & 3) << 8) | buffer[2];
+            return value;
+        }
+
+        int main(void) {
+            if (wiringPiSetup() == -1) {
+                printf("WiringPi-Initialisierung fehlgeschlagen!\n");
+                return 1;
+            }
+
+            if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+                printf("SPI-Setup fehlgeschlagen!\n");
+                return 1;
+            }
+
+            softPwmCreate(LedPin, 0, 100);
+
+            while (1) {
+                int analogVal = readADC(0);  // CH0
+                printf("ADC-Wert: %d\n", analogVal);
+
+                int pwmVal = analogVal * 100 / 1023;  // Normalisieren auf 0–100
+                softPwmWrite(LedPin, pwmVal);
+
+                delay(100);
+            }
+
+            return 0;
+        }
+
+
+**Code-Erklärung**
+
+.. code-block:: c
+
+    #define SPI_CHANNEL 0  // CE0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define LedPin      3
+
+Definiert den SPI-Kanal als CE0 (Chip Enable 0), setzt die SPI-Geschwindigkeit auf 1 MHz und weist GPIO3 dem LED-Pin zu.
+
+.. code-block:: c
+
+    int readADC(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                             // Startbit
+        buffer[1] = (8 + channel) << 4;            // Single-Ended-Modus, Kanal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+Diese Funktion liest analoge Daten vom MCP3008.
+
+* Zuerst wird geprüft, ob die Kanalnummer im gültigen Bereich (0–7) liegt.
+* Es wird ein 3-Byte-Array initialisiert, wobei gilt:
+
+  * ``buffer[0] = 1``: Startbit für die MCP3008-Kommunikation.
+  * ``buffer[1] = (8 + channel) << 4``: Erstellt das Konfigurationsbyte für den Single-Ended-Modus und wählt den gewünschten Kanal aus.
+  * ``buffer[2] = 0``: Platzhalter-Byte zum Empfang des Ergebnisses.
+  
+* ``wiringPiSPIDataRW`` sendet und empfängt Daten über den SPI-Kanal.
+* Der Rückgabewert wird aus den letzten beiden Bytes mit Bitoperationen extrahiert, um ein 10-Bit-ADC-Ergebnis zu erhalten.
+
+.. code-block:: c
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("WiringPi-Initialisierung fehlgeschlagen!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("SPI-Setup fehlgeschlagen!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100);
+
+        while (1) {
+            int analogVal = readADC(0);  // CH0
+            printf("ADC-Wert: %d\n", analogVal);
+
+            int pwmVal = analogVal * 100 / 1023;  // Normalisieren auf 0–100
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+Im Hauptprogramm:
+
+* ``wiringPiSetup()`` initialisiert die WiringPi-Bibliothek.
+* ``wiringPiSPISetup()`` initialisiert die SPI-Kommunikation auf Kanal 0 mit 1 MHz.
+* ``softPwmCreate()`` richtet Software-PWM auf GPIO3 mit einem anfänglichen Tastverhältnis von 0 und einem Bereich von 0–100 ein.
+
+Das Programm läuft in einer Endlosschleife:
+
+* Liest den ADC-Wert von Kanal 0 (verbunden mit einem Potentiometer).
+* Gibt den ADC-Wert im Terminal aus.
+* Wandelt den 10-Bit-ADC-Wert in ein PWM-Tastverhältnis zwischen 0 und 100 um.
+* Schreibt den PWM-Wert an die LED, sodass deren Helligkeit die Position des Potentiometers widerspiegelt.
+
+``delay(100)`` pausiert für 100 Millisekunden vor dem nächsten Lese-/Schreibzyklus.

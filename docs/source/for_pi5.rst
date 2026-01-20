@@ -12,8 +12,9 @@
 
     👉 Bereit, mit uns zu entdecken und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
-Für Pi 5
-============================
+
+Für alle Modelle (empfohlen)
+==========================================
 
 Die Veröffentlichung des Raspberry Pi 5 hat uns ein leistungsstärkeres Modell gebracht, aber auch einige Änderungen eingeführt, 
 insbesondere beim GPIO. Obwohl er seine standardmäßige 40-Pin-Schnittstelle beibehält, hat sich die Funktionalität aufgrund 
