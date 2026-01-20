@@ -12,10 +12,21 @@
 
     👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
-Komponentenliste
-================
+.. _get_start:
 
-Überprüfen Sie bitte nach dem Öffnen der Verpackung, ob Komponentsanzahl der Produktbeschreibung entspricht und ob alle Komponenten in gutem Zustand sind.
+Schnellstart
+===============================
 
-.. image:: img/K0402V25-DAVINCI-LIST.png
-    :width: 800px
+In diesem Abschnitt erfahren Sie, wie Sie Raspberry Pi OS installieren, WLAN auf dem Raspberry Pi konfigurieren und per Fernzugriff auf den Raspberry Pi zugreifen, um den entsprechenden Code auszuführen.
+
+Wenn Sie bereits mit dem Raspberry Pi vertraut sind und die Kommandozeile problemlos öffnen können, können Sie die ersten drei Teile überspringen und direkt den letzten Teil durchführen.
+
+
+
+.. toctree::
+    :maxdepth: 1
+
+    _shared/pi_start/need_components
+    _shared/pi_start/install_os_trixie
+    _shared/pi_start/set_up_pi
+    download_the_code
