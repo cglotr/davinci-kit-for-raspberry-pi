@@ -14,7 +14,7 @@
 
 
 
-Per tutti i modelli (consigliato)
+Per Pi 5
 =======================================================
 
 Il rilascio di Raspberry Pi 5 ha portato con sé un modello più potente, ma 
@@ -31,7 +31,6 @@ Abbiamo sviluppato una serie di corsi focalizzati su questa libreria.
     
     python_pi5/play_with_python_pi5
     c_pi5/play_with_c
-    scratch_pi5/play_with_scratch
 
 Per questioni di compatibilità con altri linguaggi di programmazione, consulta le informazioni dettagliate qui sotto:
 
