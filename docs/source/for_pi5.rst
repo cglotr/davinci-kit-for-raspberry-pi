@@ -12,7 +12,7 @@
 
     👉 Prêt à explorer et créer avec nous ? Cliquez sur [|link_sf_facebook|] et rejoignez-nous dès aujourd'hui !
 
-Pour tous les modèles (recommandé)
+Pour Pi 5
 ==========================================
 
 La sortie du Raspberry Pi 5 nous a apporté un modèle plus puissant, mais elle 
@@ -30,7 +30,6 @@ axés sur cette bibliothèque.
     
     python_pi5/play_with_python_pi5
     c_pi5/play_with_c
-    scratch_pi5/play_with_scratch
 
 Pour les problèmes de compatibilité avec d'autres langages de programmation, veuillez consulter les informations détaillées ci-dessous :
 
