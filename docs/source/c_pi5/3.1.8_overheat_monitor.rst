@@ -99,7 +99,7 @@ LED para alertar.
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Joystick**: se utiliza para ajustar el umbral de alta temperatura. 
 Al mover el **Joystick** en la dirección del eje X o Y, puedes subir 

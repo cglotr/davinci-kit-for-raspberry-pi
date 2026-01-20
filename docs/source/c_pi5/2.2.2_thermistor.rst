@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
+.. _2.2.2_thermistor_c_pi5:
+
 2.2.2 Thermistor
 ==================
 
@@ -129,7 +131,7 @@ que se imprimirá en la pantalla una vez que termine el cálculo del programa.
 
 .. note::
 
-    Si no funciona después de ejecutar, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Código**

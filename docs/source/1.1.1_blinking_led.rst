@@ -214,7 +214,7 @@ Después de ejecutar el código, verás el LED parpadeando.
 
 .. note::
 
-   Si no funciona después de ejecutarlo o aparece un error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+   Si no funciona después de ejecutarlo o aparece un error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 Si deseas editar el archivo de código ``1.1.1_BlinkingLed.c``, presiona 
 ``Ctrl + C`` para detener la ejecución del código. Luego escribe el siguiente 

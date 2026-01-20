@@ -87,7 +87,7 @@ verde parpadearán a una frecuencia determinada.
 
 .. note::
 
-    Si no funciona después de ejecutar el código o aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código o aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 
 **Explicación del Código**

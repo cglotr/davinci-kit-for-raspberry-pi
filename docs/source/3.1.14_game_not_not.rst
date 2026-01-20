@@ -98,14 +98,14 @@ izquierda y derecha, y así aumentar la dificultad del juego.
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Explicación del Código**
 
 Basado en **1.1.6 Matriz de LED**, esta lección añade **2** botones para hacer 
 un divertido dispositivo de juego. Si no estás familiarizado con la matriz de 
-puntos, consulta :ref:`1.1.6 LED Dot Matrix`.
+puntos, consulta :ref:`1.1.6_matrix`.
 
 El proceso del programa es el siguiente:
 
@@ -455,7 +455,7 @@ aumentando así la dificultad del juego.
 
 Basado en **1.1.6 Matriz de LED**, esta lección añade **2** botones 
 para crear un dispositivo de juego divertido. Si no estás familiarizado 
-con la matriz de puntos, consulta :ref:`1.1.6 LED Dot Matrix`.
+con la matriz de puntos, consulta :ref:`1.1.6_matrix`.
 
 El proceso completo del programa es el siguiente:
 

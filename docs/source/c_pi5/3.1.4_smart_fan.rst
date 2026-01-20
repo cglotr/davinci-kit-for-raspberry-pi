@@ -106,7 +106,7 @@ velocidad de viento en **0**.
 
 .. note::
 
-    Si no funciona tras ejecutarlo, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona tras ejecutarlo, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 Cuando la temperatura sube o baja más de 2℃, la velocidad del ventilador cambia 
@@ -131,7 +131,7 @@ automáticamente una categoría más rápido o más lento.
     }
 
 La función temperture() convierte los valores del termistor leídos por el 
-ADC0834 en valores de temperatura. Consulta :ref:`2.2.2 Thermistor` para más detalles.
+ADC0834 en valores de temperatura. Consulta :ref:`2.2.2_thermistor_c_pi5` para más detalles.
 
 .. code-block:: c
 

@@ -103,7 +103,7 @@ del módulo PIR, debes girar ambos potenciómetros en sentido antihorario hasta 
 
 .. note::
 
-    Si no funciona después de ejecutar el código o aparece un mensaje de error: \"wiringPi.h: No such file or directory", por favor consulta  :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código o aparece un mensaje de error: \"wiringPi.h: No such file or directory", por favor consulta  :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 

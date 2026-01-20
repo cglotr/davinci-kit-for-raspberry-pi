@@ -80,14 +80,9 @@ disminuye, con un mínimo de 5 segundos.
 Dos modos de disparo (se eligen mediante el puente de configuración):
 
 
--  **H:** **Modo de disparo repetible**, después de detectar a una persona, 
-el módulo mantiene la salida en nivel alto. Durante el período de retardo, 
-si alguien entra en el rango de detección, la salida continuará en nivel alto.
+-  **H:** **Modo de disparo repetible**, después de detectar a una persona, el módulo mantiene la salida en nivel alto. Durante el período de retardo, si alguien entra en el rango de detección, la salida continuará en nivel alto.
   
--  **L:** **Modo de disparo no repetible**, la salida se mantiene en nivel alto 
-solo mientras detecta a una persona. Después del retardo, cambia automáticamente 
-de alto a bajo.
-
+-  **L:** **Modo de disparo no repetible**, la salida se mantiene en nivel alto solo mientras detecta a una persona. Después del retardo, cambia automáticamente de alto a bajo.
 
 
 Diagrama de Circuito
@@ -144,7 +139,7 @@ hasta el final.
 
 .. note::
 
-    Si no funciona tras ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona tras ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Código**
@@ -199,7 +194,7 @@ hasta el final.
     void ledInit(void);
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
-Estas funciones configuran el color del LED RGB. Consulta :ref:`1.1.2 LED RGB` para más detalles.
+Estas funciones configuran el color del LED RGB. Consulta :ref:`1.1.2_rgb` para más detalles.
 
 .. code-block:: c
 

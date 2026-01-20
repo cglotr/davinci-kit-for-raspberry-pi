@@ -116,7 +116,7 @@ LCD.
 
 .. note::
 
-   Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+   Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 Un número aleatorio \'**punto**\' es generado pero no se muestra en la pantalla 
 LCD cuando el juego comienza, y lo que necesitas hacer es adivinarlo. El número 
@@ -133,7 +133,7 @@ reduce; si adivinas el número afortunado o desafortunado, aparecerá el mensaje
 
 Al comienzo del código se encuentran las funciones para manejar el **teclado** y 
 la **LCD I2C 1602**. Puedes obtener más detalles sobre estas funciones en 
-**1.1.7 I2C LCD1602** y **2.1.5 Teclado.**
+:ref:`1.1.7_i2c_lcd` y :ref:`2.1.5_keypad`
 
 Aquí, lo que necesitamos saber es lo siguiente:
 
@@ -481,7 +481,7 @@ reduce; si adivinas el número afortunado o desafortunado, aparecerá el mensaje
 
 Al comienzo del código se encuentran las funciones funcionales de
 **teclado** y **I2C LCD1602**. Puedes obtener más detalles sobre ellas en
-**1.1.7 I2C LCD1602** y **2.1.5 Teclado.**
+:ref:`1.1.7_i2c_lcd` y :ref:`2.1.5_keypad`.
 
 Aquí, lo que necesitamos saber es lo siguiente:
 
@@ -518,21 +518,22 @@ detect_point() compara el número ingresado (**count**) con el \"**punto**\"
 generado. Si el resultado de la comparación es que no coinciden, **count** 
 asignará valores a **upper** y **lower** y devolverá \'**0**\'; 
 de lo contrario, si el resultado indica coincidencia, devuelve \'**1**\'.
+
 .. code-block:: python
 
-    def lcd_show_input(result):
+    def lcd_show_input(result):
         LCD1602.clear()
-        if result == 1:
-            LCD1602.write(0,1,'You have got it!')
+         if result == 1:
+            LCD1602.write(0,1,'You have got it!')
             time.sleep(5)
             init_new_value()
             lcd_show_input(0)
             return
-        LCD1602.write(0,0,'Enter number:')
-        LCD1602.write(13,0,str(count))
-        LCD1602.write(0,1,str(lower))
-        LCD1602.write(3,1,' < Point < ')
-        LCD1602.write(13,1,str(upper))
+         LCD1602.write(0,0,'Enter number:')
+         LCD1602.write(13,0,str(count))
+         LCD1602.write(0,1,str(lower))
+         LCD1602.write(3,1,' < Point < ')
+         LCD1602.write(13,1,str(upper))
 
 
 Esta función se utiliza para mostrar la página del juego.

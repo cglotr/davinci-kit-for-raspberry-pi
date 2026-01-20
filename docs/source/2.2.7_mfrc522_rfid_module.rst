@@ -96,7 +96,7 @@ Procedimiento Experimental
 
 
 
-**Paso 2:** Configurar SPI (consulta el :ref:`Appendix` para más detalles. 
+**Paso 2:** Configurar SPI (consulta el :ref:`spi_configuration` para más detalles. 
 Si ya configuraste SPI, omite este paso).
 
 
@@ -148,7 +148,7 @@ Para usuarios de C
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o si aparece un mensaje de error: "wiringPi.h: No such file or directory", consulta:ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o si aparece un mensaje de error: "wiringPi.h: No such file or directory", consulta:ref:`faq_c_nowork`.
 
 **Explicación del Código**
 
@@ -273,8 +273,7 @@ Esto te devolverá al entorno global de Python del sistema.
 .. note::
 
     * Después de ejecutar ``2.2.7_read.py``, se imprimirá el ``id`` y el ``texto`` de tu tarjeta en la terminal.
-    * Después de ejecutar ``2.2.7_write.py``, primero debes escribir un mensaje, presionar ``Enter`` para confirmar y, 
-    finalmente, colocar tu tarjeta en el módulo RFID MFRC522 para completar la escritura.
+    * Después de ejecutar ``2.2.7_write.py``, primero debes escribir un mensaje, presionar ``Enter`` para confirmar y, finalmente, colocar tu tarjeta en el módulo RFID MFRC522 para completar la escritura.
 
 
 **código**

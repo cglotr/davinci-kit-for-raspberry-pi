@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
 
+.. _2.1.5_keypad:
+
 2.1.5 Keypad
 ================
 
@@ -105,7 +107,7 @@ el teclado (Valor del Botón) se imprimirán en la pantalla.
 .. note::
 
     Si el programa no funciona después de ejecutarlo o aparece un mensaje 
-    de error: \"wiringPi.h: No such file or directory\", por favor consulta: :ref:`C code is not working?`.
+    de error: \"wiringPi.h: No such file or directory\", por favor consulta: :ref:`faq_c_nowork`.
     
 **Código**
 
@@ -221,6 +223,7 @@ el teclado (Valor del Botón) se imprimirán en la pantalla.
         }
         return -1;
     }
+
 **Explicación del Código**
 
 .. code-block:: c

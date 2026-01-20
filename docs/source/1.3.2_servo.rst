@@ -114,7 +114,7 @@ y luego de 180 grados a 0 grados, en un ciclo continuo.
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Código**
 
@@ -156,6 +156,7 @@ y luego de 180 grados a 0 grados, en un ciclo continuo.
         }
         return 0;
     }
+
 **Explicación del Código**
 
 .. code-block:: c

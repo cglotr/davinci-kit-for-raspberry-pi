@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
 
+.. _clickable_dot:
+
 Clickable Dot
 ==================
 
@@ -56,7 +58,7 @@ Ya hemos probado dibujar gráficos en movimiento, responder a eventos del ratón
 **¿Cómo funciona?**
 
 
-Este proyecto tiene mucho en común con :ref:`Blinking Dot`, la diferencia es que coloca el estado de alternancia en el evento del ratón.
+Este proyecto tiene mucho en común con :ref:`blinking_dot`, la diferencia es que coloca el estado de alternancia en el evento del ratón.
 Esto hace que el LED no parpadee automáticamente, sino que se encienda y apague con cada clic del ratón.
 
 En el evento ``mouseClicked()``, se usa la función ``dist()`` para determinar la posición del ratón en el momento del clic, y se considera que el punto ha sido clicado solo si la distancia entre el ratón y el centro del punto es menor que el radio.

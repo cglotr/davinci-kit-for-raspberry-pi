@@ -138,7 +138,7 @@ del módulo PIR, ajusta estos dos potenciómetros.
 
 **Explicación del Código**
 
-El código de este ejemplo es una combinación de :ref:`2.1.1 Button` y :ref:`1.1.2 RGB LED`, por lo que no es necesario profundizar en los detalles.
+El código de este ejemplo es una combinación de :ref:`2.1.1_button_nodejs` y :ref:`1.1.2_rgb_nodejs`, por lo que no es necesario profundizar en los detalles.
 
 
 Imagen del Fenómeno

@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
+.. _1.1.2_rgb_c_pi5:
+
 1.1.2 LED RGB
 ====================
 
@@ -144,7 +146,7 @@ azul, amarillo, púrpura y cian.
 
 .. note::
 
-   Si no funciona después de ejecutarlo, o si aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+   Si no funciona después de ejecutarlo, o si aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Código**
 

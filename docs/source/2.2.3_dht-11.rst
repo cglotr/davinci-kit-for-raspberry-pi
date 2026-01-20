@@ -108,7 +108,7 @@ y humedad detectadas por el DHT11 en la pantalla de la computadora.
 
 .. note::
 
-    Si no funciona después de ejecutar, o si aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar, o si aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Código**
 

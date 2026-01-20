@@ -80,7 +80,7 @@ Después de ejecutar el código, verás el mensaje ``¡Saludos! De SunFounder`` 
 .. note::
 
     * Si obtienes el error ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'``, necesitas consultar :ref:`i2c_config` para habilitar el I2C.
-    * Si recibes el error ``ModuleNotFoundError: No module named 'smbus2'``, por favor ejecuta ``sudo pip3 install smbus2``.
+    * Si recibes el error ``ModuleNotFoundError: No module named 'smbus2'``, por favor ejecuta ``sudo apt install python3-smbus2``.
     * Si aparece el error ``OSError: [Errno 121] Remote I/O error``, significa que el módulo está mal conectado o está dañado.
     * Si el código y las conexiones son correctos, pero el LCD aún no muestra contenido, puedes ajustar el potenciómetro en la parte posterior para aumentar el contraste.
 

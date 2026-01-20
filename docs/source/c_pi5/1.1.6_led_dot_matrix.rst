@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo!
 
+.. _1.1.6_matrix_c_pi5:
+
 1.1.6 Matriz de Puntos LED
 ==================================
 
@@ -33,8 +35,7 @@ Principio
 
 Generalmente, la matriz de puntos LED se puede clasificar en dos tipos: 
 cátodo común (CC) y ánodo común (CA). Se parecen mucho, pero internamente 
-hay diferencias. Puedes comprobarlo mediante pruebas. En este kit se utiliza
- una de tipo CA, que se puede identificar con la etiqueta 788BS en el lateral.
+hay diferencias. Puedes comprobarlo mediante pruebas. En este kit se utiliza una de tipo CA, que se puede identificar con la etiqueta 788BS en el lateral.
 
 Observa la figura a continuación. Los pines están dispuestos en los dos extremos 
 en la parte posterior. Tomando el lado etiquetado como referencia: los pines de 
@@ -170,7 +171,7 @@ Después de ejecutar el código, la matriz de puntos LED se iluminará, activand
 
 .. note::
 
-   Si no funciona después de ejecutar, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+   Si no funciona después de ejecutar, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Código**
 

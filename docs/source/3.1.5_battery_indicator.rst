@@ -100,7 +100,7 @@ de carga (rango de medición: 0-5V).
 
 .. note::
 
-    Si el programa no funciona después de ejecutarse, o aparece un error como: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si el programa no funciona después de ejecutarse, o aparece un error como: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 

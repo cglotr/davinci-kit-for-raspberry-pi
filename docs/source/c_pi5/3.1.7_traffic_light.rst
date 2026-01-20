@@ -94,7 +94,7 @@ el LED rojo se enciende nuevamente por 60s, y esta secuencia se repetirá.
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Explicación del Código**
@@ -114,7 +114,7 @@ el LED rojo se enciende nuevamente por 60s, y esta secuencia se repetirá.
     void display();
 
 Estos códigos permiten la función de visualización de números en un display de 7 segmentos 
-de 4 dígitos. Consulta :ref:`1.1.5 4-Digit 7-Segment Display` para más detalles. Aquí, 
+de 4 dígitos. Consulta :ref:`1.1.5_4digit_c_pi5` para más detalles. Aquí, 
 usamos el código para mostrar la cuenta regresiva del tiempo en el semáforo.
 
 .. code-block:: c
@@ -157,7 +157,7 @@ Este código enciende y apaga los LEDs.
     }
 
 Este código enciende y apaga el temporizador. Consulta 
-:ref:`1.1.5 4-Digit 7-Segment Display` para más detalles. 
+:ref:`1.1.5_4digit_c_pi5` para más detalles. 
 Aquí, cuando el temporizador llega a cero, el valor de 
 colorState se cambia para encender otro LED y el temporizador 
 se reinicia con un nuevo valor.

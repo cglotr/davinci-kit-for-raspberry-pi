@@ -84,7 +84,7 @@ zumbador y el LED emitirán las señales correspondientes en código Morse.
 
 .. note::
 
-    Si no funciona después de ejecutar el código o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 

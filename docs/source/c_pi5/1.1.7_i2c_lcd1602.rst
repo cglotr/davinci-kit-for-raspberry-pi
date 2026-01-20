@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy!
 
+.. _1.1.7_i2c_lcd_c_pi5:
+
 1.1.7 LCD1602 I2C
 ======================
 

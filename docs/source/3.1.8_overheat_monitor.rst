@@ -101,7 +101,7 @@ alertarte.
 
 .. note::
 
-    Si el programa no funciona después de ejecutarlo o aparece el mensaje de error: "wiringPi.h: No such file or directory", consulta :ref:`c code is not working?`.
+    Si el programa no funciona después de ejecutarlo o aparece el mensaje de error: "wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Joystick** aquí se utiliza para ajustar el umbral de temperatura alta. Al 
@@ -378,6 +378,7 @@ para restablecer el umbral al valor inicial.
                 loop()
         except KeyboardInterrupt:   # Cuando se presiona 'Ctrl+C', se ejecutará la función destroy()
             destroy()
+
 **Explicación del Código**
 
 .. code-block:: python

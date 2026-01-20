@@ -88,7 +88,7 @@ zumbador y el LED enviarán las señales correspondientes en código Morse.
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 
@@ -157,8 +157,8 @@ La función off() apaga el zumbador y el LED.
         off();
         delay(dt);
     }
-Define una función beep() para hacer que el zumbador y el LED emitan sonidos y
-parpadeen en un intervalo determinado de **dt**.
+
+Define una función beep() para hacer que el zumbador y el LED emitan sonidos y parpadeen en un intervalo determinado de **dt**.
 
 .. code-block:: c
 

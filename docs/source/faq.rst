@@ -15,7 +15,9 @@
 FAQ
 ============
 
-c code is not working?
+.. _faq_c_nowork:
+
+¿El código en C no funciona?
 ----------------------------------
 
 * Verifica si hay problemas en el cableado.

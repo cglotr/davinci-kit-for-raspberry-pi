@@ -92,7 +92,7 @@ antihorario; si es menor a **-45** °, el motor rota en sentido horario.
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 
 **Explicación del Código**
@@ -133,7 +133,7 @@ mpu6050 obtiene el ángulo de inclinación en la dirección del eje Y.
 
 Si la dirección **key** recibida es \'**c**\', el motor paso a paso rota 
 en sentido horario; si la **key** es \'**a**\', el motor rota en sentido 
-antihorario. Consulta :ref:`1.3.3 Motor Paso a Paso` para más detalles sobre 
+antihorario. Consulta :ref:`1.3.3_stepper_c_pi5` para más detalles sobre 
 el cálculo de la dirección de rotación del motor paso a paso.
 
 .. code-block:: c

@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
 
+.. _1.1.7_i2c_lcd:
+
 1.1.7 I2C LCD1602
 ====================
 
@@ -288,7 +290,7 @@ Después de ejecutar el código, puedes ver \"Saludos\",\"De SunFounder\" en el 
 .. note::
 
     * Si obtienes el error ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'``, debes consultar :ref:`i2c_config` para habilitar el I2C.
-    * Si obtienes el error ``ModuleNotFoundError: No module named 'smbus2'``, por favor ejecuta ``sudo pip3 install smbus2``.
+    * Si obtienes el error ``ModuleNotFoundError: No module named 'smbus2'``, por favor ejecuta ``sudo apt install python3-smbus2``.
     * Si aparece el error ``OSError: [Errno 121] Remote I/O``, significa que el módulo está mal conectado o está dañado.
     * Puedes intentar ajustar el potenciómetro en la parte posterior si el código y el cableado están correctos, pero el LCD aún no muestra el contenido.
 

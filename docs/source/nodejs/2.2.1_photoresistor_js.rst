@@ -93,7 +93,7 @@ el fotoresistor hará que la luminosidad del LED cambie en consecuencia.
 
 **Explicación del Código**
 
-El código aquí es el mismo que en la sección 2.1.4 Potenciómetro. Por favor, consulta la explicación del código en :ref:`2.1.4 Potenciómetro` para obtener más detalles.
+El código aquí es el mismo que en la sección 2.1.4 Potenciómetro. Por favor, consulta la explicación del código en :ref:`2.1.4_potentiometer_nodejs` para obtener más detalles.
 
 Imagen del Fenómeno
 ----------------------

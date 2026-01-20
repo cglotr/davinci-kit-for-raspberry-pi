@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
+.. _1.1.5_4digit_c_pi5:
+
 1.1.5 Pantalla de 7 Segmentos de 4 Dígitos
 ===========================================
 
@@ -120,7 +122,8 @@ Después de que el código se ejecute, el programa contará, aumentando de 1 por
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o si aparece un mensaje de error: "wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o si aparece un mensaje de error: "wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
+
 **Código**
 
 .. code-block:: c

@@ -93,7 +93,7 @@ marque **10.00**, ganas. Agítala una vez más para iniciar otra ronda.
 
 .. note::
 
-    Si no funciona después de ejecutar el código o aparece un mensaje de error como: \"wiringPi.h: No such file or directory\", consulta :ref:`c code is not working?`.
+    Si no funciona después de ejecutar el código o aparece un mensaje de error como: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 

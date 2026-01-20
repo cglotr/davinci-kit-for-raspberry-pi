@@ -174,7 +174,8 @@ se mostrará en pantalla después de ser calculada.
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o si aparece un mensaje de error como: \"wiringPi.h: No such file or directory\", consulta la sección :ref:`c code is not working?`.
+    Si no funciona después de ejecutar el código, o si aparece un mensaje de error como: \"wiringPi.h: No such file or directory\", consulta la sección :ref:`faq_c_nowork`.
+
 **Explicación del Código**
 
 .. code-block:: c

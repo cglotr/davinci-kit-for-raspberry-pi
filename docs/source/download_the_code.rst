@@ -13,37 +13,95 @@
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
 
-.. _download_code:
+Descargar el Código
+===============================
 
-Descarga el Código
-=======================
+Todos los programas de ejemplo utilizados en este kit están almacenados en nuestro repositorio oficial de GitHub.  
+Utiliza el siguiente comando para descargar el proyecto completo en tu Raspberry Pi.
 
-Antes de descargar el código, ten en cuenta que el código de ejemplo está 
-probado **ÚNICAMENTE** en Raspberry Pi OS. Proporcionamos dos métodos para descargarlo:
+Clonar el Repositorio
+----------------------------------
 
-**Método 1: Usar git clone (Recomendado)**
+#. Inicia sesión en tu Raspberry Pi y ejecuta:
 
-Inicia sesión en la Raspberry Pi y luego cambia de directorio a ``/home/pi``.
-
-.. raw:: html
-
-   <run></run>
+   .. raw:: html
    
-.. code-block::
-
-   cd ~/
-
-
-.. note::
-
-   Usa el comando `cd` para cambiar al directorio deseado desde la ruta actual. En este caso, para ir a la ruta ``~/``.
-
-Clona el repositorio desde GitHub.
-
-.. raw:: html
-
-   <run></run>
+       <run></run>
    
-.. code-block::
+   .. code-block:: bash
+   
+      cd ~/
+      git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
 
-   git clone https://github.com/sunfounder/davinci-kit-for-raspberry-pi.git --depth 1
+#. Entra en el directorio del proyecto:
+
+   .. raw:: html
+   
+       <run></run>
+   
+   .. code-block:: bash
+   
+      cd ~/davinci-kit-for-raspberry-pi/
+
+#. Lista los archivos:
+
+   .. raw:: html
+   
+       <run></run>
+   
+   .. code-block:: bash
+   
+      ls
+
+#. Verás una estructura similar a esta:
+
+   .. code-block:: text
+   
+      davinci-kit-for-raspberry-pi/
+      ├── c/
+      ├── datasheet
+      ├── iot/
+      ├── nodejs/
+      ├── python-pi5/
+      ├── python/
+      ├── scratch/
+      └── README.md
+
+Descripción de la Estructura del Proyecto
+---------------------------------------------
+
+A continuación se muestra una breve introducción a cada carpeta:
+
+* **c/**  
+
+  Ejemplos y bibliotecas en lenguaje C para usuarios que prefieren programar en C en Raspberry Pi.
+
+* **datasheet/**  
+
+  Hojas de datos, especificaciones y documentos de referencia de los componentes de hardware utilizados en el proyecto.
+
+* **iot/**  
+
+  Ejemplos relacionados con IoT, incluida la conectividad con la plataforma Blynk, demostraciones de sensores y módulos de comunicación.
+
+* **nodejs/**
+
+  Ejemplos de Node.js para usuarios que desarrollan proyectos basados en JavaScript en Raspberry Pi.
+
+* **python-pi5/**  
+
+  Ejemplos en Python escritos utilizando la biblioteca ``GPIO Zero``, optimizados específicamente para **Raspberry Pi 5**.
+
+* **python/**  
+
+  Programas de ejemplo en Python escritos utilizando la biblioteca ``RPi.GPIO``, adecuados para la mayoría de las placas Raspberry Pi.
+
+* **scratch/** 
+
+  Ejemplos de programación en Scratch diseñados para principiantes que aprenden programación gráfica.
+
+* **README.md**  
+
+  Información básica sobre el repositorio e instrucciones generales.
+
+Ahora puedes entrar en la carpeta correspondiente a tu lenguaje de programación o tipo de proyecto preferido y comenzar a ejecutar los ejemplos.

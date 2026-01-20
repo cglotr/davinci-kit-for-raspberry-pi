@@ -90,7 +90,7 @@ tiempo, los LED rojo y verde parpadearán a una cierta frecuencia.
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo, o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 
@@ -170,11 +170,11 @@ En la función on():
 
 **pthread_t tLed:** Declara un hilo **tLed**.
 
-**pthread_create(&tLed,NULL,ledWork,NULL):** Crea el hilo, y su prototipo es 
-el siguiente:
+**pthread_create(&tLed,NULL,ledWork,NULL):** Crea el hilo, y su prototipo es el siguiente: 
 
-int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr,
-void*（*start_rtn)(void*),void *restrict arg);
+.. code-block::
+
+   int pthread_create(pthread_t *restrict tidp,const pthread_attr_t *restrict_attr, void*（*start_rtn)(void*),void *restrict arg);
 
 **Retorno del Valor**
 
@@ -197,8 +197,7 @@ Si tiene éxito, devuelve "**0**"; de lo contrario, devuelve el **número de err
     }
 
 
-La función off() define \"flag=0\" para salir de los hilos **ledWork** y 
-**buzzWork** y luego apaga el zumbador y los LED.
+La función off() define \"flag=0\" para salir de los hilos **ledWork** y **buzzWork** y luego apaga el zumbador y los LED.
 
 .. code-block:: c
 
@@ -345,6 +344,7 @@ LED rojo y verde parpadearán a una cierta frecuencia.
             main()
         except KeyboardInterrupt:
             destroy()
+    
 **Explicación del Código**
 
 .. code-block:: python

@@ -97,7 +97,7 @@ segundos. Esta secuencia se repetirá continuamente.
 
 .. note::
 
-    Si no funciona después de ejecutar el programa, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el programa, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 
@@ -116,7 +116,7 @@ segundos. Esta secuencia se repetirá continuamente.
     void display();
 
 Estas líneas de código permiten realizar la función de visualización de 
-números en una pantalla de 7 segmentos de 4 dígitos. Consulta :ref:`1.1.5 Pantalla de 7 segmentos de 4 dígitos` 
+números en una pantalla de 7 segmentos de 4 dígitos. Consulta :ref:`1.1.5_4digit` 
 para más detalles. Aquí, el código muestra la cuenta regresiva del tiempo del semáforo.
 
 .. code-block:: c
@@ -158,7 +158,7 @@ Estas líneas controlan el encendido y apagado de los LEDs.
         }
     }
 
-Estas líneas controlan el temporizador. Consulta :ref:`1.1.5 4-Digit 7-Segment Display` para más detalles. 
+Estas líneas controlan el temporizador. Consulta :ref:`1.1.5_4digit` para más detalles. 
 Cuando el temporizador llega a cero, se cambia el color de `colorState`, activando el LED correspondiente y 
 reasignando un nuevo valor al temporizador.
 
@@ -373,7 +373,7 @@ de 4 dígitos muestra el tiempo de cuenta regresiva de forma continua.
     def display():
 
 Estos códigos se utilizan para implementar la función de visualización numérica 
-de una pantalla de 7 segmentos de 4 dígitos. Consulte :ref:`1.1.5 4-Digit 7-Segment Display` 
+de una pantalla de 7 segmentos de 4 dígitos. Consulte :ref:`1.1.5_4digit` 
 en el documento para obtener más detalles. Aquí, usamos el código para mostrar la cuenta regresiva del semáforo.
 
 .. code-block:: python
@@ -418,7 +418,7 @@ Estos códigos se usan para encender y apagar el LED.
         print ("counter : %d    color: %s "%(counter,lightColor[colorState]))
 
 
-Los códigos se usan para controlar el temporizador. Consulte :ref:`1.1.5 4-Digit 7-Segment Display` 
+Los códigos se usan para controlar el temporizador. Consulte :ref:`1.1.5_4digit` 
 para obtener más detalles. Aquí, cuando el temporizador llega a cero, `colorState` cambiará para 
 alternar el LED, y el temporizador se asignará a un nuevo valor.
 

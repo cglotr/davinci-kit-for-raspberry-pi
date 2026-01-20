@@ -135,4 +135,4 @@ Vamos a dibujar una barra deslizante para controlar el Display de 7 segmentos.
 
 **¿Cómo funciona?**
 
-Este proyecto integra el control deslizante (Slider) y el Display de 7 segmentos del curso anterior. Para temas específicos, consulta :ref:`Show Number` y :ref:`Metronome`.  
+Este proyecto integra el control deslizante (Slider) y el Display de 7 segmentos del curso anterior. Para temas específicos, consulta :ref:`show_number` y :ref:`metronome`.  

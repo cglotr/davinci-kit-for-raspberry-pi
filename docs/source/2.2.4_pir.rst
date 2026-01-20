@@ -71,13 +71,9 @@ segundos.
 
 Dos modos de disparo: (para seleccionar el modo se usa el jumper).
 
-- **H:** **Modo de disparo repetible**. Después de detectar el cuerpo humano, 
-el módulo emite una señal de alto nivel. Si alguien permanece en el rango de 
-detección, la salida se mantendrá en alto.
+- **H:** **Modo de disparo repetible**. Después de detectar el cuerpo humano, el módulo emite una señal de alto nivel. Si alguien permanece en el rango de detección, la salida se mantendrá en alto.
   
-- **L:** **Modo de disparo no repetible**. Emitirá una señal de alto nivel al 
-detectar el cuerpo humano. Después del retardo, la salida cambiará automáticamente 
-de alto a bajo.
+- **L:** **Modo de disparo no repetible**. Emitirá una señal de alto nivel al detectar el cuerpo humano. Después del retardo, la salida cambiará automáticamente de alto a bajo.
 
 
 
@@ -138,7 +134,8 @@ ambos completamente en sentido antihorario.
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta la referencia :ref:`C code is not working?`.
+    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta la referencia :ref:`faq_c_nowork`.
+
 **Código**
 
 .. code-block:: c
@@ -192,7 +189,7 @@ ambos completamente en sentido antihorario.
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Estas funciones se utilizan para configurar el color del LED RGB. 
-Para obtener más detalles, consulte :ref:`1.1.2 RGB LED`.
+Para obtener más detalles, consulte :ref:`1.1.2_rgb`.
 
 .. code-block:: c
 
@@ -350,7 +347,7 @@ mejor, es recomendable girarlos ambos completamente en sentido antihorario.
     ...
 
 Estos códigos se utilizan para configurar el color del LED RGB. Para 
-obtener más detalles, consulte :ref:`1.1.2 RGB LED`.
+obtener más detalles, consulte :ref:`1.1.2_rgb`.
 
 .. code-block:: python
 

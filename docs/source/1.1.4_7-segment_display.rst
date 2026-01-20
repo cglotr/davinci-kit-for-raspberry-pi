@@ -173,7 +173,7 @@ Después de ejecutar el código, verás la pantalla de 7 segmentos mostrar los n
 
 .. note::
 
-    Si no funciona después de ejecutar el código, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`c code is not working?`.
+    Si no funciona después de ejecutar el código, o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Código**
 

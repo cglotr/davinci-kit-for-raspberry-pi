@@ -104,7 +104,7 @@ y apagan de forma regular.
 
 .. note::
 
-    Si el código no funciona después de ejecutarlo, o aparece un mensaje de error como \"wiringPi.h: No such file or directory\", consulta :ref:`c code is not working?`.
+    Si el código no funciona después de ejecutarlo, o aparece un mensaje de error como \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
     
 **Código**
 
@@ -157,6 +157,7 @@ y apagan de forma regular.
         }
         return 0;
     }
+    
 **Explicación del Código**
 
 .. code-block:: c

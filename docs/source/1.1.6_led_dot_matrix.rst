@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
+.. _1.1.6_matrix:
+
 1.1.6 LED Dot Matrix
 ============================
 
@@ -173,7 +175,7 @@ Después de ejecutar el código, la matriz de puntos LED se ilumina y apaga fila
 
 .. note::
 
-   Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+   Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 **Código**
 

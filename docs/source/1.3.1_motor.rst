@@ -145,7 +145,8 @@ otros 5 segundos. Esta secuencia de acciones se repetirá continuamente.
 
 .. note::
 
-    Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`c code is not working?`.
+    Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
+
 **Código**
 
 .. code-block:: c

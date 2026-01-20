@@ -68,7 +68,7 @@ Ya hemos probado a dibujar un punto clicable para controlar el LED, ¡así que l
 **¿Cómo funciona?**
 
 
-Este proyecto tiene mucho en común con :ref:`Clickable Dot`, excepto que mejora las condiciones para determinar el evento de clic del ratón.
+Este proyecto tiene mucho en común con :ref:`clickable_dot`, excepto que mejora las condiciones para determinar el evento de clic del ratón.
 
 Primero, dibuja tres bloques de color en ``draw()``, luego identifica qué bloque fue clicado en base al valor de mouseX (la coordenada en el eje X del ratón) y, finalmente, enciende el color correspondiente en el LED RGB.
 

@@ -94,13 +94,13 @@ dificultad del juego.
 
 .. note::
 
-    Si el juego no funciona después de ejecutarlo, o aparece un mensaje de error como : \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si el juego no funciona después de ejecutarlo, o aparece un mensaje de error como : \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 **Explicación del Código**
 
 Basado en **1.1.6 Matriz de LEDs**, esta lección añade **2** botones para 
 hacer un dispositivo de juego entretenido. Si no estás familiarizado con 
-la matriz de puntos, consulta :ref:`1.1.6 LED Dot Matrix`.
+la matriz de puntos, consulta :ref:`1.1.6_matrix_c_pi5`.
 
 El proceso completo del programa es el siguiente:
 

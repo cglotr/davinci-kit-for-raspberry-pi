@@ -12,25 +12,24 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
+Libraries
+============
 
-Bibliotecas
-==============
-
-En la programación con Raspberry Pi se utilizan dos bibliotecas importantes: 
-wiringPi y RPi.GPIO. El sistema operativo Raspberry Pi OS las instala por 
-defecto, por lo que puedes utilizarlas directamente.
+En la programación con Raspberry Pi se utilizan dos bibliotecas importantes:
+wiringPi y RPi.GPIO. Raspberry Pi OS las instala de forma predeterminada,
+por lo que puedes usarlas directamente.
 
 RPi.GPIO
--------------
+------------
 
-Si eres usuario de Python, puedes programar los GPIO usando la API 
-proporcionada por RPi.GPIO.
+Si eres usuario de Python, puedes programar los GPIO con la API que ofrece
+RPi.GPIO.
 
-RPi.GPIO es un módulo para controlar los canales GPIO de Raspberry Pi. 
-Este paquete proporciona una clase para gestionar los GPIO en una Raspberry Pi. 
-Para ejemplos y documentación, visita: http://sourceforge.net/p/raspberry-gpio-python/wiki/Home/.
+RPi.GPIO es un módulo para controlar los canales GPIO de Raspberry Pi. Este paquete
+proporciona una clase para controlar los GPIO en una Raspberry Pi. Para ejemplos y
+documentación, visita: http://sourceforge.net/p/raspberry-gpio-python/wiki/Home/.
 
-Para verificar si RPi.GPIO está instalado, ingresa el siguiente comando en Python:
+Para comprobar si RPi.GPIO está instalado o no, escribe en python:
 
 .. raw:: html
 
@@ -43,8 +42,8 @@ Para verificar si RPi.GPIO está instalado, ingresa el siguiente comando en Pyth
 .. image:: img/image27.png
 
 
-En la consola de Python, escribe "import RPi.GPIO". Si no aparece ningún error, 
-significa que RPi.GPIO está instalado correctamente.
+En la CLI de Python, introduce \"import RPi.GPIO\". Si no aparece ningún error, significa
+que RPi.GPIO está instalado.
 
 
 .. raw:: html
@@ -58,7 +57,7 @@ significa que RPi.GPIO está instalado correctamente.
 .. image:: img/image28.png
 
 
-Para salir de la consola de Python, escribe:
+Si quieres salir de la CLI de Python, escribe:
 
 
 .. raw:: html
@@ -73,18 +72,17 @@ Para salir de la consola de Python, escribe:
 
 .. _install_wiringpi:
 
-Instalar y Verificar wiringPi
+Instalar y Comprobar WiringPi
 -------------------------------------
 
-``wiringPi`` es una biblioteca de GPIO en lenguaje C diseñada para la 
-Raspberry Pi, que cumple con la licencia GUN Lv3. Las funciones de wiringPi 
-son similares a las del sistema wiring de Arduino, lo cual facilita su uso a 
-los usuarios familiarizados con Arduino.
+``wiringPi`` es una biblioteca de lenguaje C para GPIO aplicada a Raspberry Pi. Cumple con GUN Lv3. Las funciones de wiringPi son
+similares a las del sistema de cableado de Arduino. Esto permite que los usuarios
+familiarizados con Arduino puedan usar wiringPi más fácilmente.
 
-``wiringPi`` incluye numerosos comandos de GPIO que te permiten controlar todo 
-tipo de interfaces en Raspberry Pi.
+``wiringPi`` incluye muchos comandos GPIO que te permiten controlar todo
+tipo de interfaces en Raspberry Pi. 
 
-Ejecuta el siguiente comando para instalar la biblioteca ``wiringPi``:
+Ejecuta el siguiente comando para instalar la biblioteca ``wiringPi``.
 
 
 .. raw:: html
@@ -98,8 +96,8 @@ Ejecuta el siguiente comando para instalar la biblioteca ``wiringPi``:
     cd WiringPi 
     ./build
 
-Puedes verificar si la biblioteca wiringPi se instaló correctamente con el 
-siguiente comando:
+Puedes comprobar si la biblioteca wiringPi
+se instaló correctamente con la siguiente instrucción.
 
 
 .. raw:: html
@@ -112,7 +110,7 @@ siguiente comando:
 
 .. image:: img/image30.png
 
-Para revisar el estado de los GPIO, utiliza el siguiente comando:
+Comprueba los GPIO con el siguiente comando:
 
 .. raw:: html
 
@@ -126,3 +124,100 @@ Para revisar el estado de los GPIO, utiliza el siguiente comando:
 
 
 Para más detalles sobre wiringPi, puedes consultar `WiringPi <https://github.com/WiringPi/WiringPi>`_.
+
+
+.. _create_virtual:
+
+Creación de un Entorno Virtual
+----------------------------------------
+
+Al usar Raspberry Pi u otros dispositivos similares, se recomienda instalar los paquetes con ``pip`` dentro de un entorno virtual. Esto ofrece aislamiento de dependencias, aumenta la seguridad del sistema, mantiene el sistema limpio y facilita la migración y el uso compartido de proyectos, simplificando la gestión de dependencias. Estos beneficios hacen que los entornos virtuales sean una herramienta extremadamente importante y útil en el desarrollo en Python.
+
+A continuación se muestran los pasos para crear un entorno virtual:
+
+**1. Crear un entorno virtual**
+
+Primero, debes asegurarte de que tu sistema tenga Python instalado. Las versiones de Python 3.3 y posteriores incluyen el módulo ``venv`` para crear entornos virtuales, eliminando la necesidad de una instalación adicional. Si estás usando Python 2 o una versión anterior a Python 3.3, necesitarás instalar ``virtualenv``.
+
+* Para Python 3:
+
+Las versiones de Python 3.3 y posteriores pueden usar directamente el módulo ``venv``:
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    python3 -m venv myenv
+
+Esto creará un entorno virtual llamado ``myenv`` en el directorio actual.
+
+* Para Python 2:
+
+Si aún estás usando Python 2, primero necesitas instalar ``virtualenv``:
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    pip install virtualenv
+
+Luego, crea un entorno virtual:
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    virtualenv myenv
+
+Esto también crea un entorno virtual llamado ``myenv`` en el directorio actual.
+
+**2. Activar el Entorno Virtual**
+
+Después de crear el entorno virtual, necesitas activarlo para poder usarlo.
+
+.. note::
+
+    Cada vez que reinicies la Raspberry Pi o abras una nueva terminal, deberás ejecutar nuevamente el siguiente comando para activar el entorno virtual.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    source myenv/bin/activate
+
+Una vez activado el entorno virtual, verás el nombre del entorno antes del símbolo del prompt de la línea de comandos, lo que indica que estás trabajando dentro del entorno virtual.
+
+
+**3. Salir del Entorno Virtual**
+
+Cuando hayas terminado tu trabajo y desees salir del entorno virtual, simplemente ejecuta:
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    deactivate
+
+Esto te devolverá al entorno global de Python del sistema.
+
+**4. Eliminar el Entorno Virtual**
+
+Si ya no necesitas un entorno virtual en particular, simplemente puedes eliminar el directorio que contiene el entorno virtual:
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: shell
+
+    rm -rf myenv

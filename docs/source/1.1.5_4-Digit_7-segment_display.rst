@@ -12,6 +12,8 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
 
+.. _1.1.5_4digit:
+
 1.1.5 4-Digit 7-Segment Display
 =================================================
 
@@ -124,7 +126,8 @@ Después de ejecutar el código, el programa realiza un conteo, aumentando en 1 
 
 .. note::
 
-    Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta la referencia :ref:`c code is not working?`.
+    Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta la referencia :ref:`faq_c_nowork`.
+
 **Código**
 
 .. code-block:: c
@@ -454,6 +457,7 @@ Después de ejecutar el código, el programa empieza a contar, aumentando en 1 c
             loop()
         except KeyboardInterrupt:
             destroy()
+
 **Explicación del Código**
 
 .. code-block:: python

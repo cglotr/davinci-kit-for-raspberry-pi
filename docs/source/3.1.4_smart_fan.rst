@@ -107,7 +107,7 @@ con velocidad de viento **0**.
 
 .. note::
 
-    Si no funciona después de ejecutarlo o aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+    Si no funciona después de ejecutarlo o aparece el mensaje de error: \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 Una vez que la temperatura sube o baja más de 2℃, la velocidad se ajusta 
 automáticamente a un nivel más rápido o más lento.
@@ -131,7 +131,7 @@ automáticamente a un nivel más rápido o más lento.
     }
 
 La función temperture() convierte los valores del termistor leídos por el 
-ADC0834 en valores de temperatura. Consulta :ref:`2.2.2 Thermistor` para obtener más detalles.
+ADC0834 en valores de temperatura. Consulta :ref:`2.2.2_thermistor` para obtener más detalles.
 
 .. code-block:: c
 
@@ -334,7 +334,7 @@ automáticamente a un nivel superior o inferior.
         return Cel
 
 La función **temperature()** convierte los valores del termistor leídos 
-por **ADC0834** en valores de temperatura. Consulte :ref:`2.2.2 Termistor` 
+por **ADC0834** en valores de temperatura. Consulte :ref:`2.2.2_thermistor` 
 para obtener más detalles.
 
 .. code-block:: python

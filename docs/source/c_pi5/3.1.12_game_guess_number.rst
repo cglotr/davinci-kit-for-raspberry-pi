@@ -111,7 +111,7 @@ Presiona 'A' para iniciar el juego, y la pantalla LCD mostrará la página del j
 
 .. note::
 
-   Si no funciona tras ejecutarse o aparece un mensaje de error como : \"wiringPi.h: No such file or directory\", consulta :ref:`C code is not working?`.
+   Si no funciona tras ejecutarse o aparece un mensaje de error como : \"wiringPi.h: No such file or directory\", consulta :ref:`faq_c_nowork`.
 
 
 Cuando comienza el juego, se genera un número aleatorio \'**point**\', 
@@ -128,7 +128,7 @@ reduce; si adivinas el número por suerte (o por mala suerte), aparecerá el men
 
 La primera parte del código contiene las funciones de 
 **teclado** y **LCD I2C 1602**. Para conocer más detalles, 
-consulta **1.1.7 LCD I2C 1602** y **2.1.5 Teclado**.
+consulta :ref:`1.1.7_i2c_lcd_c_pi5` y :ref:`2.1.5_keypad_c_pi5`.
 
 Aquí lo que necesitamos saber es lo siguiente:
 
