@@ -74,7 +74,7 @@ Wenn Sie die Python-CLI verlassen möchten, geben Sie Folgendes ein:
 .. _install_wiringpi:
 
 Installieren und Überprüfen von WiringPi
--------------------------------------
+-------------------------------------------------------
 
 ``wiringPi`` ist eine in C geschriebene GPIO-Bibliothek für den Raspberry Pi. Sie entspricht
 der GNU Lv3-Lizenz. Die Funktionen von wiringPi sind denen des Arduino-Wiring-Systems

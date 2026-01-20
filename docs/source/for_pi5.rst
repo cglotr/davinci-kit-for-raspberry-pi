@@ -28,8 +28,6 @@ entwickelt, die sich speziell auf diese Bibliothek konzentrieren.
     
     python_pi5/play_with_python_pi5
     c_pi5/play_with_c
-    scratch_pi5/play_with_scratch
-
 
 Für Kompatibilitätsprobleme mit anderen Programmiersprachen, siehe die detaillierten Informationen unten:
 

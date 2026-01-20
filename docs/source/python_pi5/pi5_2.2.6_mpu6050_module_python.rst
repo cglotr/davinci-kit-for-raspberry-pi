@@ -85,7 +85,7 @@ auf jeder Achse und zeigt sie auf dem Bildschirm an, nachdem sie berechnet wurde
 .. note::
 
     * Wenn Sie den Fehler ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'`` erhalten, beziehen Sie sich bitte auf :ref:`i2c_config`, um das I2C zu aktivieren.
-    * Wenn der Fehler ``ModuleNotFoundError: No module named 'smbus2'`` auftritt, führen Sie bitte ``sudo pip3 install smbus2`` aus.
+    * Wenn der Fehler ``ModuleNotFoundError: No module named 'smbus2'`` auftritt, führen Sie bitte ``sudo apt install python3-smbus2`` aus.
     * Wenn der Fehler ``OSError: [Errno 121] Remote I/O error`` auftritt, bedeutet dies, dass das Modul falsch verdrahtet ist oder das Modul defekt ist.
 
 

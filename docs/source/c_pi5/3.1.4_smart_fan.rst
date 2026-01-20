@@ -128,7 +128,7 @@ Sobald die Temperatur länger als 2℃, steigt oder fällt, wird die Geschwindig
     }
 
 
-``temperture()`` wandelt die von ADC0834 gelesenen Thermistorwerte in Temperaturwerte um. Siehe :ref:`py_temp`  für weitere Details.
+``temperture()`` wandelt die von ADC0834 gelesenen Thermistorwerte in Temperaturwerte um. Siehe :ref:`c_temp`  für weitere Details.
 
 .. code-block:: c
 

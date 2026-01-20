@@ -227,7 +227,7 @@ Nachdem die Kode ausgeführt wurde, drehen Sie den Joystick, und die entsprechen
         digitalWrite(ADC_CLK,1);    delayMicroseconds(2);
         ......
 
-Der Arbeitsprozess der Funktion ist in in :ref:`py_pot` beschrieben. 
+Der Arbeitsprozess der Funktion ist in in :ref:`c_pot` beschrieben. 
 
 .. code-block:: c
 

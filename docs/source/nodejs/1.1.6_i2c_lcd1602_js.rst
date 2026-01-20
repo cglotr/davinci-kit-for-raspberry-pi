@@ -43,7 +43,7 @@ Experimentelle Vorgehensweise
 
 .. image:: ../img/image96.png
 
-**Schritt 2**: Richten Sie I2C ein (siehe :ref:`I2C Configuration`. Wenn Sie I2C bereits eingerichtet haben, überspringen Sie diesen Schritt.)
+**Schritt 2**: Richten Sie I2C ein (siehe :ref:`i2c_config`. Wenn Sie I2C bereits eingerichtet haben, überspringen Sie diesen Schritt.)
 
 **Schritt 3:** Gehen Sie zum Ordner des Codes.
 

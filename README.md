@@ -1,5 +1,5 @@
-# SunFounder 3in1 Kit
-This repository is for SunFounder 3in1 Kit. you can buy it on [our website](https://www.sunfounder.com/), or search sunfounder in Amazon.
+# SunFounder davinci Kit
+This repository is for SunFounder davinci Kit. you can buy it on [our website](https://www.sunfounder.com/), or search sunfounder in Amazon.
 
 Quick Links:
 
@@ -13,11 +13,20 @@ Quick Links:
 <a id="about_this_kit"></a>
 ## About this kit:
 
-In the 3-in-1 starter kit, you will find a complete Arduino course to help beginners learn Arduino, as well as a wide variety of interesting projects that other learning kits do not offer, such as smart car projects and IoT projects. You will master Arduino as long as you follow the kit's course step by step, instead of just copying and pasting code, you will write your own code and implement your Arduino project however you like.
+Da Vinci Kit is a basic kit suitable to intelligent beginners who have
+project schedule. It contains 26 commonly used input and output
+components and modules and a number of basic electronic devices (such as
+resistors, capacitors) which can provide powerful assistance in your
+programming learning.
 
 
 <a id="update"></a>
 ## Update:
+
+2026-1-20:
+- add sf-shared respo
+- change install os contents
+
 
 2024-11-13:
 - Solve the problem that DHT11 and MFRC522 module are not compatible with Pi 5.
@@ -58,16 +67,16 @@ SunFounder is a company focused on STEAM education with products like open sourc
 
 <a id="license"></a>
 ## License
-This is the code for SunFounder 3in1 Kit.
+This is the code for SunFounder davinci Kit.
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied wa rranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-3in1-kit comes with ABSOLUTELY NO WARRANTY; for details run ./show w. This is free software, and you are welcome to redistribute it under certain conditions; run ./show c for details.
+davinci-kit comes with ABSOLUTELY NO WARRANTY; for details run ./show w. This is free software, and you are welcome to redistribute it under certain conditions; run ./show c for details.
 
-SunFounder, Inc., hereby disclaims all copyright interest in the program '3in1-kit' (which makes passes at compilers).
+SunFounder, Inc., hereby disclaims all copyright interest in the program 'davinci-kit' (which makes passes at compilers).
 
 Mike Huang, 21 August 2015
 

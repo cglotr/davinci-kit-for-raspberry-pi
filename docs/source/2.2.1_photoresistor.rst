@@ -197,7 +197,7 @@ Wenn die Kode ausgeführt wird, variiert die Helligkeit der LED in Abhängigkeit
 
 **Code Erklärung**
 
-Die Koden hier sind die gleichen wie in 2.1.4 Potentiometer. Wenn Sie weitere Fragen haben, lesen Sie bitte die Kode-Erklärung von :ref:`py_pot`  für Details.
+Die Koden hier sind die gleichen wie in 2.1.4 Potentiometer. Wenn Sie weitere Fragen haben, lesen Sie bitte die Kode-Erklärung von :ref:`pot` für Details.
 
 Für Python-Sprachbenutzer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

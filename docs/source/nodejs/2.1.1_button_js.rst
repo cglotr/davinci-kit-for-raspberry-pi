@@ -12,6 +12,8 @@
 
     👉 Bereit, mit uns zu entdecken und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
+.. _2.1.1_button_nodejs:
+
 2.1.1 Schalter
 ===============
 

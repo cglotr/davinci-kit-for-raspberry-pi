@@ -105,7 +105,7 @@ Auf diese Weise wird diese Reihe von Aktionen wiederholt ausgeführt.
     void clearDisplay();
     void display();
 
-Diese Codes werden verwendet, um die Funktion der Zahlenanzeige von 4-stelligen 7-Segment-Anzeigen zu realisieren. Siehe :ref:`py_4_sig` des Dokuments für weitere Details. Hier verwenden wir die Codes, um den Countdown der Ampelzeit anzuzeigen.
+Diese Codes werden verwendet, um die Funktion der Zahlenanzeige von 4-stelligen 7-Segment-Anzeigen zu realisieren. Siehe :ref:`c_4_sig` des Dokuments für weitere Details. Hier verwenden wir die Codes, um den Countdown der Ampelzeit anzuzeigen.
 
 .. code-block:: c
 
@@ -146,7 +146,7 @@ Die Kode dienen zum Ein- und Ausschalten der LED.
         }
     }
 
-Die Codes dienen zum Ein- und Ausschalten des Timers. Weitere Informationen finden Sie unter :ref:`py_4_sig` . Wenn der Timer hier auf Null zurückkehrt, wird colorState auf LED umgeschaltet und dem Timer wird ein neuer Wert zugewiesen.
+Die Codes dienen zum Ein- und Ausschalten des Timers. Weitere Informationen finden Sie unter :ref:`c_4_sig` . Wenn der Timer hier auf Null zurückkehrt, wird colorState auf LED umgeschaltet und dem Timer wird ein neuer Wert zugewiesen.
 
 .. code-block:: c
 

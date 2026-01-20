@@ -12,7 +12,7 @@
 
     👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
-.. _py_matrix:
+.. _c_matrix:
 
 1.1.6 LED-Punktmatrix
 =====================

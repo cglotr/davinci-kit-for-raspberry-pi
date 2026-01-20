@@ -173,7 +173,7 @@ After the code runs, PIR detects surroundings and let RGB LED glow yellow if it 
     void ledColorSet(uchar r_val, uchar g_val, uchar b_val);
 
 Mit dieser Kode wird die Farbe der RGB-LED eingestellt. 
-Weitere Informationen finden Sie unter :ref:`py_rgb_led` for more details.
+Weitere Informationen finden Sie unter :ref:`c_rgb_led` for more details.
 
 .. code-block:: c
 

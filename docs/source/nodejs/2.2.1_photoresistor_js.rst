@@ -96,7 +96,7 @@ Wenn der Code läuft, ändert sich die Helligkeit der LED entsprechend der vom F
 
 **Code Erklärung**
 
-Der Code hier ist derselbe wie in 2.1.4 Potentiometer. Bitte überprüfen Sie die Code-Erklärung unter :ref:`2.1.4 Potentiometer` für Details.
+Der Code hier ist derselbe wie in 2.1.4 Potentiometer. Bitte überprüfen Sie die Code-Erklärung unter :ref:`2.1.4_pot_nodejs` für Details.
 
 Phänomenbild
 ------------------

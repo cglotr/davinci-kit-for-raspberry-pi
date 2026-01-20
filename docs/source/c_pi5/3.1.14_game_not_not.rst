@@ -90,7 +90,7 @@ um die Schwierigkeit des Spiels zu erhöhen.
 
 **Code Erklärung**
 
-Basierend auf 1.1.6 LED Dot Matrix fügt diese Lektion 2 Tasten hinzu, um ein amüsantes Spielgerät zu erstellen. Wenn Sie mit der Punktmatrix nicht sehr vertraut sind, lesen Sie bitte :ref:`py_matrix`.
+Basierend auf 1.1.6 LED Dot Matrix fügt diese Lektion 2 Tasten hinzu, um ein amüsantes Spielgerät zu erstellen. Wenn Sie mit der Punktmatrix nicht sehr vertraut sind, lesen Sie bitte :ref:`c_matrix`.
 
 Der gesamte Programmprozess ist wie folgt:
 

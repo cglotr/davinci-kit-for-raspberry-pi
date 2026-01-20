@@ -129,7 +129,7 @@ Nachdem der Code ausgeführt wurde, erkennt der PIR die Umgebung und lässt die 
 
 **Code Erklärung**
 
-Der Code für dieses Beispiel ist eine Kombination aus :ref:`2.1.1 Button` und :ref:`1.1.2 RGB LED`, daher sind keine weiteren Details erforderlich.
+Der Code für dieses Beispiel ist eine Kombination aus :ref:`2.1.1_button_nodejs` und :ref:`1.1.2_rgb_nodejs`, daher sind keine weiteren Details erforderlich.
 
 Phänomenbild
 ------------------

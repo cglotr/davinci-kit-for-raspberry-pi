@@ -12,7 +12,7 @@
 
     👉 Sind Sie bereit, mit uns zu erkunden und zu erschaffen? Klicken Sie auf [|link_sf_facebook|] und treten Sie heute bei!
 
-.. _py_4_sig:
+.. _c_4_sig:
 
 1.1.5 4-stellige 7-Segment-Anzeige
 ====================================

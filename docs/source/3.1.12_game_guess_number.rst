@@ -118,7 +118,7 @@ Der Nummernkreis von ‚Punkt‘ wird in der zweiten Zeile angezeigt. Und Sie m�
 **Code Erklärung**
 
 Am Anfang des Codes stehen die Funktionsfunktionen der Tastatur und des I2C LCD1602. 
-Weitere Informationen hierzu finden Sie in den Tasten :ref:`py_lcd` und :ref:`py_keypad` .
+Weitere Informationen hierzu finden Sie in den Tasten :ref:`lcd` und :ref:`keypad` .
 
 Hier müssen wir Folgendes wissen:
 
@@ -456,7 +456,7 @@ wird „You've got it!“ angezeigt.
 **Code Erklärung**
 
 Am Anfang des Codes stehen die Funktionsfunktionen der Tastatur und des I2C LCD1602. 
-Weitere Informationen hierzu finden Sie in den Tasten :ref:`py_lcd` LCD1602 und :ref:`py_keypad` .
+Weitere Informationen hierzu finden Sie in den Tasten :ref:`lcd` LCD1602 und :ref:`keypad` .
 
 Hier müssen wir Folgendes wissen:
 

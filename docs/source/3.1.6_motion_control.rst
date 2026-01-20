@@ -128,7 +128,7 @@ mpu6050 erhält den Neigungswinkel in Richtung der Y-Achse.
 
 Wenn die empfangene Richtung Taste ‚c‘ ist, dreht sich der Schrittmotor im Uhrzeigersinn; wenn die Taste ‚a‘ ist, 
 dreht der Motor gegen den Uhrzeigersinn. 
-Siehe :ref:`py_step_motor`  für weitere Details zur Berechnung der Drehrichtung des Schrittmotors.
+Siehe :ref:`step_motor`  für weitere Details zur Berechnung der Drehrichtung des Schrittmotors.
 
 .. code-block:: c
 
@@ -319,7 +319,7 @@ mpu6050 erhält den Neigungswinkel in Richtung der Y-Achse.
                 time.sleep(stepSpeed)
 
 Wenn die empfangene Richtung Taste ‚c‘ ist, dreht sich der Schrittmotor im Uhrzeigersinn; wenn die Taste ‚a‘ ist, dreht der Motor gegen den Uhrzeigersinn. 
-Siehe :ref:`py_step_motor`  für weitere Details zur Berechnung der Drehrichtung des Schrittmotors.
+Siehe :ref:`step_motor`  für weitere Details zur Berechnung der Drehrichtung des Schrittmotors.
 
 .. code-block:: python
 

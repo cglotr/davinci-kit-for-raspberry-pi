@@ -12,6 +12,8 @@
 
     👉 Bereit, mit uns zu entdecken und zu kreieren? Klicken Sie auf [|link_sf_facebook|] und treten Sie noch heute bei!
 
+.. _1.1.2_rgb_nodejs:
+
 1.1.2 RGB-LED
 ================
 

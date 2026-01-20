@@ -267,7 +267,7 @@ Wenn der PIR nach dem Ausführen der Kode feststellt, dass jemand vorbeikommt, a
 
 **Code Erklärung**
 
-Basierend auf der :ref:`py_4_sig` wird in dieser Lektion ein PIR-Modul hinzugefügt, um die automatische Zählung von Lektion 1.1.5 in Zählerkennung zu ändern. Wenn der PIR feststellt, dass jemand vorbeikommt, addiert die Nummer auf der 4-stelligen Segmentanzeige 1.
+Basierend auf der :ref:`4_sig` wird in dieser Lektion ein PIR-Modul hinzugefügt, um die automatische Zählung von Lektion 1.1.5 in Zählerkennung zu ändern. Wenn der PIR feststellt, dass jemand vorbeikommt, addiert die Nummer auf der 4-stelligen Segmentanzeige 1.
 
 
 

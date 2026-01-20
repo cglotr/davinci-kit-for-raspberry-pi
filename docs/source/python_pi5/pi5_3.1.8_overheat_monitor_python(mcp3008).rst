@@ -100,7 +100,7 @@ Durch erneutes Drücken des **Joysticks** wird der Grenzwert auf den Anfangswert
 .. note::
 
     * Falls der Fehler ``FileNotFoundError: [Errno 2] No such file or directory: '/dev/i2c-1'`` auftritt, siehe :ref:`i2c_config`, um I²C zu aktivieren.
-    * Falls der Fehler ``ModuleNotFoundError: No module named 'smbus2'`` auftritt, führe ``sudo pip3 install smbus2`` aus.
+    * Falls der Fehler ``ModuleNotFoundError: No module named 'smbus2'`` auftritt, führe ``sudo apt install python3-smbus2`` aus.
     * Falls der Fehler ``OSError: [Errno 121] Remote I/O error`` auftritt, ist das Modul falsch verdrahtet oder defekt.
     * Falls Code und Verdrahtung korrekt sind, aber das LCD dennoch nichts anzeigt, kann der Potentiometer auf der Rückseite zur Erhöhung des Kontrasts gedreht werden.
 
