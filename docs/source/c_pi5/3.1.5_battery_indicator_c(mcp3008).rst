@@ -1,0 +1,275 @@
+.. note::
+
+    ¡Hola, bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook! Sumérgete más en Raspberry Pi, Arduino y ESP32 con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a anuncios de nuevos productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _3.1.5_c_pi5_mcp3008:
+
+3.1.5 Indicador de Batería (MCP3008)
+====================================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+Introducción
+------------
+
+En este proyecto, crearemos un dispositivo indicador de batería que pueda mostrar visualmente el nivel de la batería en una barra de LED.
+
+.. warning::
+
+    No utilices baterías que superen los 3.3V para evitar sobrecargas que puedan dañar el chip o la Raspberry Pi.
+
+Componentes necesarios
+-----------------------
+
+En este proyecto, necesitaremos los siguientes componentes.
+
+.. image:: ../img/list2_Battery_Indicator.png
+    :align: center
+
+Diagrama esquemático
+--------------------
+
+============ ======== ======== ===
+T-Board Name physical wiringPi BCM
+SPICE0       Pin 24   10       8
+SPIMOSI      Pin 19   12       10
+SPIMISO      Pin 21   13       9
+SPISCLK      Pin 23   14       11
+GPIO25       Pin 22   6        25
+GPIO12       Pin 32   26       12
+GPIO16       Pin 36   27       16
+GPIO20       Pin 38   28       20
+GPIO21       Pin 40   29       21
+GPIO5        Pin 29   21       5
+GPIO6        Pin 31   22       6
+GPIO13       Pin 33   23       13
+GPIO19       Pin 35   24       19
+GPIO26       Pin 37   25       26
+============ ======== ======== ===
+
+.. image:: ../img/schematic_battery_indicator_mcp3008.png
+   :align: center
+
+Procedimiento experimental
+--------------------------
+
+**Paso 1:** Montar el circuito.
+
+.. image:: ../img/july24_3.1.5_battery_indicator_mcp3008.png
+
+**Paso 2:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/c/3.1.5-2/
+
+**Paso 3:** Compilar el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    gcc 3.1.5_BatteryIndicator.c -lwiringPi
+
+**Paso 4:** Ejecutar el archivo compilado.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo ./a.out
+
+Después de ejecutar el programa, conecta un cable desde el pin 3 del MCP3008 y otro desde GND, y luego conéctalos a los dos polos de una batería.  
+Podrás ver que los LED correspondientes en la barra se encienden para mostrar el nivel de carga (rango de medición: 0–5V).
+
+.. note::
+
+    Si no funciona después de ejecutarlo o aparece el error: "wiringPi.h: No such file or directory", consulta :ref:`install_wiringpi`.
+
+Código
+------
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+
+    #define SPI_CHANNEL 0
+    #define SPI_SPEED   1000000  // 1MHz
+    #define VREF        3.3      
+
+    int pins[10] = {6, 26, 27, 28, 29, 21, 22, 23, 24, 25};
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Bit de inicio
+        buffer[1] = (8 + channel) << 4;  // Modo entrada única
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];
+        return value;
+    }
+
+    void LedBarGraph(int value) {
+        for (int i = 0; i < 10; i++) {
+            if (i < value)
+                digitalWrite(pins[i], HIGH);  
+            else
+                digitalWrite(pins[i],LOW);
+        }
+    }
+
+    int main(void)
+    {
+        if (wiringPiSetup() == -1) {
+            printf("¡Fallo en la configuración de wiringPi!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("¡Fallo en la configuración de SPI!\n");
+            return 1;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            pinMode(pins[i], OUTPUT);
+            digitalWrite(pins[i], HIGH);
+        }
+
+        while (1) {
+            int analogVal = read_ADC(0);  // MCP3008 CH0
+            if (analogVal < 0) continue;
+
+            float voltage = analogVal * VREF / 1023.0;
+            int level = analogVal * 10 / 1024;  
+            if (level > 10) level = 10;  
+
+            LedBarGraph(level);
+
+            printf("Valor ADC: %d\tVoltaje: %.2f V\tNivel: %d\n", analogVal, voltage, level);
+
+            delay(200);
+        }
+
+        return 0;
+    }
+
+Explicación del código
+----------------------
+
+.. code-block:: c
+
+    int read_ADC(int channel)
+    {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;  // Bit de inicio
+        buffer[1] = (8 + channel) << 4;  // Modo entrada única, CH0~CH7
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        int value = ((buffer[1] & 3) << 8) | buffer[2];  // Combina el resultado de 10 bits
+        return value;
+    }
+
+Esta función lee valores analógicos desde el chip ADC MCP3008 usando SPI.  
+El parámetro ``channel`` selecciona una de las 8 entradas analógicas (CH0–CH7).  
+El MCP3008 devuelve un valor digital de 10 bits entre 0 y 1023 que representa el voltaje analógico.
+
+.. code-block:: c
+
+    void LedBarGraph(int value) {
+        for (int i = 0; i < 10; i++) {
+            if (i < value)
+                digitalWrite(pins[i], HIGH);  // Enciende LED (activo en alto)
+            else
+                digitalWrite(pins[i], LOW);   // Apaga LED
+        }
+    }
+
+Esta función controla una barra de LED de 10 segmentos.  
+Cada LED representa 1/10 del rango de voltaje.  
+Los LED se encienden en orden hasta el nivel especificado.
+
+Nota: Esta versión asume que los ánodos de los LED están conectados a los GPIO y los cátodos a GND (activo en alto).
+
+.. code-block:: c
+
+    int main(void)
+    {
+        if (wiringPiSetup() == -1) {
+            printf("¡Fallo en la configuración de wiringPi!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("¡Fallo en la configuración de SPI!\n");
+            return 1;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            pinMode(pins[i], OUTPUT);
+            digitalWrite(pins[i], HIGH);  // Inicializa todos los LED encendidos
+        }
+
+        while (1) {
+            int analogVal = read_ADC(0);  // Lee voltaje en CH0
+            if (analogVal < 0) continue;
+
+            float voltage = analogVal * VREF / 1023.0;
+            int level = analogVal * 10 / 1024;  // Escala a niveles 0–10
+            if (level > 10) level = 10;
+
+            LedBarGraph(level);  // Muestra el nivel en los LED
+
+            printf("Valor ADC: %d\tVoltaje: %.2f V\tNivel: %d\n", analogVal, voltage, level);
+
+            delay(200);  // Frecuencia de actualización: 5 Hz
+        }
+
+        return 0;
+    }
+
+Lógica principal del programa:
+
+- Inicializa wiringPi y la comunicación SPI.  
+- Configura los pines GPIO como salidas para controlar la barra de 10 LED.  
+- Lee continuamente el voltaje analógico a través del MCP3008 (CH0).  
+- Convierte la lectura a voltaje usando ``VREF = 3.3V``.  
+- Escala el voltaje a un nivel de 0–10 y enciende la cantidad correspondiente de LED.  
+- Muestra en consola el valor ADC, el voltaje (en voltios) y el nivel de LED.  
+
+Esto actúa como un indicador visual del nivel de batería o voltímetro analógico.

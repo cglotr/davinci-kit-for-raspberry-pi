@@ -15,6 +15,17 @@
 2.1.4 Potenciómetro
 ======================
 
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+
 Introducción
 ----------------
 
@@ -166,7 +177,11 @@ intensidad del LED cambiará en consecuencia.
 
 .. note::
 
+<<<<<<< HEAD
     Si no funciona después de ejecutarlo, o si aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
+=======
+    Si no funciona después de ejecutarlo, o si aparece un mensaje de error: \"wiringPi.h: No such file or directory", consulta :ref:`C code is not working?`.
+>>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 
 **Código**
 
@@ -345,7 +360,11 @@ Establece CS en nivel bajo y comienza a habilitar la conversión AD.
     digitalWrite(ADC_CLK,0);
     digitalWrite(ADC_DIO,1);    delayMicroseconds(2);
     digitalWrite(ADC_CLK,1);    delayMicroseconds(2);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 Cuando ocurre la transición de bajo a alto del reloj por primera vez, se 
 establece DIO en 1 como bit de inicio. En los siguientes tres pasos, hay 
 3 palabras de asignación.

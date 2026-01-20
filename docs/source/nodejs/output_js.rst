@@ -15,8 +15,8 @@
 Salida
 ==========
 
-1.1 Pantallas
------------------
+**1.1 Pantallas**
+
 
 .. toctree::
     :maxdepth: 1
@@ -28,16 +28,16 @@ Salida
     1.1.5_4_digit_7_segment_display_js
     1.1.6_i2c_lcd1602_js
 
-1.2 Sonido
----------------
+**1.2 Sonido**
+
 
 .. toctree::
     :maxdepth: 1
 
     1.2.1_active_buzzer_js
 
-1.3 Controladores
---------------------
+**1.3 Controladores**
+
 
 .. toctree::
     :maxdepth: 1

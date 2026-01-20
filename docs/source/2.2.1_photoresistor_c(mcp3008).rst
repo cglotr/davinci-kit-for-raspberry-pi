@@ -1,0 +1,374 @@
+.. note::
+
+    ¡Hola! Bienvenido a la comunidad de entusiastas de SunFounder Raspberry Pi, Arduino y ESP32 en Facebook.  
+    Profundiza en Raspberry Pi, Arduino y ESP32 junto con otros aficionados.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Avances exclusivos**: Obtén acceso anticipado a anuncios y vistas previas de nuevos productos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más recientes.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
+
+.. _2.2.1_c_mcp3008:
+
+2.2.1 Fotorresistor (MCP3008)
+=============================
+
+.. note::
+
+   .. image:: img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y sigue la sección correspondiente.
+
+Introducción
+------------
+
+El fotorresistor es un componente comúnmente usado para medir la intensidad de la luz ambiental.  
+Ayuda al controlador a reconocer el día y la noche y realizar funciones de control de luz, como una lámpara nocturna.  
+Este proyecto es muy similar al potenciómetro, y podrías pensar que cambia el voltaje para detectar la luz.
+
+Componentes requeridos
+----------------------
+
+En este proyecto, necesitamos los siguientes componentes.
+
+.. image:: img/list2_2.2.1_photoresistor.png
+
+Principio
+---------
+
+Un fotorresistor o célula fotoeléctrica es una resistencia variable controlada por luz.  
+La resistencia de un fotorresistor disminuye a medida que aumenta la intensidad de la luz incidente; en otras palabras, exhibe fotoconductividad.  
+Un fotorresistor puede aplicarse en circuitos detectores de luz y en circuitos de activación por luz u oscuridad.
+
+.. image:: img/image196.png
+    :width: 200
+    :align: center
+
+Diagrama esquemático
+--------------------
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nombre en la T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+    *   - GPIO22
+        - pin15
+        - 3
+        - 22
+
+.. image:: img/schematic_2.2.1_photoresistor_mcp3008.png
+
+Procedimientos experimentales
+-----------------------------
+
+**Paso 1:** Construye el circuito.
+
+.. image:: img/july24_2.2.1_photoresistor_mcp3008.png
+
+Para usuarios de lenguaje C
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Paso 2:** Ve a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/c/2.2.1-2/
+
+**Paso 3:** Compila el código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    gcc 2.2.1_Photoresistor.c -o photoresistor -lwiringPi -lm
+
+**Paso 4:** Ejecuta el archivo compilado.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    ./photoresistor
+
+Cuando el código se está ejecutando, el brillo del LED cambiará según la intensidad de luz detectada por el fotorresistor.
+
+.. note::
+
+    Si no funciona después de ejecutar, o aparece el error: "wiringPi.h: No such file or directory", consulta :ref:`install_wiringpi`.
+
+**Código**
+
+.. code-block:: c
+
+    #include <wiringPi.h>
+    #include <wiringPiSPI.h>
+    #include <stdio.h>
+    #include <softPwm.h>
+
+    #define SPI_CHANNEL 0      // Usar canal SPI 0 (CE0)
+    #define SPI_SPEED   1000000 // Velocidad SPI de 1 MHz
+    #define LedPin      3       // GPIO3 (WiringPi) para PWM del LED
+
+    // Leer valor ADC del MCP3008, canal 0~7
+    int readMCP3008(int channel) {
+        if (channel < 0 || channel > 7) return -1;
+
+        unsigned char buffer[3];
+        buffer[0] = 1;                          // Bit de inicio
+        buffer[1] = (8 + channel) << 4;         // Configuración del canal
+        buffer[2] = 0;
+
+        wiringPiSPIDataRW(SPI_CHANNEL, buffer, 3);
+
+        // Combinar el resultado
+        int result = ((buffer[1] & 3) << 8) | buffer[2];
+        return result;
+    }
+
+    int main(void) {
+        if (wiringPiSetup() == -1) {
+            printf("¡Error al iniciar wiringPi!\n");
+            return 1;
+        }
+
+        if (wiringPiSPISetup(SPI_CHANNEL, SPI_SPEED) == -1) {
+            printf("¡Error al configurar SPI!\n");
+            return 1;
+        }
+
+        softPwmCreate(LedPin, 0, 100); // Inicializar PWM por software
+
+        while (1) {
+            int analogVal = readMCP3008(0); // Leer de CH0
+            printf("Valor ADC: %d\n", analogVal);
+
+            // Escalar el valor de 10 bits (0–1023) al rango PWM (0–100)
+            int pwmVal = analogVal * 100 / 1023;
+            softPwmWrite(LedPin, pwmVal);
+
+            delay(100);
+        }
+
+        return 0;
+    }
+
+**Explicación del código**
+
+El código aquí es el mismo que en 2.1.4 Potenciómetro.  
+Si tienes alguna duda, consulta la explicación del código en :ref:`2.1.4_c_mcp3008`.
+
+Para usuarios de lenguaje Python
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Paso 2:** Configura la interfaz SPI e instala la librería ``spidev`` (consulta :ref:`spi_configuration` para más detalles). Si ya completaste estos pasos, puedes omitirlos.
+
+**Paso 3:** Ve a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    cd ~/davinci-kit-for-raspberry-pi/python
+
+**Paso 4:** Ejecuta el archivo.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block::
+
+    sudo python3 2.2.1-2_photoresistor.py
+
+Cuando el código se está ejecutando, el brillo del LED cambiará según la intensidad de luz detectada por el fotorresistor.
+
+.. warning::
+
+    Si aparece el error ``RuntimeError: Cannot determine SOC peripheral base address``, consulta :ref:`faq_soc`.
+
+**Código**
+
+.. note::
+
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación.  
+    Antes de eso, ve a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python``.  
+    Después de modificarlo, puedes ejecutarlo directamente para ver el efecto.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+
+    import RPi.GPIO as GPIO
+    import spidev
+    import time
+
+    # Pin GPIO para el LED PWM
+    PWM_PIN = 22
+
+    # Configuración de GPIO
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(PWM_PIN, GPIO.OUT)
+
+    # Inicializar PWM (frecuencia = 1000Hz)
+    pwm = GPIO.PWM(PWM_PIN, 1000)
+    pwm.start(0)  # Comenzar con ciclo de trabajo 0%
+
+    # Inicializar SPI (MCP3008 en bus 0, CE0)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    # Función para leer valor ADC del MCP3008
+    def read_adc(channel):
+        """
+        Lee valor analógico del MCP3008 (canal 0–7)
+        Devuelve: valor de 10 bits (0–1023)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        r = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((r[1] & 3) << 8) | r[2]
+        return value
+
+    # Bucle principal para leer ADC y ajustar brillo PWM
+    try:
+        while True:
+            analogVal = read_adc(0)
+            print(f"valor = {analogVal}")
+
+            # Escalar valor ADC (0–1023) a ciclo de trabajo (0–100)
+            duty_cycle = analogVal * 100 / 1023
+            pwm.ChangeDutyCycle(duty_cycle)
+
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        pwm.stop()
+        GPIO.cleanup()
+        spi.close()
+
+**Explicación del código**
+
+1. Importar librerías necesarias:
+
+   - ``RPi.GPIO`` para controlar pines GPIO y generar señal PWM.
+   - ``spidev`` para comunicarse con el MCP3008 vía SPI.
+   - ``time`` para manejar pausas y tiempos.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+
+       import RPi.GPIO as GPIO
+       import spidev
+       import time
+
+2. Configurar el pin GPIO 22 como salida PWM en modo BCM.  
+   Luego, inicializar el PWM a 1000 Hz con ciclo de trabajo inicial de 0%.
+
+   .. code-block:: python
+
+       PWM_PIN = 22
+       GPIO.setmode(GPIO.BCM)
+       GPIO.setup(PWM_PIN, GPIO.OUT)
+       pwm = GPIO.PWM(PWM_PIN, 1000)
+       pwm.start(0)
+
+3. Configurar la interfaz SPI con el MCP3008 en bus 0, CE0 y velocidad 1 MHz.
+
+   .. code-block:: python
+
+       spi = spidev.SpiDev()
+       spi.open(0, 0)
+       spi.max_speed_hz = 1000000
+
+4. Definir la función ``read_adc(channel)`` para leer valores analógicos del MCP3008.
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           if channel < 0 or channel > 7:
+               return -1
+           r = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((r[1] & 3) << 8) | r[2]
+           return value
+
+5. En el bucle principal:
+
+   - Leer la entrada analógica del canal 0.
+   - Convertir el valor en ciclo de trabajo PWM (0–100%).
+   - Ajustar el brillo del LED con ``pwm.ChangeDutyCycle()``.
+   - Repetir cada 0.2 segundos.
+
+
+   .. code-block:: python
+
+       # Main loop to read ADC and set PWM brightness
+       try:
+           while True:
+               analogVal = read_adc(0)
+               print(f"value = {analogVal}")
+
+               # Scale ADC value (0–1023) to duty cycle (0–100)
+               duty_cycle = analogVal * 100 / 1023
+               pwm.ChangeDutyCycle(duty_cycle)
+
+               time.sleep(0.2)
+
+
+6. Si el programa se interrumpe con Ctrl+C, detener el PWM, limpiar los GPIO y cerrar SPI.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           pass
+
+       finally:
+           pwm.stop()
+           GPIO.cleanup()
+           spi.close()

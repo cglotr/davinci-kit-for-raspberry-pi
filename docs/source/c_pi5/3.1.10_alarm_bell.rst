@@ -174,7 +174,7 @@ int pthread_create(pthread_t \*restrict tidp,const pthread_attr_t
 
 **Valor de Retorno**
 
-Si tiene éxito, retorna \"**0**\"; de lo contrario, retorna el **número de error** \"**-1**\".
+Si tiene éxito, retorna **0**; de lo contrario, retorna el **número de error** **-1**.
 
 **Parámetros**
 

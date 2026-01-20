@@ -1,0 +1,243 @@
+.. note::
+
+    ¡Hola! Bienvenido a la Comunidad de Entusiastas de SunFounder Raspberry Pi & Arduino & ESP32 en Facebook. Profundiza en Raspberry Pi, Arduino y ESP32 junto con otros entusiastas.
+
+    **¿Por qué unirse?**
+
+    - **Soporte experto**: Resuelve problemas postventa y desafíos técnicos con la ayuda de nuestra comunidad y equipo.
+    - **Aprender y compartir**: Intercambia consejos y tutoriales para mejorar tus habilidades.
+    - **Vistas previas exclusivas**: Obtén acceso anticipado a nuevos anuncios de productos y adelantos.
+    - **Descuentos especiales**: Disfruta de descuentos exclusivos en nuestros productos más nuevos.
+    - **Promociones y sorteos festivos**: Participa en sorteos y promociones de temporada.
+
+    👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy mismo.
+
+.. _2.2.2_py_pi5_mcp3008:
+
+2.2.2 Termistor (MCP3008)
+============================
+
+.. note::
+
+   .. image:: ../img/mcp3008_and_adc0834.jpg
+      :width: 25%
+      :align: left
+    
+
+   Dependiendo de la versión de tu kit, identifica si tienes **ADC0834** o **MCP3008** y procede con la sección correspondiente.
+
+Introducción
+------------
+
+Al igual que una fotorresistencia puede detectar la luz, un termistor es un dispositivo electrónico sensible a la temperatura que puede utilizarse para realizar funciones de control de temperatura, como hacer una alarma de calor.
+
+Componentes necesarios
+------------------------------
+
+En este proyecto, necesitamos los siguientes componentes.
+
+.. image:: ../python_pi5/img/list2_2.2.2_thermistor.png
+
+Diagrama esquemático
+--------------------
+
+.. .. image:: ../python_pi5/img/2.2.2_thermistor_schematic_1.png
+
+.. list-table::
+    :widths: 30 30 30 30
+    :header-rows: 1
+
+    *   - Nombre en T-Board
+        - Físico
+        - WiringPi
+        - BCM
+
+    *   - SPICE0
+        - pin24
+        - 10
+        - 8
+    *   - SPIMOSI
+        - pin19
+        - 12
+        - 10
+    *   - SPIMISO
+        - pin21
+        - 13
+        - 9
+    *   - SPISCLK
+        - pin23
+        - 14
+        - 11
+
+.. image:: ../python_pi5/img/schematic_2.2.2_thermistor_mcp3008.png
+
+Procedimientos experimentales
+------------------------------
+
+**Paso 1:** Construir el circuito.
+
+.. image:: ../python_pi5/img/july24_2.2.2_thermistor_mcp3008.png
+
+**Paso 2:** Configurar la interfaz SPI e instalar la librería ``spidev`` (consulta :ref:`spi_configuration` para instrucciones detalladas). Si ya has completado estos pasos, puedes saltar este paso.
+
+**Paso 3:** Ir a la carpeta del código.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    cd ~/davinci-kit-for-raspberry-pi/python-pi5
+
+**Paso 4:** Ejecutar el archivo.
+
+.. raw:: html
+
+   <run></run>
+
+.. code-block:: 
+
+    sudo python3 2.2.2-2_Thermistor_zero.py
+
+Cuando el código se ejecuta, el termistor detecta la temperatura ambiente y la mostrará en pantalla una vez que el programa termine el cálculo.
+
+.. warning::
+
+    Si aparece el error ``RuntimeError: Cannot determine SOC peripheral base address``, consulta :ref:`faq_soc`
+
+**Código**
+
+.. note::
+
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el siguiente código.  
+    Pero antes de eso, debes ir a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python-pi5``.  
+    Después de modificar el código, puedes ejecutarlo directamente para ver el efecto.
+
+.. raw:: html
+
+    <run></run>
+
+.. code-block:: python
+
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
+
+    import spidev
+    import time
+    import math
+
+    # Inicializar SPI para MCP3008 (Bus 0, CE0)
+    spi = spidev.SpiDev()
+    spi.open(0, 0)  # Bus 0, Dispositivo 0 (CE0)
+    spi.max_speed_hz = 1000000  # 1 MHz
+
+    def read_adc(channel):
+        """
+        Leer valor analógico del canal MCP3008 (0–7)
+        """
+        if channel < 0 or channel > 7:
+            return -1
+        # Formato de comunicación MCP3008
+        adc = spi.xfer2([1, (8 + channel) << 4, 0])
+        value = ((adc[1] & 0x03) << 8) | adc[2]
+        return value
+
+    try:
+        while True:
+            # Leer valor analógico del CH0 de MCP3008
+            analogVal = read_adc(0)
+
+            # Convertir a voltaje (referencia 3.3V)
+            Vr = 3.3 * analogVal / 1023.0
+
+            # Calcular resistencia del termistor
+            Rt = 10000.0 * Vr / (3.3 - Vr)
+
+            # Calcular temperatura en Kelvin usando la aproximación de Steinhart–Hart
+            tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+            # Convertir a Celsius y Fahrenheit
+            Cel = tempK - 273.15
+            Fah = Cel * 1.8 + 32
+
+            # Imprimir la temperatura
+            print('Celsius: %.2f °C  Fahrenheit: %.2f °F' % (Cel, Fah))
+
+            # Esperar antes de la siguiente lectura
+            time.sleep(0.2)
+
+    except KeyboardInterrupt:
+        spi.close()
+
+**Explicación del código**
+
+#. Esta sección importa el módulo ``spidev`` para comunicarse con el MCP3008 a través de SPI, el módulo ``time`` para retardos y el módulo ``math`` para los cálculos logarítmicos necesarios en la conversión de temperatura.
+
+   .. code-block:: python
+
+       #!/usr/bin/env python3
+       # -*- coding: utf-8 -*-
+
+       import spidev
+       import time
+       import math
+
+#. Inicializa la interfaz SPI para MCP3008 en el bus 0 y dispositivo 0 (CE0), configurando la velocidad máxima del reloj SPI a 1 MHz.
+
+   .. code-block:: python
+
+       # Inicializar SPI para MCP3008 (Bus 0, CE0)
+       spi = spidev.SpiDev()
+       spi.open(0, 0)  # Bus 0, Dispositivo 0 (CE0)
+       spi.max_speed_hz = 1000000  # 1 MHz
+
+#. Define una función para leer valores analógicos de un canal específico del MCP3008 (0–7). Se utiliza el protocolo SPI para comunicarse con el MCP3008, y se devuelve un entero de 10 bits (0–1023).
+
+   .. code-block:: python
+
+       def read_adc(channel):
+           """
+           Leer valor analógico del canal MCP3008 (0–7)
+           """
+           if channel < 0 or channel > 7:
+               return -1
+           # Formato de comunicación MCP3008
+           adc = spi.xfer2([1, (8 + channel) << 4, 0])
+           value = ((adc[1] & 0x03) << 8) | adc[2]
+           return value
+
+#. Implementa un bucle que lee continuamente valores analógicos de un termistor conectado al CH0 del MCP3008. Convierte la lectura en voltaje (basado en referencia de 3.3V), luego en resistencia y finalmente en temperatura usando la ecuación de Steinhart–Hart. La temperatura se muestra en Celsius y Fahrenheit. Se añade un breve retardo entre lecturas.
+
+   .. code-block:: python
+
+       try:
+           while True:
+               # Leer valor analógico del CH0 de MCP3008
+               analogVal = read_adc(0)
+
+               # Convertir a voltaje (referencia 3.3V)
+               Vr = 3.3 * analogVal / 1023.0
+
+               # Calcular resistencia del termistor
+               Rt = 10000.0 * Vr / (3.3 - Vr)
+
+               # Calcular temperatura en Kelvin usando la aproximación de Steinhart–Hart
+               tempK = 1.0 / (((math.log(Rt / 10000.0)) / 3950.0) + (1.0 / (273.15 + 25.0)))
+
+               # Convertir a Celsius y Fahrenheit
+               Cel = tempK - 273.15
+               Fah = Cel * 1.8 + 32
+
+               # Imprimir la temperatura
+               print('Celsius: %.2f °C  Fahrenheit: %.2f °F' % (Cel, Fah))
+
+               # Esperar antes de la siguiente lectura
+               time.sleep(0.2)
+
+#. Captura una interrupción de teclado (Ctrl+C) para una finalización correcta del programa. Cierra la interfaz SPI para liberar el recurso.
+
+   .. code-block:: python
+
+       except KeyboardInterrupt:
+           spi.close()

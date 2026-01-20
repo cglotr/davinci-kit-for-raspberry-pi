@@ -138,7 +138,7 @@ PIR, gíralos ambos en sentido contrario a las agujas del reloj hasta el final.
 **Código**
 
 .. note::
-    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación. Pero antes, debes ir a la ruta del código fuente como ``raphael-kit/python-pi5``. Después de modificar el código, puedes ejecutarlo directamente para ver el efecto.
+    Puedes **Modificar/Restablecer/Copiar/Ejecutar/Detener** el código a continuación. Pero antes, debes ir a la ruta del código fuente como ``davinci-kit-for-raspberry-pi/python-pi5``. Después de modificar el código, puedes ejecutarlo directamente para ver el efecto.
 
 .. raw:: html
 

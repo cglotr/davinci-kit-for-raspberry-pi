@@ -156,7 +156,7 @@ y luego de 180 grados a 0 grados, en un ciclo continuo.
         }
         return 0;
     }
-
+    
 **Explicación del Código**
 
 .. code-block:: c
