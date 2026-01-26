@@ -30,5 +30,12 @@ Découvrez comment contrôler un servomoteur avec un Raspberry Pi grâce à l'ac
 
 .. raw:: html
 
-    <iframe width="700" height="500" src="https://www.youtube.com/embed/i7hMx6YLR0Q?si=6xUhPw0Wvelt4UjQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="100%" 
+        style="aspect-ratio: 16/9; max-width: 100%;"
+        src="https://www.youtube.com/embed/i7hMx6YLR0Q?si=6xUhPw0Wvelt4UjQ" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+    </iframe>
 
