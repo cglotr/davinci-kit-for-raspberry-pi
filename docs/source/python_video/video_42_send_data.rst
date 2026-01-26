@@ -27,4 +27,11 @@ PythonとUDP（User Datagram Protocol）を使用してRaspberry PiとPC間の�
 
 .. raw:: html
 
-    <iframe width="700" height="500" src="https://www.youtube.com/embed/S7Yle8clJ30?si=6PugK0FVZ9w5Pfy5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe width="100%" 
+        style="aspect-ratio: 16/9; max-width: 100%;"
+        src="https://www.youtube.com/embed/S7Yle8clJ30?si=6PugK0FVZ9w5Pfy5" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen>
+    </iframe>
