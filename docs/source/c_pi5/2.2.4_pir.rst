@@ -83,10 +83,6 @@ Dos modos de disparo (se eligen mediante el puente de configuración):
 -  **H:** **Modo de disparo repetible**, después de detectar a una persona, el módulo mantiene la salida en nivel alto. Durante el período de retardo, si alguien entra en el rango de detección, la salida continuará en nivel alto.
   
 -  **L:** **Modo de disparo no repetible**, la salida se mantiene en nivel alto solo mientras detecta a una persona. Después del retardo, cambia automáticamente de alto a bajo.
-<<<<<<< HEAD
-=======
-
->>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 
 
 Diagrama de Circuito

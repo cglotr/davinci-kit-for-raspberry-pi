@@ -12,7 +12,7 @@
 
     👉 ¿Listo para explorar y crear con nosotros? Haz clic en [|link_sf_facebook|] y únete hoy.
 
-.. _install_wiringpi:
+.. _faq_c_nowork_pi5:
 
 Instalar y Verificar WiringPi
 -------------------------------------

@@ -105,7 +105,7 @@ Mover el joystick en la dirección de los ejes X e Y ajusta (sube o baja) el umb
 
 .. note::
 
-    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`install_wiringpi`.
+    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`faq_c_nowork`.
     * Si aparece el error ``Unable to open I2C device: No such file or directory``, debes consultar :ref:`i2c_config` para habilitar I2C y comprobar que el cableado sea correcto.
     * Si el código y el cableado son correctos, pero la LCD no muestra contenido, puedes girar el potenciómetro de la parte trasera para aumentar el contraste.
 

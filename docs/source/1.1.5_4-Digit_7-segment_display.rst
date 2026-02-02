@@ -126,11 +126,7 @@ Después de ejecutar el código, el programa realiza un conteo, aumentando en 1 
 
 .. note::
 
-<<<<<<< HEAD
     Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta la referencia :ref:`faq_c_nowork`.
-=======
-    Si no funciona después de ejecutarlo o aparece un mensaje de error: \"wiringPi.h: No such file or directory\", consulta la referencia :ref:`c code is not working?`.
->>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 
 **Código**
 
@@ -461,11 +457,7 @@ Después de ejecutar el código, el programa empieza a contar, aumentando en 1 c
             loop()
         except KeyboardInterrupt:
             destroy()
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 **Explicación del Código**
 
 .. code-block:: python

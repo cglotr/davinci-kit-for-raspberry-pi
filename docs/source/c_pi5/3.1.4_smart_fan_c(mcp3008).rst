@@ -109,7 +109,7 @@ Si la temperatura sube o baja más de 2℃, la velocidad aumenta o disminuye aut
 
 .. note::
 
-    Si no funciona después de ejecutarlo, o aparece el error: "wiringPi.h: No such file or directory", consulta :ref:`install_wiringpi`.
+    Si no funciona después de ejecutarlo, o aparece el error: "wiringPi.h: No such file or directory", consulta :ref:`faq_c_nowork`.
 
 Código
 ------

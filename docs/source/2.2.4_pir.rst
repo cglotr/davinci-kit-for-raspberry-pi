@@ -134,13 +134,8 @@ ambos completamente en sentido antihorario.
 
 .. note::
 
-<<<<<<< HEAD
     Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta la referencia :ref:`faq_c_nowork`.
 
-=======
-    Si no funciona después de ejecutar el código, o aparece el mensaje de error: \"wiringPi.h: No such file or directory", consulta la referencia :ref:`C code is not working?`.
-    
->>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 **Código**
 
 .. code-block:: c

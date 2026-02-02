@@ -95,7 +95,7 @@ zumbador emitirá un tono de advertencia cuya frecuencia cambiará según la dis
 
 .. note::
 
-    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`install_wiringpi`.
+    * Si aparece el error ``wiringPi.h: No such file or directory``, consulta :ref:`faq_c_nowork`.
     * Si recibes el error ``Unable to open I2C device: No such file or directory``, debes habilitar I2C y revisar si el cableado es correcto en :ref:`i2c_config`.
     * Si el código y el cableado están correctos pero la pantalla LCD no muestra contenido, ajusta el potenciómetro en la parte trasera para aumentar el contraste.
 

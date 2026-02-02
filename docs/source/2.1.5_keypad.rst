@@ -223,11 +223,7 @@ el teclado (Valor del Botón) se imprimirán en la pantalla.
         }
         return -1;
     }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 8b9156b760d214d02ef7d24623aafda370736f15
 **Explicación del Código**
 
 .. code-block:: c
