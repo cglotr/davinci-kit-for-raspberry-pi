@@ -6,27 +6,34 @@
 * website     : www.sunfounder.com
 * Update      : Daisy    2019/08/02
 **********************************************************************/
-#include <wiringPi.h>  
+#include <wiringPi.h>
 #include <stdio.h>
 #define LedPin      0
+
+void led_on();
+void led_off();
+
 int main(void)
 {
-    // When initialize wiring failed, print message to screen
     if(wiringPiSetup() == -1){
         printf("setup wiringPi failed !");
         return 1;
     }
-    pinMode(LedPin, OUTPUT);// Set LedPin as output to write value to it.
+    pinMode(LedPin, OUTPUT);
     while(1){
-        // LED on
-        digitalWrite(LedPin, LOW);
-        printf("...LED on\n");
+        led_on();
         delay(500);
-        // LED off
-        digitalWrite(LedPin, HIGH);
-        printf("LED off...\n");
+
+        led_off();
         delay(500);
     }
     return 0;
 }
 
+void led_on() {
+    digitalWrite(LedPin, LOW);
+}
+
+void led_off() {
+    digitalWrite(LedPin, HIGH);
+}
