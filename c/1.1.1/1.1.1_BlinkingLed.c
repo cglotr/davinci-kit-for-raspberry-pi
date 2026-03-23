@@ -13,6 +13,10 @@
 #define GPIO_27    2
 #define GPIO_22    3
 
+#define RGB_RUN    4
+
+const int DELAY_MS = 100;
+
 void led_on();
 void led_off();
 void light_rgb(int r, int g, int b);
@@ -29,15 +33,18 @@ int main(void)
     pinMode(GPIO_27, OUTPUT);
     pinMode(GPIO_22, OUTPUT);
 
+    int rgb_run[RGB_RUN][3] = {
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1},
+        {0, 1, 0},
+    };
+
     while(1){
-        light_rgb(1, 0, 0);
-        delay(500);
-
-        light_rgb(0, 1, 0);
-        delay(500);
-
-        light_rgb(0, 0, 1);
-        delay(500);
+        for (int i = 0; i < RGB_RUN; i++) {
+            light_rgb(rgb_run[i][0], rgb_run[i][1], rgb_run[i][2]);
+            delay(DELAY_MS);
+        }
     }
 
     return 0;
