@@ -15,6 +15,8 @@
 
 void led_on();
 void led_off();
+void light_rgb(int r, int g, int b);
+void led_light(int led_pin, int status);
 
 int main(void)
 {
@@ -28,23 +30,31 @@ int main(void)
     pinMode(GPIO_22, OUTPUT);
 
     while(1){
-        led_on(GPIO_17);
-        led_off(GPIO_27);
-        led_off(GPIO_22);
+        light_rgb(1, 0, 0);
         delay(500);
 
-        led_off(GPIO_17);
-        led_on(GPIO_27);
-        led_off(GPIO_22);
+        light_rgb(0, 1, 0);
         delay(500);
 
-        led_off(GPIO_17);
-        led_off(GPIO_27);
-        led_on(GPIO_22);
+        light_rgb(0, 0, 1);
         delay(500);
     }
 
     return 0;
+}
+
+void light_rgb(int r, int g, int b) {
+    led_light(GPIO_17, r);
+    led_light(GPIO_27, g);
+    led_light(GPIO_22, b);
+}
+
+void led_light(int led_pin, int status) {
+    if (status == 1) {
+        led_on(led_pin);
+    } else {
+        led_off(led_pin);
+    }
 }
 
 void led_on(int led_pin) {
