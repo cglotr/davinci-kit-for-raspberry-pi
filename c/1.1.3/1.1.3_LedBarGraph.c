@@ -9,37 +9,82 @@
 #include <wiringPi.h>
 #include <stdio.h>
 
-int pins[10] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10};
+#define LED_SZ 10
 
-void oddLedBarGraph(void)
+const int ON = LOW;
+const int FF = HIGH;
+const int DELAY_MS = 1000;
+
+int pin[LED_SZ] = {0, 1, 2, 3, 4, 5, 6, 8, 9, 10};
+int on_off[LED_SZ] = {FF, FF, FF, FF, FF, FF, FF, FF, FF, FF};
+
+void init();
+void led_bar(int on_off[]);
+void led_bar__eo(bool even);
+void led_bar__on(bool is_on);
+
+void led_bar(int on_off[])
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < LED_SZ; i++)
     {
-        int j = i * 2;
-        digitalWrite(pins[j], HIGH);
-        delay(300);
-        digitalWrite(pins[j], LOW);
+        digitalWrite(pin[i], on_off[i]);
     }
 }
 
-void evenLedBarGraph(void)
+void led_bar__on(bool is_on)
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < LED_SZ; i++)
     {
-        int j = i * 2 + 1;
-        digitalWrite(pins[j], HIGH);
-        delay(300);
-        digitalWrite(pins[j], LOW);
+        if (is_on)
+        {
+            on_off[i] = ON;
+        }
+        else
+        {
+            on_off[i] = FF;
+        }
     }
+
+    led_bar(on_off);
 }
 
-void allLedBarGraph(void)
+void led_bar__eo(bool even)
+{
+    for (int i = 0; i < LED_SZ; i++)
+    {
+        bool is_even = (i % 2) == 0;
+        if (even)
+        {
+            if (is_even)
+            {
+                on_off[i] = ON;
+            }
+            else
+            {
+                on_off[i] = FF;
+            }
+        }
+        else
+        {
+            if (!is_even)
+            {
+                on_off[i] = ON;
+            }
+            else
+            {
+                on_off[i] = FF;
+            }
+        }
+    }
+
+    led_bar(on_off);
+}
+
+void init()
 {
     for (int i = 0; i < 10; i++)
     {
-        digitalWrite(pins[i], HIGH);
-        delay(300);
-        digitalWrite(pins[i], LOW);
+        pinMode(pin[i], OUTPUT);
     }
 }
 
@@ -51,20 +96,21 @@ int main(void)
         return 1;
     }
 
-    for (int i = 0; i < 10; i++)
-    {
-        pinMode(pins[i], OUTPUT);
-        digitalWrite(pins[i], LOW);
-    }
+    init();
 
     while (1)
     {
-        oddLedBarGraph();
-        delay(300);
-        evenLedBarGraph();
-        delay(300);
-        allLedBarGraph();
-        delay(300);
+        led_bar__eo(true);
+
+        delay(DELAY_MS);
+
+        led_bar__eo(false);
+
+        delay(DELAY_MS);
+
+        led_bar__on(true);
+
+        delay(DELAY_MS);
     }
 
     return 0;
