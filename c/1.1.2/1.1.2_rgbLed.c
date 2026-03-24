@@ -10,22 +10,23 @@
 #include <softPwm.h>
 #include <stdio.h>
 
-#define uchar unsigned char
-
 #define GPIO_17 0
 #define GPIO_27 2
 #define GPIO_22 3
 
 #define DELAY_MS 1000
 
+const int on = 1;
+const int ff = 0;
+
 void ledInit(void)
 {
-    softPwmCreate(GPIO_17, 0, 100);
-    softPwmCreate(GPIO_27, 0, 100);
-    softPwmCreate(GPIO_22, 0, 100);
+    softPwmCreate(GPIO_17, ff, on);
+    softPwmCreate(GPIO_27, ff, on);
+    softPwmCreate(GPIO_22, ff, on);
 }
 
-void ledColorSet(uchar r_val, uchar g_val, uchar b_val)
+void ledColorSet(int r_val, int g_val, int b_val)
 {
     softPwmWrite(GPIO_17, r_val);
     softPwmWrite(GPIO_27, g_val);
@@ -42,14 +43,14 @@ int main(void)
 
     ledInit();
 
-    uchar rgb_run[7][3] = {
-        {0xff, 0x00, 0x00}, // red
-        {0x00, 0xff, 0x00}, // green
-        {0x00, 0x00, 0xff}, // blue
-        {0xff, 0xff, 0x00}, // yellow
-        {0xff, 0x00, 0xff}, // purple
-        {0x00, 0xff, 0xff}, // cyan
-        {0x00, 0x00, 0x00}  // black
+    int rgb_run[7][3] = {
+        {on, ff, ff}, // red
+        {ff, on, ff}, // green
+        {ff, ff, on}, // blue
+        {on, on, ff}, // yellow
+        {on, ff, on}, // purple
+        {ff, on, on}, // cyan
+        {ff, ff, ff}  // black
     };
 
     while (1)
