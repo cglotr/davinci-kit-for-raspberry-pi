@@ -100,6 +100,7 @@ void loop() {
 void timer(int t) {
     if (t == SIGALRM) {
         counter++;
+        counter = counter % 10000;
         alarm(1);
         printf("%d\n", counter);
     }
