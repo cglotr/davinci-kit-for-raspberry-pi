@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <wiringShift.h>
 #include <signal.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 #define SDI   5
@@ -101,8 +102,6 @@ void timer(int t) {
     if (t == SIGALRM) {
         counter++;
         counter = counter % 10000;
-        alarm(1);
-        printf("%d\n", counter);
     }
 }
 
@@ -122,7 +121,13 @@ void main(void) {
     }
 
     signal(SIGALRM, timer);
-    alarm(1);
+
+    struct itimerval timer_val;
+    timer_val.it_interval.tv_sec = 1;
+    timer_val.it_interval.tv_usec = 0;
+    timer_val.it_value.tv_sec = 1;
+    timer_val.it_value.tv_usec = 0;
+    setitimer(ITIMER_REAL, &timer_val, NULL);
 
     loop();
 }
