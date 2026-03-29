@@ -13,22 +13,15 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#define SDI   5
-#define RCLK  4
-#define SRCLK 1
-
-#define GPIO_17 0
-#define GPIO_18 1
-#define GPIO_22 3
-#define GPIO_23 4
-#define GPIO_26 12
-#define GPIO_27 2
+#define SDI   23
+#define RCLK  25
+#define SRCLK 5
 
 const int placePin[] = {
-    GPIO_26,
-    GPIO_22,
-    GPIO_27,
-    GPIO_17
+    17,
+    18,
+    27,
+    22
 };
 unsigned char number[] = {
     0xc0,
@@ -106,8 +99,7 @@ void timer(int t) {
 }
 
 void main(void) {
-    if (wiringPiSetup() == -1) {
-        printf("setup wiringPi failed !");
+    if (wiringPiSetupPinType(WPI_PIN_BCM) != 0) {
         return;
     }
 
