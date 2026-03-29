@@ -3,9 +3,10 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define D_PIN_SZ 4
-#define LED_N_SZ 10
-#define D_SZ     8
+#define D_PIN_SZ      4
+#define LED_N_SZ      10
+#define D_SZ          8
+#define REFRESH_DELAY 1000
 
 const int D1 = 17;
 const int D2 = 18;
@@ -42,9 +43,6 @@ void digital_write(int gpio, int value) {
 }
 
 void output_led(int led_in) {
-    digital_write(SRCLK, LOW);
-    digital_write(RCLK, LOW);
-
     for (int i = 0; i < D_SZ; i++) {
         int v = !(HIGH & led_in);
         digital_write(SER, v);
@@ -76,6 +74,10 @@ void init() {
     pin_mode(D4);
 }
 
+void output_clear() {
+    output_led(0b00000000);
+}
+
 void output_number(int number) {
     for (int i = 0; i < D_PIN_SZ; i++) {
         digital_write(D_PIN[i], LOW);
@@ -85,12 +87,11 @@ void output_number(int number) {
         int d = number % 10;
         int pos = D_PIN_SZ-1-i;
 
-        output_led(LED_N[d]);
         digital_write(D_PIN[pos], HIGH);
-
-        delayMicroseconds(100);
-
+        output_led(LED_N[d]);
+        delayMicroseconds(REFRESH_DELAY);
         digital_write(D_PIN[pos], LOW);
+        output_clear();
 
         number = number / 10;
     }
