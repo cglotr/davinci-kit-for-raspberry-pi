@@ -1,5 +1,7 @@
 #include <wiringPi.h>
 #include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
 
 #define D_PIN_SZ 4
 #define LED_N_SZ 10
@@ -29,6 +31,8 @@ int LED_N[LED_N_SZ] = {
     0b11100110
 };
 
+int count = 0;
+
 void pin_mode(int gpio) {
     pinMode(gpio, OUTPUT);
 }
@@ -37,7 +41,7 @@ void digital_write(int gpio, int value) {
     digitalWrite(gpio, value);
 }
 
-void output_number(int led_in) {
+void output_led(int led_in) {
     digital_write(SRCLK, LOW);
     digital_write(RCLK, LOW);
 
@@ -57,28 +61,57 @@ void output_number(int led_in) {
     digital_write(RCLK, LOW);
 }
 
-int main() {
-    int setup = wiringPiSetupPinType(WPI_PIN_BCM);
-    if (setup != 0) {
-        return setup;
+void init() {
+    if (wiringPiSetupPinType(WPI_PIN_BCM) != 0) {
+        return;
     }
-
-    pin_mode(D1);
-    pin_mode(D2);
-    pin_mode(D3);
-    pin_mode(D4);
 
     pin_mode(SER);
     pin_mode(RCLK);
     pin_mode(SRCLK);
 
-    int count = 0;
+    pin_mode(D1);
+    pin_mode(D2);
+    pin_mode(D3);
+    pin_mode(D4);
+}
+
+void output_number(int number) {
+    for (int i = 0; i < D_PIN_SZ; i++) {
+        digital_write(D_PIN[i], LOW);
+    }
+
+    for (int i = 0; i < D_PIN_SZ; i++) {
+        int d = number % 10;
+        int pos = D_PIN_SZ-1-i;
+
+        output_led(LED_N[d]);
+        digital_write(D_PIN[pos], HIGH);
+
+        delayMicroseconds(100);
+
+        digital_write(D_PIN[pos], LOW);
+
+        number = number / 10;
+    }
+}
+
+void timer(int t) {
+    if (t == SIGALRM) {
+        count++;
+        count = count % 10000;
+        alarm(1);
+    }
+}
+
+int main() {
+    init();
+
+    signal(SIGALRM, timer);
+    alarm(1);
 
     while (1) {
-        digital_write(D1, HIGH);
-        output_number(LED_N[count % 10]);
-        count = count + 1;
-        delay(1000);
+        output_number(count);
     }
 
     return 0;
