@@ -18,10 +18,10 @@
 #define SRCLK 5
 
 const int placePin[] = {
-    17,
-    18,
+    22,
     27,
-    22
+    18,
+    17
 };
 unsigned char number[] = {
     0xc0,
