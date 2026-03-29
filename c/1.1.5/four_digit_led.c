@@ -1,35 +1,60 @@
 #include <wiringPi.h>
 #include <stdio.h>
 
-#define GPIO_5  5
-#define GPIO_6  6
-#define GPIO_12 12
-#define GPIO_17 17
-#define GPIO_18 18
-#define GPIO_22 22
-#define GPIO_24 24
-#define GPIO_25 25
-#define GPIO_27 27
+#define D_PIN_SZ 4
+#define LED_N_SZ 10
+#define D_SZ     8
 
-const int D1 = GPIO_17;
-const int D2 = GPIO_18;
-const int D3 = GPIO_27;
-const int D4 = GPIO_22;
+const int D1 = 17;
+const int D2 = 18;
+const int D3 = 27;
+const int D4 = 22;
 
-const int SER   = GPIO_24;
-const int OE_C    = GPIO_25;
-const int RCLK  = GPIO_5;
-const int SRCLK = GPIO_6;
-const int SRCLR_C = GPIO_12;
+const int SER   = 23;
+const int RCLK  = 25;
+const int SRCLK = 5;
+
+int D_PIN[D_PIN_SZ] = {D1, D2, D3, D4};
+int LED_N[LED_N_SZ] = {
+//    abcdefg
+    0b11111100,
+    0b01100000,
+    0b11011010,
+    0b11110010,
+    0b01100110,
+    0b10110110,
+    0b10111110,
+    0b11100000,
+    0b11111110,
+    0b11100110
+};
 
 void pin_mode(int gpio) {
-    printf("pin mode output: gpio=%d\n", gpio);
     pinMode(gpio, OUTPUT);
 }
 
 void digital_write(int gpio, int value) {
-    printf("digital write: gpio=%d, value=%d\n", gpio, value);
     digitalWrite(gpio, value);
+}
+
+void output_number(int led_in) {
+    digital_write(SRCLK, LOW);
+    digital_write(RCLK, LOW);
+
+    for (int i = 0; i < D_SZ; i++) {
+        int v = !(HIGH & led_in);
+        digital_write(SER, v);
+
+        digital_write(SRCLK, HIGH);
+        delayMicroseconds(1);
+        digital_write(SRCLK, LOW);
+
+        led_in = led_in >> 1;
+    }
+
+    digital_write(RCLK, HIGH);
+    delayMicroseconds(1);
+    digital_write(RCLK, LOW);
 }
 
 int main() {
@@ -38,48 +63,22 @@ int main() {
         return setup;
     }
 
-    int d_pins[4] = {D1, D2, D3, D4};
-
-    printf("--- pin mode\n");
     pin_mode(D1);
     pin_mode(D2);
     pin_mode(D3);
     pin_mode(D4);
 
     pin_mode(SER);
-    pin_mode(OE_C);
     pin_mode(RCLK);
     pin_mode(SRCLK);
-    pin_mode(SRCLR_C);
 
-    digital_write(SER, HIGH);
-    digital_write(OE_C, LOW);
-    digital_write(RCLK, HIGH);
-    digital_write(SRCLK, HIGH);
-    digital_write(SRCLR_C, HIGH);
+    int count = 0;
 
     while (1) {
-        printf("--- digital write: low\n");
-        digital_write(D1, LOW);
-        digital_write(D2, LOW);
-        digital_write(D3, LOW);
-        digital_write(D4, LOW);
-
-        delay(1000);
-
-        printf("--- digital write: high\n");
         digital_write(D1, HIGH);
-        digital_write(D2, HIGH);
-        digital_write(D3, HIGH);
-        digital_write(D4, HIGH);
-
+        output_number(LED_N[count % 10]);
+        count = count + 1;
         delay(1000);
-
-        for (int i = 0; i < sizeof(d_pins) / sizeof(int); i++) {
-            digital_write(d_pins[i], LOW);
-
-            delay(1000);
-        }
     }
 
     return 0;
