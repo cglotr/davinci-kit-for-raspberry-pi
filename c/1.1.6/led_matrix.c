@@ -43,7 +43,7 @@ const bool CHAR__U[8][8] = {
     {1, 1, 0, 0, 0, 0, 1, 1},
     {1, 1, 0, 0, 0, 0, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1},
+    {0, 1, 1, 1, 1, 1, 1, 0},
 };
 
 int led__rc[8][8];
@@ -71,7 +71,7 @@ void main() {
 }
 
 void write__char(const bool grid[8][8]) {
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < 1000; i++) {
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 8; c++) {
                 if (grid[r][c]) {
