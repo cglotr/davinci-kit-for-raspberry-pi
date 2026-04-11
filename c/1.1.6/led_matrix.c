@@ -5,26 +5,31 @@ const int PIN__STO_CKL = 18;
 const int PIN__SHF_CLK = 27;
 const int PIN__SRL_DTA = 17;
 
-void timing() {
-    delayMicroseconds(1000);
-}
+const int LED__R01_C01 = 0b1000000001111111;
+const int LED__R01_C02 = 0b1000000010111111;
+const int LED__R01_C03 = 0x80DF;
 
-void timing__sto() {
-    delayMicroseconds(10000);
-}
+int led__rc[8][8];
 
-void timing__sec() {
-    delayMicroseconds(1000000);
-}
+void init();
+void write(int data);
+void timing();
+void timing__ui();
 
-void init() {
-    pinMode(PIN__STO_CKL, OUTPUT);
-    pinMode(PIN__SHF_CLK, OUTPUT);
-    pinMode(PIN__SRL_DTA, OUTPUT);
+void main() {
+    int setup = wiringPiSetupPinType(WPI_PIN_BCM);
+    if (setup != 0) {
+        printf("setup failed\n");
+        return;
+    }
 
-    digitalWrite(PIN__STO_CKL, LOW);
-    digitalWrite(PIN__SHF_CLK, LOW);
-    digitalWrite(PIN__SRL_DTA, LOW);
+    init();
+
+    for (;;) {
+        write(LED__R01_C01);
+        write(LED__R01_C02);
+        write(LED__R01_C03);
+    }
 }
 
 void write(int data) {
@@ -41,41 +46,38 @@ void write(int data) {
         data = data >> 1;
     }
 
-    timing__sto();
-
     digitalWrite(PIN__STO_CKL, LOW);
     timing();
     digitalWrite(PIN__STO_CKL, HIGH);
     timing();
 
-    timing__sec();
+    timing__ui();
 }
 
-void main() {
-    int setup = wiringPiSetupPinType(WPI_PIN_BCM);
-    if (setup != 0) {
-        printf("setup failed\n");
-        return;
-    }
+void timing() {
+    delayMicroseconds(1);
+}
 
-    init();
+void timing__ui() {
+    delayMicroseconds(100000);
+}
 
-    for (int i = 0;; i++) {
-        write(0b1000000000000000);
-        write(0b0100000000000000);
-        write(0b0010000000000000);
-        write(0b0001000000000000);
-        write(0b0000100000000000);
-        write(0b0000010000000000);
-        write(0b0000001000000000);
-        write(0b0000000100000000);
-        write(0b1111111101111111);
-        write(0b1111111110111111);
-        write(0b1111111111011111);
-        write(0b1111111111101111);
-        write(0b1111111111110111);
-        write(0b1111111111111011);
-        write(0b1111111111111101);
-        write(0b1111111111111110);
+void init() {
+    pinMode(PIN__STO_CKL, OUTPUT);
+    pinMode(PIN__SHF_CLK, OUTPUT);
+    pinMode(PIN__SRL_DTA, OUTPUT);
+
+    digitalWrite(PIN__STO_CKL, LOW);
+    digitalWrite(PIN__SHF_CLK, LOW);
+    digitalWrite(PIN__SRL_DTA, LOW);
+
+    for (int r = 0; r < 8; r++) {
+        for (int c = 0; c < 8; c++) {
+            led__rc[r][c] = 0x00FF;
+            led__rc[r][c] |= 1 << (8 + 7-r);
+            led__rc[r][c] &= (0xFFFF) ^ (1 << (7-c));
+            printf("%016b\n", led__rc[r][c]);
+            write(led__rc[r][c]);
+        }
     }
 }
